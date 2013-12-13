@@ -28,7 +28,7 @@ int main(int argc, char **argv)
 	g_signal_connect(frame, "destroy", G_CALLBACK(gtk_main_quit), NULL);
 
 	// Create the CarPiMainWindow
-	CarPiMainWindow *mainwin = carpi_mainwin_create(frame);
+	CarPiMainWindow *mainwin = new CarPiMainWindow(frame);
 
 	// Pack the frame?
 

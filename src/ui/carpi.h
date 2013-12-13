@@ -27,13 +27,17 @@
 #define CARPI_WINDOW_HEIGHT 240
 
 // Main window data.
-typedef struct CarPiMainWindow_ {
+class CarPiMainWindow {
+private:
 	// A GtkFixed container represents the main display area.
 	GtkWidget *container;
-} CarPiMainWindow;
 
-// Create a CarPiMainWindow, embedding its container widget in the
-// given frame.
-CarPiMainWindow *carpi_mainwin_create(GtkWidget *frame);
+public:
+	CarPiMainWindow(GtkWidget *frame);
+	~CarPiMainWindow();
+
+	// Get the container for the main display area
+	GtkWidget *getContainer() { return container; }
+};
 
 #endif // CARPI_H

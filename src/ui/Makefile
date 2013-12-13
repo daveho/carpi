@@ -1,18 +1,20 @@
-SRCS = main.c mainwin.c
-OBJS = $(SRCS:%.c=%.o)
+CXX = g++
+
+SRCS = main.cpp mainwin.cpp
+OBJS = $(SRCS:%.cpp=%.o)
 
 GTK3_FLAGS = `pkg-config --cflags gtk+-3.0`
 GTK3_LIBS = `pkg-config --libs gtk+-3.0`
-CFLAGS = -g -Wall $(GTK3_FLAGS)
+CXXFLAGS = -g -Wall $(GTK3_FLAGS)
 
-%.o : %.c
-	$(CC) $(CFLAGS) -c $*.c -o $*.o
+%.o : %.cpp
+	$(CXX) $(CXXFLAGS) -c $*.cpp -o $*.o
 
 carpi_ui : $(OBJS)
-	$(CC) -o $@ $(OBJS) $(GTK3_LIBS)
+	$(CXX) -o $@ $(OBJS) $(GTK3_LIBS)
 
 depend :
-	$(CC) $(CFLAGS) -M $(SRCS) > depend.mak
+	$(CXX) $(CXXFLAGS) -M $(SRCS) > depend.mak
 
 depend.mak :
 	touch $@
