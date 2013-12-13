@@ -1,4 +1,4 @@
-SRCS = main.c
+SRCS = main.c mainwin.c
 OBJS = $(SRCS:%.c=%.o)
 
 GTK3_FLAGS = `pkg-config --cflags gtk+-3.0`

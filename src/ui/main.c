@@ -16,21 +16,23 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <gtk/gtk.h>
 #include "carpi.h"
 
 int main(int argc, char **argv)
 {
-	GtkWidget *window;
+	GtkWidget *frame;
 
 	gtk_init(&argc, &argv);
 
-	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	gtk_widget_set_size_request(window, CARPI_WINDOW_WIDTH, CARPI_WINDOW_HEIGHT);
+	frame = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	g_signal_connect(frame, "destroy", G_CALLBACK(gtk_main_quit), NULL);
 
-	g_signal_connect(window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
+	// Create the CarPiMainWindow
+	CarPiMainWindow *mainwin = carpi_mainwin_create(frame);
 
-	gtk_widget_show(window);
+	// Pack the frame?
+
+	gtk_widget_show(frame);
 
 	gtk_main();
 

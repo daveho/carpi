@@ -19,9 +19,21 @@
 #ifndef CARPI_H
 #define CARPI_H
 
+#include <gtk/gtk.h>
+
 // Window width and height.
 // Currently hard-coded for 320x240 (QVGA).
 #define CARPI_WINDOW_WIDTH 320
 #define CARPI_WINDOW_HEIGHT 240
+
+// Main window data.
+typedef struct CarPiMainWindow_ {
+	// A GtkFixed container represents the main display area.
+	GtkWidget *container;
+} CarPiMainWindow;
+
+// Create a CarPiMainWindow, embedding its container widget in the
+// given frame.
+CarPiMainWindow *carpi_mainwin_create(GtkWidget *frame);
 
 #endif // CARPI_H
