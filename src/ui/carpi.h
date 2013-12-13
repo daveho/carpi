@@ -16,23 +16,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <gtk/gtk.h>
-#include "carpi.h"
+#ifndef CARPI_H
+#define CARPI_H
 
-int main(int argc, char **argv)
-{
-	GtkWidget *window;
+// Window width and height.
+// Currently hard-coded for 320x240 (QVGA).
+#define CARPI_WINDOW_WIDTH 320
+#define CARPI_WINDOW_HEIGHT 240
 
-	gtk_init(&argc, &argv);
-
-	window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-	gtk_widget_set_size_request(window, CARPI_WINDOW_WIDTH, CARPI_WINDOW_HEIGHT);
-
-	g_signal_connect(window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
-
-	gtk_widget_show(window);
-
-	gtk_main();
-
-	return 0;
-}
+#endif // CARPI_H
