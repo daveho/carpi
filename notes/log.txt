@@ -1,0 +1,25 @@
+Dec 19th, 2013
+
+- Brought a powered USB hub from work to allow keyboard/mouse
+  and USB wifi adapter to be used at same time.  Also using it
+  to power the rpi.
+- Got wireless adapter working:
+    http://databoyz.wordpress.com/tag/how-to-setup-network-and-wpa_supplicant-conf-file-on-raspberry-pi/
+- Installed fbtft drivers:
+    https://github.com/notro/fbtft/wiki#install
+- Wired ili9340 display:
+  https://github.com/notro/fbtft/wiki/LCD-Modules#adafruit-22
+  My display isn't the Adafruit one, but it appears to be compatible.
+- Tried enabling display with
+    sudo modprobe fbtft_device name=adafruit22
+  Didn't work: noticed in the dmesg output that reported resolution
+  was wrong.  This driver is apparently for the old version of the 2.2"
+  Adafruit display.
+
+Dec 20th, 2013
+
+- Display is working!  Enabled with
+    sudo modprobe fbtft_device name=adafruit22a
+  And it worked perfectly!  Ran X windows with
+    FRAMEBUFFER=/dev/fb1 startx
+  and it ran!  Framerate seems pretty reasonable.
