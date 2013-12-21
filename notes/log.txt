@@ -23,3 +23,22 @@ Dec 20th, 2013
   And it worked perfectly!  Ran X windows with
     FRAMEBUFFER=/dev/fb1 startx
   and it ran!  Framerate seems pretty reasonable.
+- Started enclosure design in LibreCad: plate.dxf is the outline of
+  the top/bottom plates with (I think) correctly-sized holes for the
+  6-32 screws that will secure the standoffs.
+- Ordered board mounts from Adafruit - these are basically standoffs
+  that have slots that fit the edge of a PC board.  The Rpi doesn't
+  really have mounting holes as such, so these seem to be the best
+  way to fasten the Rpi to the bottom plate.
+
+Dec 21st, 2013
+
+- Ordered .25"x1" hex 6-32 F/F standoffs from Ebay.  (25 for $8 with free
+  shipping!)  Plan is that 4 of these will connect the plates to each other.
+  The Rpi will be attached to the bottom plate and the display and buttons
+  will be attached to the top plate.
+- Changed enclosure drawing to make plates 127mm x 77mm: this is 5"x3"
+  (actually slightly more than 3").  This will leave some room for
+  attaching the board mounts for the pi: 5"x2.5" (my original dimensions)
+  would have the edges of the Rpi right at the edge of the plates
+  in the long dimension, leaving no space for the board mounts.
