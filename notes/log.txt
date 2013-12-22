@@ -42,3 +42,37 @@ Dec 21st, 2013
   attaching the board mounts for the pi: 5"x2.5" (my original dimensions)
   would have the edges of the Rpi right at the edge of the plates
   in the long dimension, leaving no space for the board mounts.
+
+Dec 22nd, 2013
+
+- Redoing enclosure design to see if I can make it work with the
+  top and bottom plates being 69mm (2.75") in the narrow dimension.
+  This is to try to take advantage of the following laser
+  cutting service:
+    http://www.spikenzielabs.com/Catalog/index.php?main_page=product_info&cPath=13&products_id=22
+  $20 for arbitrary cuts on a 5.5"x5.5" sheet of 1/8" acrylic.
+- Just found out that the CAD drawing (of the RPi outline) was
+  a BOTTOM VIEW. Sigh.
+- Found out that the official PCB dimensions are 85mm x 56.2mm.
+  Also, according to
+    http://www.raspberrypi.org/archives/tag/mounting-holes
+  the mounting hole locations are at x=25.5mm, y=18.0mm and
+  x=80.1mm, y=43.6mm, relative to the bottom left corner.  Updated
+  plate.dxf to reflect this.
+- The mounting holes are meant to accept M2.5 screws.  Ordered from
+  Ebay:
+  - 25x 6mm nylon M2.5 M/F standoffs
+  - 25x M2.5 nylon nuts
+  - 50x M2.5 8mm screws
+  The idea is that the female part of the standoff will be attached
+  to the bottom plate with the 8mm screw, and that the PCB itself
+  will be attached by fastening the nut to the male part of the
+  standoff.  Since the standoffs and nuts are nylon, hopefully this will
+  make it less likely to damage the PCB.  The acrylic will be
+  1/8", which is 3.175mm.  This should mean that a bit less than
+  4mm of the screw will be screwed into the female part of the standoff,
+  which seems reasonable.
+- The standoffs are 6mm, while the board mounts are .25", which is
+  about 6.4mm.  I'm hoping that the .4mm won't make a big difference.
+  If it is an issue, probably I can put a washer between the standoff
+  and the plate to give it a bit of extra height.
