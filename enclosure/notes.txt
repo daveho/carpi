@@ -1,2 +1,7 @@
 ibex_rpi_model_b_v1_00.dxf is from:
   http://www.raspberry-projects.com/pi/pi-hardware/model-b-cad
+
+ibex_rpi_model_b_v1_00_correct_orientation.dxf
+  This is a modified version of the above file with the contents
+  mirrored to show a top view rather than a bottom view.
+  (Not quite sure why the original was a bottom view.)
