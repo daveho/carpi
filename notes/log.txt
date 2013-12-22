@@ -68,10 +68,10 @@ Dec 22nd, 2013
   to the bottom plate with the 8mm screw, and that the PCB itself
   will be attached by fastening the nut to the male part of the
   standoff.  Since the standoffs and nuts are nylon, hopefully this will
-  make it less likely to damage the PCB.  The acrylic will be
-  1/8", which is 3.175mm.  This should mean that a bit less than
-  4mm of the screw will be screwed into the female part of the standoff,
-  which seems reasonable.
+  make it less likely to damage the PCB (than metal fasteners would be).
+  The acrylic will be 1/8", which is 3.175mm.  This should mean that
+  a bit less than 4mm of the screw will be screwed into the female part
+  of the standoff, which seems reasonable.
 - The standoffs are 6mm, while the board mounts are .25", which is
   about 6.4mm.  I'm hoping that the .4mm won't make a big difference.
   If it is an issue, probably I can put a washer between the standoff
