@@ -76,3 +76,38 @@ Dec 22nd, 2013
   about 6.4mm.  I'm hoping that the .4mm won't make a big difference.
   If it is an issue, probably I can put a washer between the standoff
   and the plate to give it a bit of extra height.
+
+Dec 23rd, 2013
+
+- Did a CAD drawing of the LCD.  Added it to plate.dxf.  Discovered that
+  the only way that both the LCD and buttons PCB will fit is if the
+  the LCD is vertical.  The LCD fits quite nicely that way, and
+  makes better use of the available space.
+- Started a CAD drawing of the buttons PCB, and discovered that the
+  5cm x 7cm protoboard I ordered previously will not fit, either
+  horizontally or vertically.  Horizontally, 5cm is too wide to fit
+  between the standoffs.  Vertically, 7cm would cause the PCB to stick
+  out from the top plate on one or both sides.  Ordered some 4cm x 6cm
+  protoboards from Ebay (from Colorado, they will probably arrive
+  sooner than the 5x7 ones from China).
+- Added a preliminary button PCB board outline and guess at screw hole
+  locations and sizes to plate.dxf.  When the PCB and buttons arrive
+  I will need to come up with some kind of accurate drawing.
+  The 4cm x 6cm size does fit very nicely in a horizontal orientation.
+  Probably only two rows of buttons will be possible, so maybe
+  2 rows by 3 columns.  Should fit and hopefully also leave room for
+  the debouncing circuit.
+- Ordered some stuff from allelectronics.com:
+  * caps and resistor networks for debounce circuit
+  * 2x13 (26 pin) female IDC headers (for connecting to RPi
+    GPIO header)
+  * 5" 8x1 jumpers
+  * 1.375" 6-32 F/F standoffs (in case the 1" ones don't leave enough
+    room between the top and bottom plates)
+- Had an idea for the wiring: could the wires from the 8x1 jumpers
+  be crimped directly into the 2x13 IDC header, making connections to
+  arbitrary pins?  That would hugely simplify the wiring: the LCD
+  and button board could simply receive connections via a standard
+  8x1 header (the LCD already has one, could easily solder one
+  on the button PCB.)  8 pins is perfect for VCC, GND, and 1 signal
+  for each of the 6 buttons.
