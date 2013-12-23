@@ -1357,6 +1357,158 @@ ByLayer
  31
 0.0
   0
+CIRCLE
+  5
+47
+100
+AcDbEntity
+100
+AcDbCircle
+  8
+0
+ 62
+256
+370
+-1
+  6
+ByLayer
+ 10
+3.0
+ 20
+3.0
+ 30
+0.0
+ 40
+1.6000000000000001
+  0
+CIRCLE
+  5
+48
+100
+AcDbEntity
+100
+AcDbCircle
+  8
+0
+ 62
+256
+370
+-1
+  6
+ByLayer
+ 10
+64.2000000000000028
+ 20
+3.0
+ 30
+0.0
+ 40
+1.6000000000000001
+  0
+CIRCLE
+  5
+49
+100
+AcDbEntity
+100
+AcDbCircle
+  8
+0
+ 62
+256
+370
+-1
+  6
+ByLayer
+ 10
+3.0
+ 20
+37.1000000000000014
+ 30
+0.0
+ 40
+1.6000000000000001
+  0
+CIRCLE
+  5
+4A
+100
+AcDbEntity
+100
+AcDbCircle
+  8
+0
+ 62
+256
+370
+-1
+  6
+ByLayer
+ 10
+64.2000000000000028
+ 20
+37.1000000000000014
+ 30
+0.0
+ 40
+1.6000000000000001
+  0
+LINE
+  5
+4B
+100
+AcDbEntity
+100
+AcDbLine
+  8
+0
+ 62
+256
+370
+-1
+  6
+ByLayer
+ 10
+6.0
+ 20
+0.0
+ 30
+0.0
+ 11
+6.0
+ 21
+40.1000000000000014
+ 31
+0.0
+  0
+LINE
+  5
+4C
+100
+AcDbEntity
+100
+AcDbLine
+  8
+0
+ 62
+256
+370
+-1
+  6
+ByLayer
+ 10
+61.2000000000000028
+ 20
+0.0
+ 30
+0.0
+ 11
+61.2000000000000028
+ 21
+40.1000000000000014
+ 31
+0.0
+  0
 ENDSEC
   0
 SECTION
@@ -1395,7 +1547,7 @@ E
   3
 AcDbVariableDictionary
 350
-47
+4D
   0
 DICTIONARY
   5
@@ -1859,7 +2011,7 @@ Layout2
   0
 DICTIONARY
   5
-47
+4D
 100
 AcDbDictionary
 281
@@ -1867,15 +2019,15 @@ AcDbDictionary
   3
 DIMASSOC
 350
-49
+4F
   3
 HIDETEXT
 350
-48
+4E
   0
 DICTIONARYVAR
   5
-48
+4E
 100
 DictionaryVariables
 280
@@ -1885,7 +2037,7 @@ DictionaryVariables
   0
 DICTIONARYVAR
   5
-49
+4F
 100
 DictionaryVariables
 280
