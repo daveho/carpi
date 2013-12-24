@@ -182,7 +182,6 @@ bool PlaySound::startProcess(const std::string &fileName)
 
 	// create pipes that the parent can use to talk to the subprocess
 	if (pipe(cmdpipe_fd) < 0 || pipe(statuspipe_fd) < 0) {
-		rc = 0;
 		goto done;
 	}
 
