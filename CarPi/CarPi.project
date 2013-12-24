@@ -12,6 +12,12 @@
     <File Name="play_sound.h"/>
     <File Name="play_sound.cpp"/>
     <File Name="string_util.h"/>
+    <File Name="event_queue.h"/>
+    <File Name="event_queue.cpp"/>
+    <File Name="event.h"/>
+    <File Name="event.cpp"/>
+    <File Name="thread.h"/>
+    <File Name="thread.cpp"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>

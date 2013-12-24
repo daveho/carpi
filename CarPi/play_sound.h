@@ -20,8 +20,9 @@
 #define PLAYSOUND_H
 
 #include <string>
-#include <pthread.h>
 #include <sys/types.h>
+
+#include "thread.h"
 
 //
 // Play a sound file using mpg321 or ogg123 as a subprocess,
@@ -38,11 +39,25 @@ public:
 	};
 	
 private:
+	//
+	// Monitor thread class
+	//
+	class MonitorThread : public Thread {
+	private:
+		PlaySound *m_ps;
+		
+	public:
+		MonitorThread(PlaySound *ps);
+		virtual ~MonitorThread();
+		virtual void run();
+	};
+
 	State m_state;
 	pid_t m_pid;
 	int m_cmdfd;    // pipe to send commands to subprocess
 	int m_statusfd; // pipe to receive status updates from subprocess
-	pthread_t m_monitor;
+	//pthread_t m_monitor;
+	MonitorThread *m_monitor;
 	
 public:
 	PlaySound();
@@ -58,7 +73,7 @@ public:
 	
 private:
 	static void closefd(int fd);
-	static void *monitor(void *arg);
+	//static void *monitor(void *arg);
 	void sendCommand(const std::string &cmd);
 	bool startProcess(const std::string &fileName);
 };

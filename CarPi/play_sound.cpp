@@ -33,6 +33,7 @@
 #include <sys/wait.h>
 
 #include "string_util.h"
+#include "thread.h"
 #include "play_sound.h"
 
 // default mpg321 and ogg123 executables
@@ -49,11 +50,33 @@
 #  define DEBUG(args)
 #endif
 
+PlaySound::MonitorThread::MonitorThread(PlaySound *ps)
+	: m_ps(ps)
+{
+}
+
+PlaySound::MonitorThread::~MonitorThread()
+{
+}
+
+void PlaySound::MonitorThread::run()
+{
+	FILE *f = fdopen(m_ps->m_statusfd, "r");
+
+	// For now, just read the status information without parsing it.
+	int c;
+	while ((c = fgetc(f)) != EOF) {
+		// do nothing
+	}
+	fclose(f);
+}
+
 PlaySound::PlaySound()
 	: m_state(IDLE)
 	, m_pid(-1)
 	, m_cmdfd(-1)
 	, m_statusfd(-1)
+	, m_monitor(0)
 {
 }
 
@@ -112,7 +135,7 @@ void PlaySound::waitForIdle()
 	waitpid(m_pid, &status, 0);
 	DEBUG("exited\n");
 	DEBUG("waiting for monitor thread to complete...");
-	pthread_join(m_monitor, 0);
+	m_monitor->join();
 	DEBUG("completed\n");
 	
 	// Resume idle state
@@ -129,6 +152,7 @@ void PlaySound::closefd(int fd)
 	}
 }
 
+/*
 void *PlaySound::monitor(void *arg)
 {
 	PlaySound *self = (PlaySound *) arg;
@@ -144,6 +168,7 @@ void *PlaySound::monitor(void *arg)
 
 	return 0;
 }
+*/
 
 void PlaySound::sendCommand(const std::string &cmd)
 {
@@ -199,7 +224,8 @@ bool PlaySound::startProcess(const std::string &fileName)
 		m_statusfd = dup(statuspipe_fd[0]);
 
 		// start the monitor thread to read status info from subprocess
-		pthread_create(&m_monitor, 0, &monitor, (void *) this);
+		m_monitor = new MonitorThread(this);
+		m_monitor->start();
 
 		// tell the child to start playing the song
 		std::string playCommand("load " + fileName);
