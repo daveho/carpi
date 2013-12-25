@@ -22,8 +22,10 @@
 #include "console.h"
 #include "cons_menu_view.h"
 
-ConsMenuView::ConsMenuView(Menu *menu)
+ConsMenuView::ConsMenuView(Menu *menu, int topRow, int numRows)
 	: MenuView(menu)
+	, m_topRow(topRow)
+	, m_numRows(numRows)
 {
 }
 
@@ -47,22 +49,48 @@ void ConsMenuView::visitNotificationEvent(NotificationEvent *evt)
 
 void ConsMenuView::doPaint()
 {
-	// TODO: handle scrolling
 	Console *cons = Console::instance();
 	const Menu *menu = getMenu();
+
+	// Figure out where in the window the menu items will be painted
+	int firstRow = m_topRow;
+	int lastRow = m_topRow + m_numRows;
+	if (lastRow > cons->getNumRows()) {
+		lastRow = cons->getNumRows();
+	}
 	
+	size_t item = m_topItem;
+	for (int i = firstRow; i < lastRow; i++, item++) {
+		cons->moveCursor(i, 0);
+		if (item < menu->getNumItems()) {
+			// Render the item
+			if (item == menu->getSelected()) {
+				cons->attr(Console::MAGENTA, Console::GRAY+Console::INTENSE);
+			} else {
+				cons->attr(Console::BLACK, Console::GRAY);
+			}
+			std::string text = StringUtil::padWithSpaces(menu->getItem(item)->getName(), size_t(cons->getNumCols()));
+			cons->print(text);
+		} else {
+			// Just clear the line
+			cons->clearToEOL();
+		}
+	}
+
+/*	
 	size_t width = size_t(cons->getNumCols());
-	
+
+	// FIXME: should only clear the portion of the screen where the menu is painted
 	cons->clear();
 	for (size_t i = 0; i < menu->getNumItems(); i++) {
-		cons->moveCursor(int(i), 0);
+		cons->moveCursor(int(i) + 1, 0);
 		if (i == menu->getSelected()) {
-			cons->attr(Console::MAGENTA+Console::INTENSE, Console::GRAY+Console::INTENSE);
+			cons->attr(Console::MAGENTA, Console::GRAY+Console::INTENSE);
 		} else {
 			cons->attr(Console::BLACK, Console::GRAY);
 		}
-		cons->print(StringUtil::trimToSize(menu->getItem(i)->getName(), width-1));
+		cons->print(StringUtil::trimToSize(menu->getItem(i)->getName(), width));
 	}
-	
+*/
 	cons->commit();
 }

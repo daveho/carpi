@@ -72,12 +72,12 @@ void Console::cleanup()
 	endwin();
 }
 
-size_t Console::getNumRows()
+int Console::getNumRows()
 {
 	return m_numRows;
 }
 
-size_t Console::getNumCols()
+int Console::getNumCols()
 {
 	return m_numCols;
 }
@@ -85,6 +85,11 @@ size_t Console::getNumCols()
 void Console::clear()
 {
 	erase();
+}
+
+void Console::clearToEOL()
+{
+	clrtoeol();
 }
 
 void Console::moveCursor(int row, int col)

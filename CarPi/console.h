@@ -50,9 +50,10 @@ public:
 
 	void init();
 	void cleanup();
-	size_t getNumRows();
-	size_t getNumCols();
+	int getNumRows();
+	int getNumCols();
 	void clear();
+	void clearToEOL();
 	void moveCursor(int row, int col);
 	void attr(int bg, int fg);
 	void print(const std::string &s);

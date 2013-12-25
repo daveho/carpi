@@ -19,14 +19,19 @@
 #ifndef CONSMENUVIEW_H
 #define CONSMENUVIEW_H
 
+#include <cstddef>
 #include "event.h"
 #include "menu_view.h"
 #include "abstract_event_visitor.h"
 
 class ConsMenuView : public MenuView, public AbstractEventVisitor
 {
+private:
+	int m_topRow;
+	int m_numRows;
+	size_t m_topItem;
 public:
-	ConsMenuView(Menu *menu);
+	ConsMenuView(Menu *menu, int topRow, int numRows);
 	~ConsMenuView();
 
 	virtual void visitNotificationEvent(NotificationEvent *evt);

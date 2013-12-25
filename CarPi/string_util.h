@@ -33,6 +33,20 @@ namespace StringUtil {
 	{
 		return (s.size() <= n) ? s : s.substr(0, n);
 	}
+	
+	inline std::string padWithSpaces(const std::string &s, size_t n)
+	{
+		std::string result;
+		if (result.size() > n) {
+			result = trimToSize(s, n);
+		} else {
+			result = s;
+		}
+		while (result.size() < n) {
+			result += ' ';
+		}
+		return result;
+	}
 };
 
 #endif // STRING_UTIL_H

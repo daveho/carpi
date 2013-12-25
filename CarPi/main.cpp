@@ -160,7 +160,7 @@ void menuTest()
 	menu->addAndAdoptItem(new MenuItem("Oranges", 2));
 	
 	MenuController *controller = new MenuController(menu);
-	ConsMenuView *view = new ConsMenuView(menu);
+	ConsMenuView *view = new ConsMenuView(menu, 1, size_t(cons->getNumRows() - 2));
 	QuitHandler *quitHandler = new QuitHandler();
 	
 	HandlerChain handlerChain;
