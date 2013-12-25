@@ -37,13 +37,33 @@ void ConsMenuView::visitNotificationEvent(NotificationEvent *evt)
 {
 	switch (evt->getType()) {
 		case NotificationEvent::PAINT:
+			setResult(EventHandler::HANDLED);
+			doPaint();
+			break;
 		case NotificationEvent::MENU_CHANGED:
 		case NotificationEvent::SELECTION_CHANGED:
 			setResult(EventHandler::HANDLED);
+			onMenuChanged();
 			doPaint();
 			break;
 		default:
 			break;
+	}
+}
+
+void ConsMenuView::onMenuChanged()
+{
+	int selected = int(getMenu()->getSelected());
+	if (selected >= m_topItem && selected < (m_topItem + m_numRows)) {
+		// selection is visible: no adjustments necessary
+		return;
+	} else if (selected < m_topItem) {
+		// selection is above the top item: make it the top item
+		m_topItem = selected;
+	} else {
+		// selection is below the last displayed item.
+		// make the selection the last displayable item.
+		m_topItem = (selected - m_numRows) + 1;
 	}
 }
 
@@ -65,6 +85,7 @@ void ConsMenuView::doPaint()
 		if (item < menu->getNumItems()) {
 			// Render the item
 			if (item == menu->getSelected()) {
+				// Highlight the selected item
 				cons->attr(Console::MAGENTA, Console::GRAY+Console::INTENSE);
 			} else {
 				cons->attr(Console::BLACK, Console::GRAY);
@@ -77,20 +98,5 @@ void ConsMenuView::doPaint()
 		}
 	}
 
-/*	
-	size_t width = size_t(cons->getNumCols());
-
-	// FIXME: should only clear the portion of the screen where the menu is painted
-	cons->clear();
-	for (size_t i = 0; i < menu->getNumItems(); i++) {
-		cons->moveCursor(int(i) + 1, 0);
-		if (i == menu->getSelected()) {
-			cons->attr(Console::MAGENTA, Console::GRAY+Console::INTENSE);
-		} else {
-			cons->attr(Console::BLACK, Console::GRAY);
-		}
-		cons->print(StringUtil::trimToSize(menu->getItem(i)->getName(), width));
-	}
-*/
 	cons->commit();
 }

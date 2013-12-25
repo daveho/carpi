@@ -29,7 +29,8 @@ class ConsMenuView : public MenuView, public AbstractEventVisitor
 private:
 	int m_topRow;
 	int m_numRows;
-	size_t m_topItem;
+	int m_topItem;
+	
 public:
 	ConsMenuView(Menu *menu, int topRow, int numRows);
 	~ConsMenuView();
@@ -37,6 +38,7 @@ public:
 	virtual void visitNotificationEvent(NotificationEvent *evt);
 	
 private:
+	void onMenuChanged();
 	void doPaint();
 };
 

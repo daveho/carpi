@@ -143,6 +143,35 @@ void QuitHandler::visitButtonEvent(ButtonEvent *evt)
 	}
 }
 
+namespace {
+	const char *s_menuItems[] = {
+		"Apples",
+		"Bananas",
+		"Oranges",
+		"Kumquats",
+		"Persimmons",
+		"Quinces",
+		"Pomegranates",
+		"Grapefruits",
+		"Blueberries",
+		"Strawberries",
+		"Raspberries",
+		"Blackberries",
+		"Kiwis",
+		"Pineapples",
+		"Papayas",
+		"Mangoes",
+		"Cloudberries",
+		"Cherries",
+		"Plums",
+		"Nectarines",
+		"Tangerines",
+		"Lemons",
+		"Limes",
+		"Plaintains",
+	};
+}
+
 void menuTest()
 {
 	EventQueue::initialize();
@@ -155,9 +184,9 @@ void menuTest()
 	inputReader->start();
 	
 	Menu *menu = new Menu();
-	menu->addAndAdoptItem(new MenuItem("Apples", 0));
-	menu->addAndAdoptItem(new MenuItem("Bananas", 1));
-	menu->addAndAdoptItem(new MenuItem("Oranges", 2));
+	for (int i = 0; i < int(sizeof(s_menuItems) / sizeof(const char*)); i++) {
+		menu->addAndAdoptItem(new MenuItem(s_menuItems[i], i));
+	}
 	
 	MenuController *controller = new MenuController(menu);
 	ConsMenuView *view = new ConsMenuView(menu, 1, size_t(cons->getNumRows() - 2));
