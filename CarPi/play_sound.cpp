@@ -152,24 +152,6 @@ void PlaySound::closefd(int fd)
 	}
 }
 
-/*
-void *PlaySound::monitor(void *arg)
-{
-	PlaySound *self = (PlaySound *) arg;
-
-	FILE *f = fdopen(self->m_statusfd, "r");
-
-	// For now, just read the status information without parsing it.
-	int c;
-	while ((c = fgetc(f)) != EOF) {
-		// do nothing
-	}
-	fclose(f);
-
-	return 0;
-}
-*/
-
 void PlaySound::sendCommand(const std::string &cmd)
 {
 	if (write(m_cmdfd, cmd.c_str(), cmd.size()) < 0) {
