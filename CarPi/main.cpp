@@ -25,7 +25,7 @@
 #include "event.h"
 #include "event_queue.h"
 #include "abstract_event_visitor.h"
-#include "thread.h"
+#include "cons_input_reader_thread.h"
 #include "menu.h"
 #include "menu_controller.h"
 #include "cons_menu_view.h"
@@ -57,61 +57,6 @@ void playSoundTest(int argc, char **argv)
 	}
 	
 	std::cout << "Done!" << std::endl;
-}
-
-class InputReaderThread : public Thread {
-public:
-	InputReaderThread();
-	virtual ~InputReaderThread();
-	
-	virtual void run();
-};
-
-InputReaderThread::InputReaderThread()
-{
-	// This thread should be detached: we can't easily stop it
-	// because it will spend most of its time blocked waiting for
-	// input from stdin.
-	setDetached();
-}
-
-InputReaderThread::~InputReaderThread()
-{
-}
-
-void InputReaderThread::run()
-{
-	// Note: it appears that it is not legal to call the ncurses getch() function
-	// in this thread but execute the ncurses output functions in another thread.
-	// So, we must read directly from stdin.  This actually isn't a great hardship:
-	// the only issue will be decoding escape sequences (e.g., for the arrow keys.)
-	for (;;) {
-		int ch;
-		ch = fgetc(stdin);
-		if (ch < 0) {
-			break;
-		}
-		switch (ch) {
-			case 'w':
-				EventQueue::instance()->enqueue(new ButtonEvent(ButtonEvent::RELEASE, ButtonEvent::UP));
-				break;
-			case 'a':
-				EventQueue::instance()->enqueue(new ButtonEvent(ButtonEvent::RELEASE, ButtonEvent::LEFT));
-				break;
-			case 's':
-				EventQueue::instance()->enqueue(new ButtonEvent(ButtonEvent::RELEASE, ButtonEvent::DOWN));
-				break;
-			case 'd':
-				EventQueue::instance()->enqueue(new ButtonEvent(ButtonEvent::RELEASE, ButtonEvent::RIGHT));
-				break;
-			case 'q':
-				EventQueue::instance()->enqueue(new ButtonEvent(ButtonEvent::RELEASE, ButtonEvent::A));
-				break;
-			case 'e':
-				EventQueue::instance()->enqueue(new ButtonEvent(ButtonEvent::RELEASE, ButtonEvent::B));
-				break;
-		}
-	}
 }
 
 class QuitHandler : public AbstractEventVisitor {
@@ -180,7 +125,7 @@ void menuTest()
 	Console *cons = Console::instance();
 	cons->init();
 	
-	InputReaderThread *inputReader = new InputReaderThread();
+	ConsInputReaderThread *inputReader = new ConsInputReaderThread();
 	inputReader->start();
 	
 	Menu *menu = new Menu();

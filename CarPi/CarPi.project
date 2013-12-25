@@ -32,6 +32,8 @@
     <File Name="abstract_event_visitor.cpp"/>
     <File Name="menu_controller.h"/>
     <File Name="menu_controller.cpp"/>
+    <File Name="cons_input_reader_thread.h"/>
+    <File Name="cons_input_reader_thread.cpp"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>
