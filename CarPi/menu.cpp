@@ -28,7 +28,6 @@ MenuItem::MenuItem(const std::string &name, int value)
 
 MenuItem::~MenuItem()
 {
-	
 }
 
 Menu::Menu()
@@ -38,6 +37,9 @@ Menu::Menu()
 
 Menu::~Menu()
 {
+	for (std::vector<MenuItem *>::iterator i = m_itemList.begin(); i != m_itemList.end(); i++) {
+		delete *i;
+	}
 }
 
 void Menu::addAndAdoptItem(MenuItem *menuItem)
