@@ -19,6 +19,8 @@
 #ifndef EVENTHANDLER_H
 #define EVENTHANDLER_H
 
+#include <vector>
+
 class Event;
 
 class EventHandler
@@ -34,5 +36,7 @@ public:
 
 	virtual Result handleEvent(Event *evt) = 0;
 };
+
+typedef std::vector<EventHandler *> HandlerChain;
 
 #endif // EVENTHANDLER_H

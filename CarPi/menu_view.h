@@ -24,13 +24,13 @@ class Menu;
 class MenuView
 {
 private:
-	Menu *m_menu;
+	const Menu *m_menu;
 	
 public:
-	MenuView(Menu *menu);
+	MenuView(const Menu *menu);
 	~MenuView();
 
-	Menu *getMenu() { return m_menu; }
+	const Menu *getMenu() { return m_menu; }
 };
 
 #endif // MENUVIEW_H

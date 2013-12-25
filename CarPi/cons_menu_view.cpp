@@ -31,62 +31,13 @@ ConsMenuView::~ConsMenuView()
 {
 }
 
-EventHandler::Result ConsMenuView::handleEvent(Event *evt)
-{
-	evt->accept(this);
-	return m_result;
-}
-
-void ConsMenuView::visitButtonEvent(ButtonEvent *evt)
-{
-	m_result = EventHandler::NOT_HANDLED;
-	
-	// There is nothing to do if the menu has no items
-	if (getMenu()->getNumItems() == 0) {
-		return;
-	}
-	
-	if (evt->getType() == ButtonEvent::RELEASE) {
-		size_t selected = getMenu()->getSelected();
-		
-		switch (evt->getCode()) {
-			case ButtonEvent::UP:
-				m_result = EventHandler::HANDLED;
-				if (selected > 0) {
-					selected--;
-				}
-				break;
-			
-			case ButtonEvent::DOWN:
-				m_result = EventHandler::HANDLED;
-				if (selected < getMenu()->getNumItems() - 1) {
-					selected++;
-				}
-				break;
-				
-				// TODO: choosing an item
-			
-			default:
-				break;
-		}
-		
-		if (selected != getMenu()->getSelected()) {
-			// Selection changed
-			doPaint();
-			EventQueue::instance()->enqueue(new NotificationEvent(NotificationEvent::SELECTION_CHANGED));
-		}
-	}
-}
-
 void ConsMenuView::visitNotificationEvent(NotificationEvent *evt)
 {
-	m_result = EventHandler::NOT_HANDLED;
-	
 	switch (evt->getType()) {
 		case NotificationEvent::PAINT:
 		case NotificationEvent::MENU_CHANGED:
 		case NotificationEvent::SELECTION_CHANGED:
-			m_result = EventHandler::HANDLED;
+			setResult(EventHandler::HANDLED);
 			doPaint();
 			break;
 		default:
@@ -98,7 +49,7 @@ void ConsMenuView::doPaint()
 {
 	// TODO: handle scrolling
 	Console *cons = Console::instance();
-	Menu *menu = getMenu();
+	const Menu *menu = getMenu();
 	
 	size_t width = size_t(cons->getNumCols());
 	

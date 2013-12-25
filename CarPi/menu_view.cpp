@@ -18,7 +18,7 @@
 
 #include "menu_view.h"
 
-MenuView::MenuView(Menu *menu)
+MenuView::MenuView(const Menu *menu)
 	: m_menu(menu)
 {
 }

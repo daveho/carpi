@@ -27,6 +27,7 @@
 #include "abstract_event_visitor.h"
 #include "thread.h"
 #include "menu.h"
+#include "menu_controller.h"
 #include "cons_menu_view.h"
 #include "play_sound.h"
 
@@ -158,18 +159,29 @@ void menuTest()
 	menu->addAndAdoptItem(new MenuItem("Bananas", 1));
 	menu->addAndAdoptItem(new MenuItem("Oranges", 2));
 	
+	MenuController *controller = new MenuController(menu);
 	ConsMenuView *view = new ConsMenuView(menu);
 	QuitHandler *quitHandler = new QuitHandler();
+	
+	HandlerChain handlerChain;
+	handlerChain.push_back(controller);
+	handlerChain.push_back(view);
+	handlerChain.push_back(quitHandler);
 	
 	EventQueue::instance()->enqueue(new NotificationEvent(NotificationEvent::PAINT));
 	
 	// Event loop!
 	while (!quitHandler->isDone()) {
 		Event *evt = EventQueue::instance()->dequeue();
-		EventHandler::Result result = view->handleEvent(evt);
-		if (result == EventHandler::NOT_HANDLED) {
-			quitHandler->handleEvent(evt);
+		
+		for (HandlerChain::iterator i = handlerChain.begin(); i != handlerChain.end(); i++) {
+			EventHandler *handler = *i;
+			if (handler->handleEvent(evt) == EventHandler::HANDLED) {
+				break;
+			}
 		}
+		
+		delete evt;
 	}
 	
 	cons->cleanup();

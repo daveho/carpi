@@ -25,16 +25,10 @@
 
 class ConsMenuView : public MenuView, public AbstractEventVisitor
 {
-private:
-	EventHandler::Result m_result;
-	
 public:
 	ConsMenuView(Menu *menu);
 	~ConsMenuView();
 
-	virtual Result handleEvent(Event *evt);
-
-	virtual void visitButtonEvent(ButtonEvent *evt);
 	virtual void visitNotificationEvent(NotificationEvent *evt);
 	
 private:

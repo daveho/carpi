@@ -30,6 +30,8 @@
     <File Name="console.cpp"/>
     <File Name="abstract_event_visitor.h"/>
     <File Name="abstract_event_visitor.cpp"/>
+    <File Name="menu_controller.h"/>
+    <File Name="menu_controller.cpp"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>

@@ -48,7 +48,7 @@ public:
 
 	void addAndAdoptItem(MenuItem *menuItem);
 	size_t getNumItems() const { return size_t(m_itemList.size()); }
-	MenuItem *getItem(size_t i) { return m_itemList.at(i); }
+	const MenuItem *getItem(size_t i) const { return m_itemList.at(i); }
 	size_t getSelected() const { return m_selected; }
 	void setSelected(size_t i) { m_selected = i; }
 };
