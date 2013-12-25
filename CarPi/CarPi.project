@@ -18,6 +18,18 @@
     <File Name="event.cpp"/>
     <File Name="thread.h"/>
     <File Name="thread.cpp"/>
+    <File Name="event_handler.h"/>
+    <File Name="event_handler.cpp"/>
+    <File Name="menu.h"/>
+    <File Name="menu.cpp"/>
+    <File Name="menu_view.h"/>
+    <File Name="menu_view.cpp"/>
+    <File Name="cons_menu_view.h"/>
+    <File Name="cons_menu_view.cpp"/>
+    <File Name="console.h"/>
+    <File Name="console.cpp"/>
+    <File Name="abstract_event_visitor.h"/>
+    <File Name="abstract_event_visitor.cpp"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>
@@ -35,6 +47,7 @@
       </Compiler>
       <Linker Options="" Required="yes">
         <Library Value="pthread"/>
+        <Library Value="ncurses"/>
       </Linker>
       <ResourceCompiler Options="" Required="no"/>
       <General OutputFile="$(IntermediateDirectory)/$(ProjectName)" IntermediateDirectory="./Debug" Command="./$(ProjectName)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes"/>

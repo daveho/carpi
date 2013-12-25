@@ -16,34 +16,33 @@
 // You should have received a copy of the GNU General Public License
 // along with CarPi.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef THREAD_H
-#define THREAD_H
+#ifndef ABSTRACTEVENTVISITOR_H
+#define ABSTRACTEVENTVISITOR_H
 
-#include <pthread.h>
+#include "event.h"
+#include "event_handler.h"
 
 //
-// Thread base class.
+// Default EventVisitor/EventHandler implementation that results in
+// EventVisitor::NOT_HANDLED for every event.  Subclasses can
+// then handle just the events that are interesting to them.
 //
-class Thread
+class AbstractEventVisitor : public EventVisitor, public EventHandler
 {
 private:
-	bool m_started, m_finished;
-	bool m_detached;
-	pthread_t m_thread;
+	Result m_result;
 	
 public:
-	Thread();
-	virtual ~Thread();
+	AbstractEventVisitor();
+	~AbstractEventVisitor();
 	
-	void setDetached() { m_detached = true; }
+	void setResult(Result result) { m_result = result; }
+	Result getResult() const { return m_result; }
 
-	virtual void run() = 0;
-	
-	void start();
-	void join();
-	
-private:
-	static void *doRun(void *arg);
+	virtual Result handleEvent(Event *evt);
+
+	virtual void visitButtonEvent(ButtonEvent *evt);
+	virtual void visitNotificationEvent(NotificationEvent *evt);
 };
 
-#endif // THREAD_H
+#endif // ABSTRACTEVENTVISITOR_H

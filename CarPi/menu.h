@@ -16,34 +16,41 @@
 // You should have received a copy of the GNU General Public License
 // along with CarPi.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef THREAD_H
-#define THREAD_H
+#ifndef MENU_H
+#define MENU_H
 
-#include <pthread.h>
+#include <string>
+#include <vector>
+#include <cstddef>
 
-//
-// Thread base class.
-//
-class Thread
-{
+class MenuItem {
 private:
-	bool m_started, m_finished;
-	bool m_detached;
-	pthread_t m_thread;
+	std::string m_name;
+	int m_value;
 	
 public:
-	Thread();
-	virtual ~Thread();
+	MenuItem(const std::string &name, int value);
+	~MenuItem();
 	
-	void setDetached() { m_detached = true; }
-
-	virtual void run() = 0;
-	
-	void start();
-	void join();
-	
-private:
-	static void *doRun(void *arg);
+	const std::string &getName() const { return m_name; }
+	int getValue() const { return m_value; }
 };
 
-#endif // THREAD_H
+class Menu
+{
+private:
+	std::vector<MenuItem *> m_itemList;
+	size_t m_selected;
+	
+public:
+	Menu();
+	~Menu();
+
+	void addAndAdoptItem(MenuItem *menuItem);
+	size_t getNumItems() const { return size_t(m_itemList.size()); }
+	MenuItem *getItem(size_t i) { return m_itemList.at(i); }
+	size_t getSelected() const { return m_selected; }
+	void setSelected(size_t i) { m_selected = i; }
+};
+
+#endif // MENU_H

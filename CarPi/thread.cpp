@@ -32,7 +32,15 @@ Thread::~Thread()
 void Thread::start()
 {
 	assert(!m_started);
-	pthread_create(&m_thread, 0, &doRun, this);
+	
+	pthread_attr_t attr;
+	pthread_attr_init(&attr);
+	if (m_detached) {
+		// Create a detached thread (not joinable, will not prevent process
+		// from exiting if it is still running when exit is called.)
+		pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED);
+	}
+	pthread_create(&m_thread, &attr, &doRun, this);
 	m_started = true;
 }
 
@@ -40,6 +48,7 @@ void Thread::join()
 {
 	assert(m_started);
 	assert(!m_finished);
+	assert(!m_detached);
 	pthread_join(m_thread, 0);
 	m_finished = true;
 }

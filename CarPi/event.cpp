@@ -38,7 +38,21 @@ ButtonEvent::~ButtonEvent()
 
 void ButtonEvent::accept(EventVisitor *visitor)
 {
-	visitor->visitButtonEvent(*this);
+	visitor->visitButtonEvent(this);
+}
+
+NotificationEvent::NotificationEvent(Type type)
+	: m_type(type)
+{
+}
+
+NotificationEvent::~NotificationEvent()
+{
+}
+
+void NotificationEvent::accept(EventVisitor *visitor)
+{
+	visitor->visitNotificationEvent(this);
 }
 
 EventVisitor::EventVisitor()
@@ -48,4 +62,3 @@ EventVisitor::EventVisitor()
 EventVisitor::~EventVisitor()
 {
 }
-

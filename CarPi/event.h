@@ -65,11 +65,36 @@ public:
 	Code getCode() const { return m_code; }
 };
 
+//
+// Catch-all for various kinds of notifications.
+//
+class NotificationEvent : public Event {
+public:
+	enum Type {
+		PAINT,             // render the view
+		SELECTION_CHANGED, // menu selection changed
+		MENU_CHANGED,      // menu changed (items added/removed)
+	};
+	
+private:
+	Type m_type;
+	// add payload?
+	
+public:
+	NotificationEvent(Type type);
+	virtual ~NotificationEvent();
+	
+	Type getType() const { return m_type; }
+	
+	virtual void accept(EventVisitor *visitor);
+};
+
 class EventVisitor {
 public:
 	EventVisitor();
 	virtual ~EventVisitor();
-	virtual void visitButtonEvent(ButtonEvent &evt) = 0;
+	virtual void visitButtonEvent(ButtonEvent *evt) = 0;
+	virtual void visitNotificationEvent(NotificationEvent *evt) = 0;
 };
 
 #endif // EVENT_H

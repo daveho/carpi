@@ -16,34 +16,13 @@
 // You should have received a copy of the GNU General Public License
 // along with CarPi.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef THREAD_H
-#define THREAD_H
+#include "event_handler.h"
 
-#include <pthread.h>
-
-//
-// Thread base class.
-//
-class Thread
+EventHandler::EventHandler()
 {
-private:
-	bool m_started, m_finished;
-	bool m_detached;
-	pthread_t m_thread;
-	
-public:
-	Thread();
-	virtual ~Thread();
-	
-	void setDetached() { m_detached = true; }
+}
 
-	virtual void run() = 0;
-	
-	void start();
-	void join();
-	
-private:
-	static void *doRun(void *arg);
-};
+EventHandler::~EventHandler()
+{
+}
 
-#endif // THREAD_H

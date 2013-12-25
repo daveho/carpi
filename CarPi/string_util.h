@@ -28,6 +28,11 @@ namespace StringUtil {
 		// See: http://stackoverflow.com/questions/874134/find-if-string-endswith-another-string-in-c
 		return std::mismatch(suffix.rbegin(), suffix.rend(), s.rbegin()).first == suffix.rend();
 	}
+	
+	inline std::string trimToSize(const std::string &s, size_t n)
+	{
+		return (s.size() <= n) ? s : s.substr(0, n);
+	}
 };
 
 #endif // STRING_UTIL_H

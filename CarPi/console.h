@@ -16,34 +16,47 @@
 // You should have received a copy of the GNU General Public License
 // along with CarPi.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef THREAD_H
-#define THREAD_H
+#ifndef CONSOLE_H
+#define CONSOLE_H
 
-#include <pthread.h>
+#include <cstddef>
+#include <string>
 
-//
-// Thread base class.
-//
-class Thread
+class Console
 {
 private:
-	bool m_started, m_finished;
-	bool m_detached;
-	pthread_t m_thread;
+	int m_numRows;
+	int m_numCols;
+	int m_attr;
+
+	Console();
+	~Console();
 	
 public:
-	Thread();
-	virtual ~Thread();
+	enum Color {
+		BLACK,      // 0000
+		RED,        // 0001
+		GREEN,      // 0010
+		YELLOW,     // 0011
+		BLUE,       // 0100
+		MAGENTA,    // 0101
+		CYAN,       // 0110
+		GRAY,       // 0111
+		INTENSE,    // 1000
+	};
 	
-	void setDetached() { m_detached = true; }
+	static void initialize();
+	static Console *instance();
 
-	virtual void run() = 0;
-	
-	void start();
-	void join();
-	
-private:
-	static void *doRun(void *arg);
+	void init();
+	void cleanup();
+	size_t getNumRows();
+	size_t getNumCols();
+	void clear();
+	void moveCursor(int row, int col);
+	void attr(int bg, int fg);
+	void print(const std::string &s);
+	void commit();
 };
 
-#endif // THREAD_H
+#endif // CONSOLE_H

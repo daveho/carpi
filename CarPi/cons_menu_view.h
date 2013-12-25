@@ -16,34 +16,29 @@
 // You should have received a copy of the GNU General Public License
 // along with CarPi.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef THREAD_H
-#define THREAD_H
+#ifndef CONSMENUVIEW_H
+#define CONSMENUVIEW_H
 
-#include <pthread.h>
+#include "event.h"
+#include "menu_view.h"
+#include "abstract_event_visitor.h"
 
-//
-// Thread base class.
-//
-class Thread
+class ConsMenuView : public MenuView, public AbstractEventVisitor
 {
 private:
-	bool m_started, m_finished;
-	bool m_detached;
-	pthread_t m_thread;
+	EventHandler::Result m_result;
 	
 public:
-	Thread();
-	virtual ~Thread();
-	
-	void setDetached() { m_detached = true; }
+	ConsMenuView(Menu *menu);
+	~ConsMenuView();
 
-	virtual void run() = 0;
-	
-	void start();
-	void join();
+	virtual Result handleEvent(Event *evt);
+
+	virtual void visitButtonEvent(ButtonEvent *evt);
+	virtual void visitNotificationEvent(NotificationEvent *evt);
 	
 private:
-	static void *doRun(void *arg);
+	void doPaint();
 };
 
-#endif // THREAD_H
+#endif // CONSMENUVIEW_H
