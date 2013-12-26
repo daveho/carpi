@@ -67,7 +67,8 @@ void MenuController::visitButtonEvent(ButtonEvent *evt)
 		if (selected != getMenu()->getSelected()) {
 			// Selection changed
 			getMenu()->setSelected(selected);
-			EventQueue::instance()->enqueue(new NotificationEvent(NotificationEvent::SELECTION_CHANGED));
+			EventQueue::instance()->enqueue(
+				new NotificationEvent(NotificationEvent::SELECTION_CHANGED, getMenu()->getSelectedItem()));
 		}
 	}
 }
