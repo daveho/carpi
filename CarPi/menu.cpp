@@ -31,24 +31,9 @@ MenuItem::~MenuItem()
 }
 
 Menu::Menu()
-	: m_selected(0)
 {
 }
 
 Menu::~Menu()
 {
-	for (std::vector<MenuItem *>::iterator i = m_itemList.begin(); i != m_itemList.end(); i++) {
-		delete *i;
-	}
-}
-
-void Menu::addAndAdoptItem(MenuItem *menuItem)
-{
-	m_itemList.push_back(menuItem);
-	EventQueue::instance()->enqueue(new NotificationEvent(NotificationEvent::MENU_CHANGED));
-}
-
-const MenuItem *Menu::getSelectedItem() const
-{
-	return m_itemList.at(m_selected);
 }

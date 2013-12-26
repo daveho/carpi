@@ -19,9 +19,9 @@
 #ifndef MAINMENU_H
 #define MAINMENU_H
 
-#include "menu.h"
+#include "static_menu.h"
 
-class MainMenu : public Menu
+class MainMenu : public StaticMenu
 {
 public:
 	// Values for main menu items.

@@ -38,6 +38,8 @@
     <File Name="main_menu_controller.cpp"/>
     <File Name="main_menu.h"/>
     <File Name="main_menu.cpp"/>
+    <File Name="static_menu.h"/>
+    <File Name="static_menu.cpp"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>

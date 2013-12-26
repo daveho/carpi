@@ -16,46 +16,43 @@
 // You should have received a copy of the GNU General Public License
 // along with CarPi.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef MENU_H
-#define MENU_H
+#include <cassert>
+#include "static_menu.h"
 
-#include <string>
-#include <vector>
-#include <cstddef>
-
-//
-// Menu item class.
-//
-class MenuItem {
-private:
-	std::string m_name;
-	int m_value;
-	
-public:
-	MenuItem(const std::string &name, int value);
-	~MenuItem();
-	
-	const std::string &getName() const { return m_name; }
-	int getValue() const { return m_value; }
-};
-
-//
-// Abstract menu base class.
-//
-class Menu
+StaticMenu::StaticMenu()
+	: m_selected(0)
 {
-public:
-	Menu();
-	virtual ~Menu();
+}
 
-	virtual size_t getNumItems() const = 0;
-	virtual const MenuItem *getItem(size_t i) const = 0;
-	virtual size_t getSelected() const = 0;
-	virtual void setSelected(size_t i) = 0;
-	
-	const MenuItem *getSelectedItem() const {
-		return getItem(getSelected());
+StaticMenu::~StaticMenu()
+{
+	for (std::vector<MenuItem *>::iterator i = m_itemList.begin(); i != m_itemList.end(); i++) {
+		delete *i;
 	}
-};
+}
 
-#endif // MENU_H
+void StaticMenu::addAndAdoptItem(MenuItem *menuItem)
+{
+	m_itemList.push_back(menuItem);
+}
+
+size_t StaticMenu::getNumItems() const
+{
+	return size_t(m_itemList.size());
+}
+
+const MenuItem *StaticMenu::getItem(size_t i) const
+{
+	return m_itemList.at(i);
+}
+
+size_t StaticMenu::getSelected() const
+{
+	return m_selected;
+}
+
+void StaticMenu::setSelected(size_t i)
+{
+	assert(i < m_itemList.size());
+	m_selected = i;
+}
