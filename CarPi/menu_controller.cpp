@@ -27,6 +27,7 @@ MenuController::MenuController(Menu *menu)
 
 MenuController::~MenuController()
 {
+	delete m_menu;
 }
 
 void MenuController::visitButtonEvent(ButtonEvent *evt)

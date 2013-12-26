@@ -56,3 +56,9 @@ void StaticMenu::setSelected(size_t i)
 	assert(i < m_itemList.size());
 	m_selected = i;
 }
+
+void StaticMenu::clear()
+{
+	m_selected = 0;
+	m_itemList.clear();
+}

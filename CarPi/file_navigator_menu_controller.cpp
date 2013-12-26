@@ -19,13 +19,16 @@
 #include <cassert>
 #include <sys/types.h>
 #include <dirent.h>
+#include "event.h"
 #include "static_menu.h"
+#include "event_queue.h"
 #include "file_navigator_menu_controller.h"
 
 FileNavigatorMenuController::FileNavigatorMenuController(const std::string &baseDir)
 	: MenuController(0) // populated during construction
 {
 	m_dirStack.push_back(baseDir);
+	setMenu(new StaticMenu());
 	populateMenuItems();
 }
 
@@ -33,16 +36,37 @@ FileNavigatorMenuController::~FileNavigatorMenuController()
 {
 }
 
+void FileNavigatorMenuController::visitNotificationEvent(NotificationEvent *evt)
+{
+	if (evt->getType() == NotificationEvent::MENU_ITEM_SELECTED) {
+		const MenuItem *selectedItem = getMenu()->getSelectedItem();
+		if (selectedItem->getValue() == PARENT_DIR_VALUE) {
+			// Go back to parent directory
+			setResult(EventHandler::HANDLED);
+			m_dirStack.pop_back();
+			onDirectoryChanged();
+		} else if (selectedItem->getValue() >= FIRST_FILE_VALUE) {
+			setResult(EventHandler::HANDLED);
+			std::string path(m_dirStack.back());
+			path += "/";
+			path += selectedItem->getName();
+			m_dirStack.push_back(path);
+			onDirectoryChanged();
+		}
+	}
+	
+	if (!handled()) {
+		Base::visitNotificationEvent(evt);
+	}
+}
+
 void FileNavigatorMenuController::populateMenuItems()
 {
 	assert(m_dirStack.size() > 0);
 	std::string dirName = m_dirStack.back();
-	
-	if (getMenu() != 0) {
-		delete getMenu();
-	}
-	StaticMenu *menu = new StaticMenu();
-	setMenu(menu);
+
+	StaticMenu *menu = static_cast<StaticMenu *>(getMenu());
+	menu->clear();
 	
 	if (m_dirStack.size() > 1) {
 		menu->addAndAdoptItem(new MenuItem("..", PARENT_DIR_VALUE));
@@ -61,9 +85,18 @@ void FileNavigatorMenuController::populateMenuItems()
 		if (rc != 0 || p == 0) {
 			break;
 		}
+		if (entry.d_name[0] == '.') {
+			continue;
+		}
 		menu->addAndAdoptItem(new MenuItem(entry.d_name, FIRST_FILE_VALUE + numEntries));
 		numEntries++;
 	}
 	
 	closedir(dir);
+}
+
+void FileNavigatorMenuController::onDirectoryChanged()
+{
+	populateMenuItems();
+	EventQueue::instance()->enqueue(new NotificationEvent(NotificationEvent::MENU_CHANGED));
 }

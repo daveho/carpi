@@ -28,6 +28,8 @@ class FileNavigatorMenuController : public MenuController
 private:
 	std::vector<std::string> m_dirStack;
 	
+	typedef MenuController Base;
+	
 public:
 	enum {
 		// menu item value for parent directory: "special" items should have lower values
@@ -44,9 +46,11 @@ public:
 	FileNavigatorMenuController(const std::string &baseDir);
 	~FileNavigatorMenuController();
 	
+	virtual void visitNotificationEvent(NotificationEvent *evt);
+	
 private:
 	void populateMenuItems();
-
+	void onDirectoryChanged();
 };
 
 #endif // FILENAVIGATORMENUCONTROLLER_H

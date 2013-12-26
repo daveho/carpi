@@ -16,8 +16,14 @@
 // You should have received a copy of the GNU General Public License
 // along with CarPi.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <cstdlib>
 #include "car_pi_app.h"
 #include "main_menu.h"
+#include "file_navigator_menu_controller.h"
+#include "console.h"
+#include "cons_menu_view.h"
+#include "composite_event_handler.h"
+#include "event_queue.h"
 #include "main_menu_controller.h"
 
 MainMenuController::MainMenuController()
@@ -36,6 +42,7 @@ void MainMenuController::onItemSelected(const MenuItem *item)
 		case MainMenu::VIDEOS:
 			break;
 		case MainMenu::MUSIC:
+			onMusicChosen();
 			break;
 		case MainMenu::SETTINGS:
 			break;
@@ -45,4 +52,20 @@ void MainMenuController::onItemSelected(const MenuItem *item)
 			CarPiApp::instance()->quit();
 			break;
 	}
+}
+
+void MainMenuController::onMusicChosen()
+{
+	std::string musicDir;
+	
+	musicDir += getenv("HOME");
+	musicDir += "/Music";
+	
+	FileNavigatorMenuController *controller = new FileNavigatorMenuController(musicDir);
+	ConsMenuView *view = new ConsMenuView(controller->getMenu(), 1, Console::instance()->getNumRows() - 2);
+	
+	CompositeEventHandler *pair = new CompositeEventHandler(controller, view);
+	
+	CarPiApp::instance()->pushEventHandler(pair);
+	EventQueue::instance()->enqueue(new NotificationEvent(NotificationEvent::PAINT));
 }

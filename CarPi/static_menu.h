@@ -40,6 +40,7 @@ public:
 	virtual const MenuItem *getItem(size_t i) const;
 	virtual size_t getSelected() const;
 	virtual void setSelected(size_t i);
+	virtual void clear();
 };
 
 #endif // STATICMENU_H

@@ -28,6 +28,9 @@ public:
 	~MainMenuController();
 
 	virtual void onItemSelected(const MenuItem *item);
+	
+private:
+	void onMusicChosen();
 };
 
 #endif // MAINMENUCONTROLLER_H

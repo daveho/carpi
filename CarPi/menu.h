@@ -52,6 +52,7 @@ public:
 	virtual const MenuItem *getItem(size_t i) const = 0;
 	virtual size_t getSelected() const = 0;
 	virtual void setSelected(size_t i) = 0;
+	virtual void clear() = 0;
 	
 	const MenuItem *getSelectedItem() const {
 		return getItem(getSelected());
