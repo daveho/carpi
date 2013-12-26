@@ -1,4 +1,3 @@
-#ifndef MENUCONTROLLER_H
 // CarPi - Raspberry Pi car entertainment system
 // Copyright (c) 2013, David H. Hovemeyer <david.hovemeyer@gmail.com>
 
@@ -17,32 +16,37 @@
 // You should have received a copy of the GNU General Public License
 // along with CarPi.  If not, see <http://www.gnu.org/licenses/>.
 
-#define MENUCONTROLLER_H
+#ifndef FILENAVIGATORMENUCONTROLLER_H
+#define FILENAVIGATORMENUCONTROLLER_H
 
-#include "abstract_event_visitor.h"
+#include <string>
+#include <vector>
+#include "menu_controller.h"
 
-class Menu;
-class MenuItem;
-
-class MenuController : public AbstractEventVisitor
+class FileNavigatorMenuController : public MenuController
 {
 private:
-	Menu *m_menu;
+	std::vector<std::string> m_dirStack;
 	
 public:
-	typedef AbstractEventVisitor Base;
+	enum {
+		// menu item value for parent directory: "special" items should have lower values
+		PARENT_DIR_VALUE = 98,
+		
+		// menu item value for special menu item created
+		// when a directory cannot be read
+		INVALID_DIR_VALUE = 99,
+		
+		// menu item value for first actual file or subdirectory
+		FIRST_FILE_VALUE = 100,
+	};
 
-	MenuController(Menu *menu);
-	~MenuController();
+	FileNavigatorMenuController(const std::string &baseDir);
+	~FileNavigatorMenuController();
 	
-	void setMenu(Menu *menu) { m_menu = menu; }
-	Menu *getMenu() { return m_menu; }
+private:
+	void populateMenuItems();
 
-	virtual void visitButtonEvent(ButtonEvent *evt);
-	virtual void visitNotificationEvent(NotificationEvent *evt);
-
-	// No default implementation: subclasses can override
-	virtual void onItemSelected(const MenuItem *item);
 };
 
-#endif // MENUCONTROLLER_H
+#endif // FILENAVIGATORMENUCONTROLLER_H

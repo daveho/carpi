@@ -1,4 +1,3 @@
-#ifndef MENUCONTROLLER_H
 // CarPi - Raspberry Pi car entertainment system
 // Copyright (c) 2013, David H. Hovemeyer <david.hovemeyer@gmail.com>
 
@@ -17,32 +16,31 @@
 // You should have received a copy of the GNU General Public License
 // along with CarPi.  If not, see <http://www.gnu.org/licenses/>.
 
-#define MENUCONTROLLER_H
+#ifndef COMPOSITEEVENTHANDLER_H
+#define COMPOSITEEVENTHANDLER_H
 
-#include "abstract_event_visitor.h"
+#include <vector>
+#include "event_handler.h"
 
-class Menu;
-class MenuItem;
-
-class MenuController : public AbstractEventVisitor
+//
+// Event handler that delegates to a series of
+// other event handlers.  Useful for pairing a
+// controller and a view.
+//
+class CompositeEventHandler : public EventHandler
 {
 private:
-	Menu *m_menu;
+	typedef std::vector<EventHandler *> HandlerList;
+	HandlerList m_handlerList;
 	
 public:
-	typedef AbstractEventVisitor Base;
+	CompositeEventHandler();
+	CompositeEventHandler(EventHandler *controllerToAdopt, EventHandler *viewToAdopt);
+	~CompositeEventHandler();
 
-	MenuController(Menu *menu);
-	~MenuController();
-	
-	void setMenu(Menu *menu) { m_menu = menu; }
-	Menu *getMenu() { return m_menu; }
+	void addAndAdoptEventHandler(EventHandler *handler);
 
-	virtual void visitButtonEvent(ButtonEvent *evt);
-	virtual void visitNotificationEvent(NotificationEvent *evt);
-
-	// No default implementation: subclasses can override
-	virtual void onItemSelected(const MenuItem *item);
+	virtual Result handleEvent(Event *evt);
 };
 
-#endif // MENUCONTROLLER_H
+#endif // COMPOSITEEVENTHANDLER_H

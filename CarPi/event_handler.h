@@ -23,6 +23,9 @@
 
 class Event;
 
+//
+// Abstract event handler base class.
+//
 class EventHandler
 {
 public:
@@ -32,7 +35,7 @@ public:
 	};
 
 	EventHandler();
-	~EventHandler();
+	virtual ~EventHandler();
 
 	virtual Result handleEvent(Event *evt) = 0;
 };

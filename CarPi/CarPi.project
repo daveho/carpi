@@ -40,6 +40,12 @@
     <File Name="main_menu.cpp"/>
     <File Name="static_menu.h"/>
     <File Name="static_menu.cpp"/>
+    <File Name="file_navigator_menu_controller.h"/>
+    <File Name="file_navigator_menu_controller.cpp"/>
+    <File Name="car_pi_app.h"/>
+    <File Name="car_pi_app.cpp"/>
+    <File Name="composite_event_handler.h"/>
+    <File Name="composite_event_handler.cpp"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>

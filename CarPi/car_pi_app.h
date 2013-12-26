@@ -1,4 +1,3 @@
-#ifndef MENUCONTROLLER_H
 // CarPi - Raspberry Pi car entertainment system
 // Copyright (c) 2013, David H. Hovemeyer <david.hovemeyer@gmail.com>
 
@@ -17,32 +16,33 @@
 // You should have received a copy of the GNU General Public License
 // along with CarPi.  If not, see <http://www.gnu.org/licenses/>.
 
-#define MENUCONTROLLER_H
+#ifndef CARPIAPP_H
+#define CARPIAPP_H
 
-#include "abstract_event_visitor.h"
+#include <vector>
 
-class Menu;
-class MenuItem;
+class EventHandler;
 
-class MenuController : public AbstractEventVisitor
+class CarPiApp
 {
 private:
-	Menu *m_menu;
+	typedef std::vector<EventHandler *> HandlerStack;
+	HandlerStack m_handlerStack;
+	bool m_quit;
 	
 public:
-	typedef AbstractEventVisitor Base;
+	CarPiApp();
+	~CarPiApp();
 
-	MenuController(Menu *menu);
-	~MenuController();
+	static void initialize();
+	static CarPiApp *instance();
 	
-	void setMenu(Menu *menu) { m_menu = menu; }
-	Menu *getMenu() { return m_menu; }
-
-	virtual void visitButtonEvent(ButtonEvent *evt);
-	virtual void visitNotificationEvent(NotificationEvent *evt);
-
-	// No default implementation: subclasses can override
-	virtual void onItemSelected(const MenuItem *item);
+	void mainLoop();
+	
+	void quit();
+	
+	void pushEventHandler(EventHandler *handler);
+	void popEventHandler();
 };
 
-#endif // MENUCONTROLLER_H
+#endif // CARPIAPP_H
