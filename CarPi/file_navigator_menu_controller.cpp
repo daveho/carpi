@@ -21,6 +21,7 @@
 #include <sys/stat.h>
 #include <dirent.h>
 #include <unistd.h>
+#include "car_pi_app.h"
 #include "event.h"
 #include "static_menu.h"
 #include "event_queue.h"
@@ -36,6 +37,25 @@ FileNavigatorMenuController::FileNavigatorMenuController(const std::string &base
 
 FileNavigatorMenuController::~FileNavigatorMenuController()
 {
+}
+
+void FileNavigatorMenuController::visitButtonEvent(ButtonEvent *evt)
+{
+	if (evt->getType() == ButtonEvent::RELEASE && evt->getCode() == ButtonEvent::LEFT) {
+		setResult(EventHandler::HANDLED);
+		if (m_dirStack.size() == 1) {
+			// Go back to original menu
+			CarPiApp::instance()->popEventHandler();
+		} else {
+			// Go back to parent directory
+			m_dirStack.pop_back();
+			onDirectoryChanged();
+		}
+	}
+	
+	if (!handled()) {
+		Base::visitButtonEvent(evt);
+	}
 }
 
 void FileNavigatorMenuController::visitNotificationEvent(NotificationEvent *evt)

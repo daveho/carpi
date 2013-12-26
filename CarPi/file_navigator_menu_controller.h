@@ -52,6 +52,7 @@ public:
 	FileNavigatorMenuController(const std::string &baseDir);
 	~FileNavigatorMenuController();
 	
+	virtual void visitButtonEvent(ButtonEvent *evt);
 	virtual void visitNotificationEvent(NotificationEvent *evt);
 	
 	// Downcall method: subclasses can override to filter files and directories.

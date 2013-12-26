@@ -61,11 +61,11 @@ void MainMenuController::onMusicChosen()
 	musicDir += getenv("HOME");
 	musicDir += "/Music";
 	
+	// FIXME: need a more abstract way to get an appropriate view for a controller
 	MusicFileNavigatorMenuController *controller = new MusicFileNavigatorMenuController(musicDir);
 	ConsMenuView *view = new ConsMenuView(controller->getMenu(), 1, Console::instance()->getNumRows() - 2);
 	
 	CompositeEventHandler *pair = new CompositeEventHandler(controller, view);
 	
 	CarPiApp::instance()->pushEventHandler(pair);
-	EventQueue::instance()->enqueue(new NotificationEvent(NotificationEvent::PAINT));
 }

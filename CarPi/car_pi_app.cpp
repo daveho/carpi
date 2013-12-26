@@ -91,6 +91,7 @@ void CarPiApp::quit()
 void CarPiApp::pushEventHandler(EventHandler *handler)
 {
 	m_handlerStack.push_back(handler);
+	EventQueue::instance()->enqueue(new NotificationEvent(NotificationEvent::PAINT));
 }
 
 void CarPiApp::popEventHandler()
@@ -98,4 +99,5 @@ void CarPiApp::popEventHandler()
 	EventHandler *handler = m_handlerStack.back();
 	m_handlerStack.pop_back();
 	delete handler;
+	EventQueue::instance()->enqueue(new NotificationEvent(NotificationEvent::PAINT));
 }
