@@ -56,7 +56,8 @@ void MenuController::visitButtonEvent(ButtonEvent *evt)
 				
 			case ButtonEvent::RIGHT:
 				setResult(EventHandler::HANDLED);
-				EventQueue::instance()->enqueue(new NotificationEvent(NotificationEvent::MENU_ITEM_SELECTED));
+				EventQueue::instance()->enqueue(
+					new NotificationEvent(NotificationEvent::MENU_ITEM_SELECTED, getMenu()->getSelectedItem()));
 				break;
 			
 			default:
