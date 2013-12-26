@@ -19,7 +19,7 @@
 #include <cstdlib>
 #include "car_pi_app.h"
 #include "main_menu.h"
-#include "file_navigator_menu_controller.h"
+#include "music_file_navigator_menu_controller.h"
 #include "console.h"
 #include "cons_menu_view.h"
 #include "composite_event_handler.h"
@@ -61,7 +61,7 @@ void MainMenuController::onMusicChosen()
 	musicDir += getenv("HOME");
 	musicDir += "/Music";
 	
-	FileNavigatorMenuController *controller = new FileNavigatorMenuController(musicDir);
+	MusicFileNavigatorMenuController *controller = new MusicFileNavigatorMenuController(musicDir);
 	ConsMenuView *view = new ConsMenuView(controller->getMenu(), 1, Console::instance()->getNumRows() - 2);
 	
 	CompositeEventHandler *pair = new CompositeEventHandler(controller, view);

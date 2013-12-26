@@ -54,6 +54,10 @@ public:
 	
 	virtual void visitNotificationEvent(NotificationEvent *evt);
 	
+	// Downcall method: subclasses can override to filter files and directories.
+	// Default is that all entries are included.
+	virtual bool includeEntry(const std::string &entryName, int flags);
+	
 private:
 	void populateMenuItems();
 	void onDirectoryChanged();

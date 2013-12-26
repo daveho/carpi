@@ -65,6 +65,12 @@ void FileNavigatorMenuController::visitNotificationEvent(NotificationEvent *evt)
 	}
 }
 
+bool FileNavigatorMenuController::includeEntry(const std::string &entryName, int flags)
+{
+	// Default implementation: include all files and directories
+	return true;
+}
+
 void FileNavigatorMenuController::populateMenuItems()
 {
 	assert(m_dirStack.size() > 0);
@@ -104,15 +110,19 @@ void FileNavigatorMenuController::populateMenuItems()
 		if (stat(path.c_str(), &s) != 0) {
 			continue;
 		}
-		
 		if (S_ISDIR(s.st_mode)) {
 			flags |= FLAG_DIRECTORY;
-		} else if (!S_ISREG(s.st_mode)) {
+		} else  if (!S_ISREG(s.st_mode)) {
 			// Skip anything that's not a regular file or directory
-			menu->addAndAdoptItem(new MenuItem("wrong file type", FIRST_FILE_VALUE + numEntries));
 			continue;
 		}
 		
+		// Check whether this file or directory should be included
+		if (!includeEntry(entry.d_name, flags)) {
+			continue;
+		}
+		
+		// Add the entry!
 		menu->addAndAdoptItem(new MenuItem(entry.d_name, FIRST_FILE_VALUE + numEntries, flags));
 		numEntries++;
 	}

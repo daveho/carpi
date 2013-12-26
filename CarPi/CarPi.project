@@ -46,6 +46,8 @@
     <File Name="car_pi_app.cpp"/>
     <File Name="composite_event_handler.h"/>
     <File Name="composite_event_handler.cpp"/>
+    <File Name="music_file_navigator_menu_controller.h"/>
+    <File Name="music_file_navigator_menu_controller.cpp"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>
