@@ -16,6 +16,7 @@
 // You should have received a copy of the GNU General Public License
 // along with CarPi.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <cassert>
 #include "menu.h"
 #include "event_queue.h"
 #include "menu_controller.h"
@@ -82,10 +83,6 @@ void MenuController::visitNotificationEvent(NotificationEvent *evt)
 			setResult(EventHandler::HANDLED);
 			onItemSelected(selectedItem);
 		}
-	}
-	
-	if (!handled()) {
-		Base::visitNotificationEvent(evt);
 	}
 }
 

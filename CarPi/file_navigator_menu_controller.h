@@ -31,6 +31,7 @@ private:
 	typedef MenuController Base;
 	
 public:
+	// Menu item value constants.
 	enum {
 		// menu item value for parent directory: "special" items should have lower values
 		PARENT_DIR_VALUE = 98,
@@ -42,6 +43,11 @@ public:
 		// menu item value for first actual file or subdirectory
 		FIRST_FILE_VALUE = 100,
 	};
+	
+	// Menu item flags.
+	enum {
+		FLAG_DIRECTORY = 1,
+	};
 
 	FileNavigatorMenuController(const std::string &baseDir);
 	~FileNavigatorMenuController();
@@ -51,6 +57,7 @@ public:
 private:
 	void populateMenuItems();
 	void onDirectoryChanged();
+	static std::string getFullPath(const std::string &dirName, const std::string &entryName);
 };
 
 #endif // FILENAVIGATORMENUCONTROLLER_H

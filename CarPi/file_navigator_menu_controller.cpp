@@ -18,7 +18,9 @@
 
 #include <cassert>
 #include <sys/types.h>
+#include <sys/stat.h>
 #include <dirent.h>
+#include <unistd.h>
 #include "event.h"
 #include "static_menu.h"
 #include "event_queue.h"
@@ -47,11 +49,14 @@ void FileNavigatorMenuController::visitNotificationEvent(NotificationEvent *evt)
 			onDirectoryChanged();
 		} else if (selectedItem->getValue() >= FIRST_FILE_VALUE) {
 			setResult(EventHandler::HANDLED);
-			std::string path(m_dirStack.back());
-			path += "/";
-			path += selectedItem->getName();
-			m_dirStack.push_back(path);
-			onDirectoryChanged();
+			
+			if (selectedItem->hasFlag(FLAG_DIRECTORY)) {
+				// Navigate into subdirectory
+				m_dirStack.push_back(getFullPath(m_dirStack.back(), selectedItem->getName()));
+				onDirectoryChanged();
+			} else {
+				// TODO: play file
+			}
 		}
 	}
 	
@@ -86,9 +91,29 @@ void FileNavigatorMenuController::populateMenuItems()
 			break;
 		}
 		if (entry.d_name[0] == '.') {
+			// Skip dot files and directories.
 			continue;
 		}
-		menu->addAndAdoptItem(new MenuItem(entry.d_name, FIRST_FILE_VALUE + numEntries));
+		
+		int flags = 0;
+		
+		std::string path(getFullPath(dirName, entry.d_name));
+
+		// Check the entry type
+		struct stat s;
+		if (stat(path.c_str(), &s) != 0) {
+			continue;
+		}
+		
+		if (S_ISDIR(s.st_mode)) {
+			flags |= FLAG_DIRECTORY;
+		} else if (!S_ISREG(s.st_mode)) {
+			// Skip anything that's not a regular file or directory
+			menu->addAndAdoptItem(new MenuItem("wrong file type", FIRST_FILE_VALUE + numEntries));
+			continue;
+		}
+		
+		menu->addAndAdoptItem(new MenuItem(entry.d_name, FIRST_FILE_VALUE + numEntries, flags));
 		numEntries++;
 	}
 	
@@ -99,4 +124,12 @@ void FileNavigatorMenuController::onDirectoryChanged()
 {
 	populateMenuItems();
 	EventQueue::instance()->enqueue(new NotificationEvent(NotificationEvent::MENU_CHANGED));
+}
+
+std::string FileNavigatorMenuController::getFullPath(const std::string &dirName, const std::string &entryName)
+{
+	std::string path(dirName);
+	path += "/";
+	path += entryName;
+	return path;
 }

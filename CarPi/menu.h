@@ -30,13 +30,16 @@ class MenuItem {
 private:
 	std::string m_name;
 	int m_value;
+	int m_flags;
 	
 public:
-	MenuItem(const std::string &name, int value);
+	MenuItem(const std::string &name, int value, int flags = 0);
 	~MenuItem();
 	
 	const std::string &getName() const { return m_name; }
 	int getValue() const { return m_value; }
+	int getFlags() const { return m_flags; }
+	int hasFlag(int flag) const { return (m_flags & flag) != 0; }
 };
 
 //

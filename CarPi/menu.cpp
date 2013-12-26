@@ -20,9 +20,10 @@
 #include "event_queue.h"
 #include "menu.h"
 
-MenuItem::MenuItem(const std::string &name, int value)
+MenuItem::MenuItem(const std::string &name, int value, int flags)
 	: m_name(name)
 	, m_value(value)
+	, m_flags(flags)
 {
 }
 

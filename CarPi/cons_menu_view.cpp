@@ -26,6 +26,7 @@ ConsMenuView::ConsMenuView(Menu *menu, int topRow, int numRows)
 	: MenuView(menu)
 	, m_topRow(topRow)
 	, m_numRows(numRows)
+	, m_topItem(0)
 {
 }
 
