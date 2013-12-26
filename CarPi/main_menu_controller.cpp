@@ -16,42 +16,31 @@
 // You should have received a copy of the GNU General Public License
 // along with CarPi.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef MENU_H
-#define MENU_H
+#include "main_menu.h"
+#include "main_menu_controller.h"
 
-#include <string>
-#include <vector>
-#include <cstddef>
-
-class MenuItem {
-private:
-	std::string m_name;
-	int m_value;
-	
-public:
-	MenuItem(const std::string &name, int value);
-	~MenuItem();
-	
-	const std::string &getName() const { return m_name; }
-	int getValue() const { return m_value; }
-};
-
-class Menu
+MainMenuController::MainMenuController()
+	: MenuController(new MainMenu())
 {
-private:
-	std::vector<MenuItem *> m_itemList;
-	size_t m_selected;
-	
-public:
-	Menu();
-	~Menu();
+}
 
-	void addAndAdoptItem(MenuItem *menuItem);
-	size_t getNumItems() const { return size_t(m_itemList.size()); }
-	const MenuItem *getItem(size_t i) const { return m_itemList.at(i); }
-	const MenuItem *getSelectedItem() const;
-	size_t getSelected() const { return m_selected; }
-	void setSelected(size_t i) { m_selected = i; }
-};
+MainMenuController::~MainMenuController()
+{
+}
 
-#endif // MENU_H
+void MainMenuController::onItemSelected(const MenuItem *item)
+{
+	MainMenu::ItemValue value = static_cast<MainMenu::ItemValue>(item->getValue());
+	switch (value) {
+		case MainMenu::VIDEOS:
+			break;
+		case MainMenu::MUSIC:
+			break;
+		case MainMenu::SETTINGS:
+			break;
+		case MainMenu::SHELL:
+			break;
+		case MainMenu::SHUT_DOWN:
+			break;
+	}
+}

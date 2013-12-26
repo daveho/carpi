@@ -27,7 +27,8 @@
 #include "abstract_event_visitor.h"
 #include "cons_input_reader_thread.h"
 #include "menu.h"
-#include "menu_controller.h"
+#include "main_menu.h"
+#include "main_menu_controller.h"
 #include "cons_menu_view.h"
 #include "play_sound.h"
 
@@ -88,6 +89,7 @@ void QuitHandler::visitButtonEvent(ButtonEvent *evt)
 	}
 }
 
+/*
 namespace {
 	const char *s_menuItems[] = {
 		"Apples",
@@ -116,6 +118,7 @@ namespace {
 		"Plaintains",
 	};
 }
+*/
 
 void menuTest()
 {
@@ -128,13 +131,13 @@ void menuTest()
 	ConsInputReaderThread *inputReader = new ConsInputReaderThread();
 	inputReader->start();
 	
-	Menu *menu = new Menu();
-	for (int i = 0; i < int(sizeof(s_menuItems) / sizeof(const char*)); i++) {
-		menu->addAndAdoptItem(new MenuItem(s_menuItems[i], i));
-	}
+//	Menu *menu = new Menu();
+//	for (int i = 0; i < int(sizeof(s_menuItems) / sizeof(const char*)); i++) {
+//		menu->addAndAdoptItem(new MenuItem(s_menuItems[i], i));
+//	}
 	
-	MenuController *controller = new MenuController(menu);
-	ConsMenuView *view = new ConsMenuView(menu, 1, size_t(cons->getNumRows() - 2));
+	MainMenuController *controller = new MainMenuController();
+	ConsMenuView *view = new ConsMenuView(controller->getMenu(), 1, size_t(cons->getNumRows() - 2));
 	QuitHandler *quitHandler = new QuitHandler();
 	
 	HandlerChain handlerChain;

@@ -34,6 +34,10 @@
     <File Name="menu_controller.cpp"/>
     <File Name="cons_input_reader_thread.h"/>
     <File Name="cons_input_reader_thread.cpp"/>
+    <File Name="main_menu_controller.h"/>
+    <File Name="main_menu_controller.cpp"/>
+    <File Name="main_menu.h"/>
+    <File Name="main_menu.cpp"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>

@@ -74,17 +74,20 @@ public:
 		PAINT,             // render the view
 		SELECTION_CHANGED, // menu selection changed
 		MENU_CHANGED,      // menu changed (items added/removed)
+		MENU_ITEM_SELECTED,// a menu item was selected
 	};
 	
 private:
 	Type m_type;
-	// add payload?
+	const void *m_object;
 	
 public:
 	NotificationEvent(Type type);
+	NotificationEvent(Type type, const void *object);
 	virtual ~NotificationEvent();
 	
 	Type getType() const { return m_type; }
+	const void *getObject() const { return m_object; }
 	
 	virtual void accept(EventVisitor *visitor);
 };

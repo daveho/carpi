@@ -47,3 +47,8 @@ void Menu::addAndAdoptItem(MenuItem *menuItem)
 	m_itemList.push_back(menuItem);
 	EventQueue::instance()->enqueue(new NotificationEvent(NotificationEvent::MENU_CHANGED));
 }
+
+const MenuItem *Menu::getSelectedItem() const
+{
+	return m_itemList.at(m_selected);
+}

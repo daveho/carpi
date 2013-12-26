@@ -38,6 +38,7 @@ public:
 	
 	void setResult(Result result) { m_result = result; }
 	Result getResult() const { return m_result; }
+	bool handled() const { return m_result == EventHandler::HANDLED; }
 
 	virtual Result handleEvent(Event *evt);
 

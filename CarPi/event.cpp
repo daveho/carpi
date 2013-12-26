@@ -43,6 +43,13 @@ void ButtonEvent::accept(EventVisitor *visitor)
 
 NotificationEvent::NotificationEvent(Type type)
 	: m_type(type)
+	, m_object(0)
+{
+}
+
+NotificationEvent::NotificationEvent(Type type, const void *object)
+	: m_type(type)
+	, m_object(object)
 {
 }
 

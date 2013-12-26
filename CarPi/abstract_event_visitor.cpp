@@ -28,6 +28,7 @@ AbstractEventVisitor::~AbstractEventVisitor()
 
 EventHandler::Result AbstractEventVisitor::handleEvent(Event *evt)
 {
+	setResult(EventHandler::NOT_HANDLED);
 	evt->accept(this);
 	return getResult();
 }
