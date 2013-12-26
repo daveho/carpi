@@ -27,6 +27,20 @@
 #include "event_queue.h"
 #include "file_navigator_menu_controller.h"
 
+namespace {
+	bool compareDirectoryEntries(MenuItem *left, MenuItem *right) {
+		// Directories preceed regular files
+		bool leftIsDir = left->hasFlag(FileNavigatorMenuController::FLAG_DIRECTORY);
+		bool rightIsDir = right->hasFlag(FileNavigatorMenuController::FLAG_DIRECTORY);
+		if (leftIsDir != rightIsDir) {
+			return leftIsDir;
+		}
+		
+		// Compare based on name
+		return left->getName() < right->getName();
+	}
+}
+
 FileNavigatorMenuController::FileNavigatorMenuController(const std::string &baseDir)
 	: MenuController(0) // populated during construction
 {
@@ -148,6 +162,9 @@ void FileNavigatorMenuController::populateMenuItems()
 	}
 	
 	closedir(dir);
+	
+	// Sort the menu items
+	menu->sort(compareDirectoryEntries);
 }
 
 void FileNavigatorMenuController::onDirectoryChanged()

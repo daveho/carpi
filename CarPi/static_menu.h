@@ -41,6 +41,8 @@ public:
 	virtual size_t getSelected() const;
 	virtual void setSelected(size_t i);
 	virtual void clear();
+	
+	void sort(bool (*compareFunc)(MenuItem *left, MenuItem *right));
 };
 
 #endif // STATICMENU_H

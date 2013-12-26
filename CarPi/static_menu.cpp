@@ -17,6 +17,7 @@
 // along with CarPi.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <cassert>
+#include <algorithm>
 #include "static_menu.h"
 
 StaticMenu::StaticMenu()
@@ -61,4 +62,9 @@ void StaticMenu::clear()
 {
 	m_selected = 0;
 	m_itemList.clear();
+}
+
+void StaticMenu::sort(bool (*compareFunc)(MenuItem *left, MenuItem *right))
+{
+	std::sort(m_itemList.begin(), m_itemList.end(), compareFunc);
 }
