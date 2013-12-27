@@ -48,6 +48,10 @@
     <File Name="composite_event_handler.cpp"/>
     <File Name="music_file_navigator_menu_controller.h"/>
     <File Name="music_file_navigator_menu_controller.cpp"/>
+    <File Name="music_player_controller.h"/>
+    <File Name="music_player_controller.cpp"/>
+    <File Name="cons_music_player_view.h"/>
+    <File Name="cons_music_player_view.cpp"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>
