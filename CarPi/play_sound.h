@@ -63,7 +63,7 @@ public:
 	PlaySound();
 	~PlaySound();
 
-	State getState() { return m_state; }
+	State getState() const { return m_state; }
 	
 	bool play(const std::string &fileName);
 	bool pause();
