@@ -23,11 +23,16 @@
 
 class MusicFileNavigatorMenuController : public FileNavigatorMenuController
 {
+private:
+	typedef FileNavigatorMenuController Base;
+	
 public:
 	MusicFileNavigatorMenuController(const std::string &baseDir);
 	~MusicFileNavigatorMenuController();
 
 	virtual bool includeEntry(const std::string &entryName, int flags);
+	
+	virtual void visitButtonEvent(ButtonEvent *evt);
 };
 
 #endif // MUSICFILENAVIGATORMENUCONTROLLER_H

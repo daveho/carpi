@@ -47,10 +47,14 @@ public:
 	// Menu item flags.
 	enum {
 		FLAG_DIRECTORY = 1,
+		FLAG_FILE = 2,
 	};
 
 	FileNavigatorMenuController(const std::string &baseDir);
 	~FileNavigatorMenuController();
+	
+	// Get current directory.
+	const std::string &getCurrentDir() const { return m_dirStack.back(); }
 	
 	virtual void visitButtonEvent(ButtonEvent *evt);
 	virtual void visitNotificationEvent(NotificationEvent *evt);
@@ -58,11 +62,13 @@ public:
 	// Downcall method: subclasses can override to filter files and directories.
 	// Default is that all entries are included.
 	virtual bool includeEntry(const std::string &entryName, int flags);
+
+protected:
+	static std::string getFullPath(const std::string &dirName, const std::string &entryName);
 	
 private:
 	void populateMenuItems();
 	void onDirectoryChanged();
-	static std::string getFullPath(const std::string &dirName, const std::string &entryName);
 };
 
 #endif // FILENAVIGATORMENUCONTROLLER_H

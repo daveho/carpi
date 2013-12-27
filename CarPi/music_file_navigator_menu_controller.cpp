@@ -17,6 +17,12 @@
 // along with CarPi.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "string_util.h"
+#include "car_pi_app.h"
+#include "menu.h"
+#include "play_sound.h"
+#include "music_player_controller.h"
+#include "cons_music_player_view.h"
+#include "composite_event_handler.h"
 #include "music_file_navigator_menu_controller.h"
 
 MusicFileNavigatorMenuController::MusicFileNavigatorMenuController(const std::string &baseDir)
@@ -41,4 +47,29 @@ bool MusicFileNavigatorMenuController::includeEntry(const std::string &entryName
 	}
 	
 	return false;
+}
+
+void MusicFileNavigatorMenuController::visitButtonEvent(ButtonEvent *evt)
+{
+	if (evt->getType() == ButtonEvent::RELEASE && evt->getCode() == ButtonEvent::RIGHT) {
+		const MenuItem *menuItem = getMenu()->getSelectedItem();
+		if (menuItem->hasFlag(FLAG_FILE)) {
+			// Play file!
+			std::string path = getFullPath(getCurrentDir(), menuItem->getName());
+			PlaySound *playSound = new PlaySound();
+			playSound->addFile(path);
+			MusicPlayerController *controller = new MusicPlayerController(playSound);
+			ConsMusicPlayerView *view = new ConsMusicPlayerView(playSound);
+			CompositeEventHandler *pair = new CompositeEventHandler(controller, view);
+			CarPiApp::instance()->pushEventHandler(pair);
+			
+			// At this point it should be safe to start playing, since
+			// the controller and view are ready to receive events.
+			playSound->play();
+		}
+	}
+	
+	if (!handled()) {
+		Base::visitButtonEvent(evt);
+	}
 }

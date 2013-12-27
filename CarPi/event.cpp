@@ -62,6 +62,25 @@ void NotificationEvent::accept(EventVisitor *visitor)
 	visitor->visitNotificationEvent(this);
 }
 
+MediaStatusEvent::MediaStatusEvent(int curFrame, int remainingFrames, float curTime, float remainingTime)
+	: m_curFrame(curFrame)
+	, m_remainingFrames(remainingFrames)
+	, m_curTime(curTime)
+	, m_remainingTime(remainingTime)
+{
+	
+}
+
+MediaStatusEvent::~MediaStatusEvent()
+{
+	
+}
+
+void MediaStatusEvent::accept(EventVisitor *visitor)
+{
+	visitor->visitMediaStatusEvent(this);
+}
+
 EventVisitor::EventVisitor()
 {
 }

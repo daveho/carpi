@@ -50,6 +50,27 @@
 #  define DEBUG(args)
 #endif
 
+namespace {
+	bool readLine(FILE *f, std::string &line) {
+		line.clear();
+		for (;;) {
+			int c = fgetc(f);
+			if (c == EOF) { return false; }
+			if (c == '\n') { break; }
+			line += char(c);
+		}
+		return true;
+	}
+}
+
+PlaySoundCallback::PlaySoundCallback()
+{
+}
+
+PlaySoundCallback::~PlaySoundCallback()
+{
+}
+
 PlaySound::MonitorThread::MonitorThread(PlaySound *ps)
 	: m_ps(ps)
 {
@@ -63,11 +84,32 @@ void PlaySound::MonitorThread::run()
 {
 	FILE *f = fdopen(m_ps->m_statusfd, "r");
 
-	// For now, just read the status information without parsing it.
-	int c;
-	while ((c = fgetc(f)) != EOF) {
-		// do nothing
+	PlaySoundCallback *callback = m_ps->m_callback;
+
+	std::string line;
+	while (readLine(f, line)) {
+		if (callback == 0) {
+			continue; 
+		}
+		
+		// See README.remote from mpg321 documentation
+		
+		if (StringUtil::startsWith(line, "@F ")) {
+			int curFrame, remainingFrames;
+			float curTime, remainingTime;
+			if (sscanf(line.c_str() + 3, "%i %i %f %f", &curFrame, &remainingFrames, &curTime, &remainingTime) == 4) {
+				callback->onFrame(curFrame, remainingFrames, curTime, remainingTime);
+			}
+		} else if (StringUtil::startsWith(line, "@P ")) {
+			int playStatus;
+			if (sscanf(line.c_str() + 3, "%d", &playStatus) == 1) {
+				if (playStatus >= 0 && playStatus <= 3) {
+					callback->onPlayStatus(static_cast<PlaySoundCallback::PlayStatus>(playStatus));
+				}
+			}
+		}
 	}
+	
 	fclose(f);
 }
 
@@ -84,9 +126,19 @@ PlaySound::~PlaySound()
 {
 }
 
-bool PlaySound::play(const std::string &fileName)
+void PlaySound::addFile(const std::string &fileName)
 {
-	return startProcess(fileName);
+	m_fileList.push_back(fileName);
+}
+
+bool PlaySound::play(/*const std::string &fileName*/)
+{
+//	return startProcess(fileName);
+	// FIXME: for now, only support playing one file
+	if (m_fileList.empty()) {
+		return false;
+	}
+	return startProcess(m_fileList.front());
 }
 
 bool PlaySound::pause()

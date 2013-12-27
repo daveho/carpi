@@ -19,10 +19,31 @@
 #ifndef PLAYSOUND_H
 #define PLAYSOUND_H
 
+#include <vector>
 #include <string>
 #include <sys/types.h>
 
 #include "thread.h"
+
+//
+// Callback interface to receive asynchronous status updates
+// from the PlaySound subprocess.
+//
+class PlaySoundCallback {
+public:
+	enum PlayStatus {
+		STOPPED = 0,
+		PAUSED = 1,
+		RESUMED = 2,
+		ENDED = 3,
+	};
+
+	PlaySoundCallback();
+	virtual ~PlaySoundCallback();
+	
+	virtual void onFrame(int curFrame, int remainingFrames, float curTime, float remainingTime) = 0;
+	virtual void onPlayStatus(PlayStatus playStatus) = 0;
+};
 
 //
 // Play a sound file using mpg321 or ogg123 as a subprocess,
@@ -52,20 +73,26 @@ private:
 		virtual void run();
 	};
 
+	typedef std::vector<std::string> FileList;
+	FileList m_fileList;
 	State m_state;
 	pid_t m_pid;
 	int m_cmdfd;    // pipe to send commands to subprocess
 	int m_statusfd; // pipe to receive status updates from subprocess
-	//pthread_t m_monitor;
 	MonitorThread *m_monitor;
+	PlaySoundCallback *m_callback;
 	
 public:
 	PlaySound();
 	~PlaySound();
+	
+	void addFile(const std::string &fileName);
+	
+	void setCallback(PlaySoundCallback *callback) { m_callback = callback; }
 
 	State getState() const { return m_state; }
 	
-	bool play(const std::string &fileName);
+	bool play(/*const std::string &fileName*/);
 	bool pause();
 	bool resume();
 	bool stop();

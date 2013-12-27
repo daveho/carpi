@@ -75,6 +75,10 @@ public:
 		SELECTION_CHANGED, // menu selection changed
 		MENU_CHANGED,      // menu changed (items added/removed)
 		MENU_ITEM_SELECTED,// a menu item was selected
+		PLAYER_STOPPED,    // player is stopped
+		PLAYER_PAUSED,     // player is paused
+		PLAYER_RESUMED,    // player is resumed
+		PLAYER_ENDED,      // player has ended
 	};
 	
 private:
@@ -92,12 +96,35 @@ public:
 	virtual void accept(EventVisitor *visitor);
 };
 
+//
+// Event with status information about media (sound or video).
+//
+class MediaStatusEvent : public Event {
+private:
+	int m_curFrame;
+	int m_remainingFrames;
+	float m_curTime;
+	float m_remainingTime;
+	
+public:
+	MediaStatusEvent(int curFrame, int remainingFrames, float curTime, float remainingTime);
+	virtual ~MediaStatusEvent();
+	
+	int getCurFrame() const { return m_curFrame; }
+	int getRemainingFrames() const { return m_remainingFrames; }
+	float getCurTime() const { return m_curTime; }
+	float getRemainingTime() const { return m_remainingTime; }
+
+	virtual void accept(EventVisitor *visitor);
+};
+
 class EventVisitor {
 public:
 	EventVisitor();
 	virtual ~EventVisitor();
 	virtual void visitButtonEvent(ButtonEvent *evt) = 0;
 	virtual void visitNotificationEvent(NotificationEvent *evt) = 0;
+	virtual void visitMediaStatusEvent(MediaStatusEvent *evt) = 0;
 };
 
 #endif // EVENT_H

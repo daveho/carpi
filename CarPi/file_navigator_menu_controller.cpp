@@ -146,7 +146,9 @@ void FileNavigatorMenuController::populateMenuItems()
 		}
 		if (S_ISDIR(s.st_mode)) {
 			flags |= FLAG_DIRECTORY;
-		} else  if (!S_ISREG(s.st_mode)) {
+		} else if (S_ISREG(s.st_mode)) {
+			flags |= FLAG_FILE;
+		} else {
 			// Skip anything that's not a regular file or directory
 			continue;
 		}

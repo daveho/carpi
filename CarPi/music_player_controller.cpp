@@ -1,16 +1,84 @@
+#include "car_pi_app.h"
+#include "event.h"
+#include "event_queue.h"
+#include "play_sound.h"
 #include "music_player_controller.h"
 
-MusicPlayerController::MusicPlayerController()
+namespace {
+	//
+	// Callback to receive status updates from the player subprocess
+	// and post them to the event queue (so the view can respond to them
+	// appropriately.)
+	//
+	class StatusUpdateCallback : public PlaySoundCallback {
+	private:
+		PlaySound *m_playSound;
+		
+	public:
+		StatusUpdateCallback(PlaySound *m_playSound);
+		virtual ~StatusUpdateCallback();
+		
+		virtual void onFrame(int curFrame, int remainingFrames, float curTime, float remainingTime);
+		virtual void onPlayStatus(PlayStatus playStatus);
+	};
+	
+	StatusUpdateCallback::StatusUpdateCallback(PlaySound *playSound)
+		: m_playSound(playSound)
+	{
+	}
+	
+	StatusUpdateCallback::~StatusUpdateCallback()
+	{
+	}
+	
+	void StatusUpdateCallback::onFrame(int curFrame, int remainingFrames, float curTime, float remainingTime)
+	{
+		EventQueue::instance()->enqueue(new MediaStatusEvent(curFrame, remainingFrames, curTime, remainingTime));
+	}
+	
+	void StatusUpdateCallback::onPlayStatus(PlayStatus playStatus)
+	{
+		switch (playStatus) {
+			case STOPPED:
+				EventQueue::instance()->enqueue(new NotificationEvent(NotificationEvent::PLAYER_STOPPED, m_playSound));
+				break;
+			case PAUSED:
+				EventQueue::instance()->enqueue(new NotificationEvent(NotificationEvent::PLAYER_PAUSED, m_playSound));
+				break;
+			case RESUMED:
+				EventQueue::instance()->enqueue(new NotificationEvent(NotificationEvent::PLAYER_RESUMED, m_playSound));
+				break;
+			case ENDED:
+				EventQueue::instance()->enqueue(new NotificationEvent(NotificationEvent::PLAYER_ENDED, m_playSound));
+				break;
+		}
+	}
+}
+
+MusicPlayerController::MusicPlayerController(PlaySound *playSound)
+	: m_playSound(playSound)
+	, m_callback(new StatusUpdateCallback(playSound))
 {
+	m_playSound->setCallback(m_callback);
 }
 
 MusicPlayerController::~MusicPlayerController()
 {
+	if (m_playSound != 0) {
+		m_playSound->stop();
+		m_playSound->waitForIdle();
+		delete m_playSound;
+		delete m_callback;
+	}
 }
 
 void MusicPlayerController::visitButtonEvent(ButtonEvent *evt)
 {
-	
+	if (evt->getType() == ButtonEvent::RELEASE && evt->getCode() == ButtonEvent::LEFT) {
+		// Go back
+		setResult(EventHandler::HANDLED);
+		CarPiApp::instance()->popEventHandler();
+	}
 }
 
 void MusicPlayerController::visitNotificationEvent(NotificationEvent *evt)

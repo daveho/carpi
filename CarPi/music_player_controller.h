@@ -5,19 +5,20 @@
 #include <string>
 #include "abstract_event_visitor.h"
 
+class PlaySound;
+class PlaySoundCallback;
+
 class MusicPlayerController : public AbstractEventVisitor
 {
 private:
 	typedef std::vector<std::string> FileList;
 	FileList m_fileList;
+	PlaySound *m_playSound;
+	PlaySoundCallback *m_callback;
 	
 public:
-	MusicPlayerController();
+	MusicPlayerController(PlaySound *playSound);
 	~MusicPlayerController();
-	
-	void addFile(const std::string &fileName) {
-		m_fileList.push_back(fileName);
-	}
 
 	virtual void visitButtonEvent(ButtonEvent *evt);
 	virtual void visitNotificationEvent(NotificationEvent *evt);

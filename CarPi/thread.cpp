@@ -22,6 +22,7 @@
 Thread::Thread()
 	: m_started(false)
 	, m_finished(false)
+	, m_detached(false)
 {
 }
 

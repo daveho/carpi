@@ -44,6 +44,7 @@ public:
 
 	virtual void visitButtonEvent(ButtonEvent *evt);
 	virtual void visitNotificationEvent(NotificationEvent *evt);
+	virtual void visitMediaStatusEvent(MediaStatusEvent *evt);
 };
 
 #endif // ABSTRACTEVENTVISITOR_H

@@ -57,7 +57,11 @@ public:
 	void moveCursor(int row, int col);
 	void attr(int bg, int fg);
 	void print(const std::string &s);
+	void printf(const char *fmt, ...);
 	void commit();
+	
+private:
+	void setAttrs();
 };
 
 #endif // CONSOLE_H

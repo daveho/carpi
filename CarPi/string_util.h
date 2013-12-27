@@ -26,7 +26,15 @@ namespace StringUtil {
 	inline bool endsWith(const std::string &s, const std::string &suffix)
 	{
 		// See: http://stackoverflow.com/questions/874134/find-if-string-endswith-another-string-in-c
+		if (s.size() < suffix.size()) { return false; }
 		return std::mismatch(suffix.rbegin(), suffix.rend(), s.rbegin()).first == suffix.rend();
+	}
+	
+	inline bool startsWith(const std::string &s, const std::string &prefix)
+	{
+		// Same idea as endsWith
+		if (s.size() < prefix.size()) { return false; }
+		return std::mismatch(prefix.begin(), prefix.end(), s.begin()).first == prefix.end();
 	}
 	
 	inline std::string trimToSize(const std::string &s, size_t n)

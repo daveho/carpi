@@ -17,6 +17,7 @@
 // along with CarPi.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <cassert>
+#include <cstdarg>
 #include <ncurses.h>
 #include "console.h"
 
@@ -104,6 +105,26 @@ void Console::attr(int bg, int fg)
 
 void Console::print(const std::string &s)
 {
+	setAttrs();
+	printw("%s", s.c_str());
+}
+
+void Console::printf(const char *fmt, ...)
+{
+	va_list args;
+	
+	va_start(args, fmt);
+	vwprintw(stdscr, fmt, args);
+	va_end(args);
+}
+
+void Console::commit()
+{
+	refresh();
+}
+
+void Console::setAttrs()
+{
 	int bg = (m_attr>>4)&0xF;
 	int fg = (m_attr&0xF);
 
@@ -127,11 +148,4 @@ void Console::print(const std::string &s)
 	} else {
 		attroff(A_BLINK);
 	}
-	
-	printw("%s", s.c_str());
-}
-
-void Console::commit()
-{
-	refresh();
 }

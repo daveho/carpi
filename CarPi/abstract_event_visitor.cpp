@@ -35,10 +35,12 @@ EventHandler::Result AbstractEventVisitor::handleEvent(Event *evt)
 
 void AbstractEventVisitor::visitButtonEvent(ButtonEvent *evt)
 {
-	setResult(EventHandler::NOT_HANDLED);
 }
 
 void AbstractEventVisitor::visitNotificationEvent(NotificationEvent *evt)
 {
-	setResult(EventHandler::NOT_HANDLED);
+}
+
+void AbstractEventVisitor::visitMediaStatusEvent(MediaStatusEvent *evt)
+{
 }
