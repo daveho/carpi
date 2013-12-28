@@ -69,12 +69,12 @@ namespace StringUtil {
 		}
 		
 		// Skip trailing space characters
-		size_t e = s.size() - 1;
-		while (e > n && isspace(s[e])) {
+		size_t e = s.size();
+		while (e > n && isspace(s[e-1])) {
 			e--;
 		}
 		
-		return s.substr(n, s.size() - (n+e));
+		return s.substr(n, s.size() - (n+(s.size()-e)));
 	}
 };
 

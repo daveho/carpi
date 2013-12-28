@@ -77,7 +77,7 @@ void ConsMusicPlayerView::doPaint()
 	cons->moveCursor(4, 0);
 	cons->print(m_artist.substr(0, w));
 	
-	cons->attr(Console::BLACK, Console::BLUE+Console::INTENSE);
+	cons->attr(Console::BLACK, Console::BLUE);
 	cons->moveCursor(6, 0);
 	cons->print(m_album.substr(0, w));
 	
