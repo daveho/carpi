@@ -4,8 +4,8 @@
 ConsMusicPlayerView::ConsMusicPlayerView(const PlaySound *playSound)
 	: m_playSound(playSound)
 	, m_playerStatus(UNKNOWN)
-	, m_curTime(0.0f)
-	, m_totalTime(0.0f)
+	, m_curTime(0)
+	, m_totalTime(0)
 {
 }
 
@@ -96,7 +96,10 @@ void ConsMusicPlayerView::doPaint()
 	}
 	
 	cons->moveCursor(10, 0);
-	cons->printf("%.1f / %.1f", m_curTime, m_totalTime); // TODO: better formatting
+	//cons->printf("%.1f / %.1f", m_curTime, m_totalTime); // TODO: better formatting
+	int curTimeSec = m_curTime / 100;
+	int totalTimeSec = m_totalTime / 100;
+	cons->printf("% 2d:%02d / % 2d:%02d", curTimeSec/60, curTimeSec%60, totalTimeSec/60, totalTimeSec%60);
 	
 	cons->commit();
 }

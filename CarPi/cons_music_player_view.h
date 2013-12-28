@@ -21,7 +21,7 @@ private:
 	std::string m_title;
 	std::string m_artist;
 	std::string m_album;
-	float m_curTime, m_totalTime;
+	int m_curTime, m_totalTime;
 	
 public:
 	ConsMusicPlayerView(const PlaySound *playSound);

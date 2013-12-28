@@ -21,6 +21,7 @@
 
 #include <cctype>
 #include <string>
+#include <vector>
 #include <algorithm>
 
 namespace StringUtil {
@@ -75,6 +76,31 @@ namespace StringUtil {
 		}
 		
 		return s.substr(n, s.size() - (n+(s.size()-e)));
+	}
+	
+	// Source:
+	//   http://stackoverflow.com/questions/10051679/c-tokenize-string
+	// I changed the function name and indentation style, but otherwise
+	// it's copied verbatim.
+	inline std::vector<std::string> tokenize(const std::string &source, const char *delimiter = " ", bool keepEmpty = false)
+	{
+		std::vector<std::string> results;
+
+		size_t prev = 0;
+		size_t next = 0;
+
+		while ((next = source.find_first_of(delimiter, prev)) != std::string::npos) {
+			if (keepEmpty || (next - prev != 0)) {
+				results.push_back(source.substr(prev, next - prev));
+			}
+			prev = next + 1;
+		}
+
+		if (prev < source.size()) {
+			results.push_back(source.substr(prev));
+		}
+
+		return results;
 	}
 };
 

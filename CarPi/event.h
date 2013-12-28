@@ -120,22 +120,23 @@ public:
 
 //
 // Event with status information about media (sound or video).
+// Note that time is measured in hundredths of a second.
 //
 class MediaStatusEvent : public Event {
 private:
 	int m_curFrame;
 	int m_remainingFrames;
-	float m_curTime;
-	float m_remainingTime;
+	int m_curTime;
+	int m_remainingTime;
 	
 public:
-	MediaStatusEvent(int curFrame, int remainingFrames, float curTime, float remainingTime);
+	MediaStatusEvent(int curFrame, int remainingFrames, int curTime, int remainingTime);
 	virtual ~MediaStatusEvent();
 	
 	int getCurFrame() const { return m_curFrame; }
 	int getRemainingFrames() const { return m_remainingFrames; }
-	float getCurTime() const { return m_curTime; }
-	float getRemainingTime() const { return m_remainingTime; }
+	int getCurTime() const { return m_curTime; }
+	int getRemainingTime() const { return m_remainingTime; }
 
 	virtual void accept(EventVisitor *visitor);
 };

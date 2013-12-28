@@ -94,12 +94,19 @@ void PlaySound::MonitorThread::run()
 		}
 		
 		// See README.remote from mpg321 documentation
-		
-		
+
 		if (StringUtil::startsWith(line, "@F ")) {
 			int curFrame, remainingFrames;
-			float curTime, remainingTime;
-			if (sscanf(line.c_str() + 3, "%i %i %f %f", &curFrame, &remainingFrames, &curTime, &remainingTime) == 4) {
+			int curTime, remainingTime;
+//			if (sscanf(line.c_str() + 3, "%i %i %f %f", &curFrame, &remainingFrames, &curTime, &remainingTime) == 4) {
+//				callback->onFrame(curFrame, remainingFrames, curTime, remainingTime);
+//			}
+			std::vector<std::string> tokens = StringUtil::tokenize(line.substr(3, line.size()-3));
+			if (tokens.size() == 4) {
+				curFrame = atoi(tokens[0].c_str());
+				remainingFrames = atoi(tokens[1].c_str());
+				curTime = parseHundredths(tokens[2]);
+				remainingTime = parseHundredths(tokens[3]);
 				callback->onFrame(curFrame, remainingFrames, curTime, remainingTime);
 			}
 		} else if (StringUtil::startsWith(line, "@P ")) {
@@ -133,6 +140,18 @@ void PlaySound::MonitorThread::parseId3(const std::string &line, std::string &ti
 	title = StringUtil::trimSpaces(line.substr(0, 30));
 	artist = (len > 30) ? StringUtil::trimSpaces(line.substr(30, 30)) : "";
 	album = (len > 60) ? StringUtil::trimSpaces(line.substr(60, 30)) : "";
+}
+
+int PlaySound::MonitorThread::parseHundredths(const std::string &s)
+{
+	int val = 0;
+	int sec, h;
+	if (sscanf(s.c_str(), "%d.%d", &sec, &h) == 2) {
+		val = sec*100 + h;
+	} else if (sscanf(s.c_str(), "%d", &sec) == 1) {
+		val = sec*100;
+	}
+	return val;
 }
 
 PlaySound::PlaySound()

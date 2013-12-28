@@ -75,7 +75,8 @@ private:
 		virtual void run();
 		
 	private:
-		void parseId3(const std::string &line, std::string &title, std::string &artist, std::string &album);
+		static void parseId3(const std::string &line, std::string &title, std::string &artist, std::string &album);
+		static int parseHundredths(const std::string &s);
 	};
 
 	typedef std::vector<std::string> FileList;

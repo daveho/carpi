@@ -80,7 +80,7 @@ void MediaFileInfoEvent::accept(EventVisitor *visitor)
 	visitor->visitMediaFileInfoEvent(this);
 }
 
-MediaStatusEvent::MediaStatusEvent(int curFrame, int remainingFrames, float curTime, float remainingTime)
+MediaStatusEvent::MediaStatusEvent(int curFrame, int remainingFrames, int curTime, int remainingTime)
 	: m_curFrame(curFrame)
 	, m_remainingFrames(remainingFrames)
 	, m_curTime(curTime)
