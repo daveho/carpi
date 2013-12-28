@@ -37,6 +37,10 @@ void AbstractEventVisitor::visitButtonEvent(ButtonEvent *evt)
 {
 }
 
+void AbstractEventVisitor::visitMediaFileInfoEvent(MediaFileInfoEvent *evt)
+{
+}
+
 void AbstractEventVisitor::visitNotificationEvent(NotificationEvent *evt)
 {
 }

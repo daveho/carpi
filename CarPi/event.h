@@ -19,6 +19,8 @@
 #ifndef EVENT_H
 #define EVENT_H
 
+#include <string>
+
 class EventVisitor;
 
 //
@@ -97,6 +99,26 @@ public:
 };
 
 //
+// Event with status information about a media file (sound or video).
+//
+class MediaFileInfoEvent : public Event {
+private:
+	std::string m_title;
+	std::string m_artist;
+	std::string m_album;
+	
+public:
+	MediaFileInfoEvent(const std::string &title, const std::string &artist, const std::string &album);
+	virtual ~MediaFileInfoEvent();
+	
+	const std::string &getTitle() const { return m_title; }
+	const std::string &getArtist() const { return m_artist; }
+	const std::string &getAlbum() const { return m_album; }
+	
+	virtual void accept(EventVisitor *visitor);
+};
+
+//
 // Event with status information about media (sound or video).
 //
 class MediaStatusEvent : public Event {
@@ -124,6 +146,7 @@ public:
 	virtual ~EventVisitor();
 	virtual void visitButtonEvent(ButtonEvent *evt) = 0;
 	virtual void visitNotificationEvent(NotificationEvent *evt) = 0;
+	virtual void visitMediaFileInfoEvent(MediaFileInfoEvent *evt) = 0;
 	virtual void visitMediaStatusEvent(MediaStatusEvent *evt) = 0;
 };
 

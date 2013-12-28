@@ -111,8 +111,9 @@ void Console::print(const std::string &s)
 
 void Console::printf(const char *fmt, ...)
 {
-	va_list args;
+	setAttrs();
 	
+	va_list args;
 	va_start(args, fmt);
 	vwprintw(stdscr, fmt, args);
 	va_end(args);

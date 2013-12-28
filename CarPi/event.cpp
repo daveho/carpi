@@ -62,6 +62,24 @@ void NotificationEvent::accept(EventVisitor *visitor)
 	visitor->visitNotificationEvent(this);
 }
 
+MediaFileInfoEvent::MediaFileInfoEvent(const std::string &title, const std::string &artist, const std::string &album)
+	: m_title(title)
+	, m_artist(artist)
+	, m_album(album)
+{
+	
+}
+
+MediaFileInfoEvent::~MediaFileInfoEvent()
+{
+	
+}
+
+void MediaFileInfoEvent::accept(EventVisitor *visitor)
+{
+	visitor->visitMediaFileInfoEvent(this);
+}
+
 MediaStatusEvent::MediaStatusEvent(int curFrame, int remainingFrames, float curTime, float remainingTime)
 	: m_curFrame(curFrame)
 	, m_remainingFrames(remainingFrames)

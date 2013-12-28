@@ -44,6 +44,15 @@ void ConsMusicPlayerView::visitNotificationEvent(NotificationEvent *evt)
 	}
 }
 
+void ConsMusicPlayerView::visitMediaFileInfoEvent(MediaFileInfoEvent *evt)
+{
+	setResult(EventHandler::HANDLED);
+	m_title = evt->getTitle();
+	m_artist = evt->getArtist();
+	m_album = evt->getAlbum();
+	doPaint();
+}
+
 void ConsMusicPlayerView::visitMediaStatusEvent(MediaStatusEvent *evt)
 {
 	setResult(EventHandler::HANDLED);
@@ -56,11 +65,25 @@ void ConsMusicPlayerView::doPaint()
 {
 	Console *cons = Console::instance();
 	
+	size_t w = size_t(cons->getNumCols());
+	
 	cons->clear();
+	
+	cons->attr(Console::BLACK, Console::CYAN+Console::INTENSE);
+	cons->moveCursor(2, 0);
+	cons->print(m_title.substr(0, w));
+	
+	cons->attr(Console::BLACK, Console::CYAN);
+	cons->moveCursor(4, 0);
+	cons->print(m_artist.substr(0, w));
+	
+	cons->attr(Console::BLACK, Console::BLUE+Console::INTENSE);
+	cons->moveCursor(6, 0);
+	cons->print(m_album.substr(0, w));
 	
 	cons->attr(Console::BLACK, Console::GRAY);
 	
-	cons->moveCursor(2, 0);
+	cons->moveCursor(8, 0);
 	switch (m_playerStatus) {
 		case PLAYING:
 			cons->print("Playing"); break;
@@ -72,7 +95,7 @@ void ConsMusicPlayerView::doPaint()
 			break;
 	}
 	
-	cons->moveCursor(4, 0);
+	cons->moveCursor(10, 0);
 	cons->printf("%.1f / %.1f", m_curTime, m_totalTime); // TODO: better formatting
 	
 	cons->commit();

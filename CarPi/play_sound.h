@@ -41,6 +41,8 @@ public:
 	PlaySoundCallback();
 	virtual ~PlaySoundCallback();
 	
+	virtual void onFileName(const std::string &fileName) = 0;
+	virtual void onID3(const std::string &title, const std::string &artist, const std::string &album) = 0;
 	virtual void onFrame(int curFrame, int remainingFrames, float curTime, float remainingTime) = 0;
 	virtual void onPlayStatus(PlayStatus playStatus) = 0;
 };
@@ -71,6 +73,9 @@ private:
 		MonitorThread(PlaySound *ps);
 		virtual ~MonitorThread();
 		virtual void run();
+		
+	private:
+		void parseId3(const std::string &line, std::string &title, std::string &artist, std::string &album);
 	};
 
 	typedef std::vector<std::string> FileList;

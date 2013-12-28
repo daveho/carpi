@@ -18,6 +18,8 @@ namespace {
 		StatusUpdateCallback(PlaySound *m_playSound);
 		virtual ~StatusUpdateCallback();
 		
+		virtual void onFileName(const std::string &fileName);
+		virtual void onID3(const std::string &title, const std::string &artist, const std::string &album);
 		virtual void onFrame(int curFrame, int remainingFrames, float curTime, float remainingTime);
 		virtual void onPlayStatus(PlayStatus playStatus);
 	};
@@ -29,6 +31,15 @@ namespace {
 	
 	StatusUpdateCallback::~StatusUpdateCallback()
 	{
+	}
+
+	void StatusUpdateCallback::onFileName(const std::string &fileName)
+	{
+	}
+	
+	void StatusUpdateCallback::onID3(const std::string &title, const std::string &artist, const std::string &album)
+	{
+		EventQueue::instance()->enqueue(new MediaFileInfoEvent(title, artist, album));
 	}
 	
 	void StatusUpdateCallback::onFrame(int curFrame, int remainingFrames, float curTime, float remainingTime)

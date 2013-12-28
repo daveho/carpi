@@ -23,6 +23,7 @@
 #include <cstring>
 #include <cerrno>
 #include <cassert>
+#include <algorithm>
 #ifdef DEBUG_PLAYSOUND
 #  include <iostream>
 #endif
@@ -94,6 +95,7 @@ void PlaySound::MonitorThread::run()
 		
 		// See README.remote from mpg321 documentation
 		
+		
 		if (StringUtil::startsWith(line, "@F ")) {
 			int curFrame, remainingFrames;
 			float curTime, remainingTime;
@@ -107,10 +109,29 @@ void PlaySound::MonitorThread::run()
 					callback->onPlayStatus(static_cast<PlaySoundCallback::PlayStatus>(playStatus));
 				}
 			}
+		} else if (StringUtil::startsWith(line, "@I ID3:")) {
+			// Parse ID3 information
+			std::string title, artist, album;
+			parseId3(line.c_str() + 7, title, artist, album);
+			callback->onID3(title, artist, album);
+		} else if (StringUtil::startsWith(line, "@I ")) {
+			// Parse file name
 		}
 	}
 	
 	fclose(f);
+}
+
+void PlaySound::MonitorThread::parseId3(const std::string &line, std::string &title, std::string &artist, std::string &album)
+{
+	// Each field is exactly 30 characters
+	// Example:
+	// @I ID3:Julia                         Asylum Party                  Picture One                   1989                              Coldwave
+	// line contains just the part after "@I ID3:"
+	size_t len = line.size();
+	title = StringUtil::trimSpaces(line.substr(0, 30));
+	artist = (len > 30) ? StringUtil::trimSpaces(line.substr(30, 60)) : "";
+	album = (len > 60) ? StringUtil::trimSpaces(line.substr(60, 90)) : "";
 }
 
 PlaySound::PlaySound()

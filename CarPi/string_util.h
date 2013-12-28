@@ -19,6 +19,7 @@
 #ifndef STRING_UTIL_H
 #define STRING_UTIL_H
 
+#include <cctype>
 #include <string>
 #include <algorithm>
 
@@ -54,6 +55,26 @@ namespace StringUtil {
 			result += ' ';
 		}
 		return result;
+	}
+	
+	// Trim leading and trailing space characters from given string
+	inline std::string trimSpaces(const std::string &s)
+	{
+		if (s.empty()) { return s; }
+		
+		// Skip leading space characters
+		size_t n = 0;
+		while (n < s.size() && isspace(s[n])) {
+			n++;
+		}
+		
+		// Skip trailing space characters
+		size_t e = s.size() - 1;
+		while (e > n && isspace(s[e])) {
+			e--;
+		}
+		
+		return s.substr(n, s.size() - (n+e));
 	}
 };
 
