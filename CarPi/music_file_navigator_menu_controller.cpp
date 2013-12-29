@@ -90,22 +90,32 @@ void MusicFileNavigatorMenuController::visitButtonEvent(ButtonEvent *evt)
 	if (evt->getType() == ButtonEvent::RELEASE && evt->getCode() == ButtonEvent::RIGHT) {
 		const MenuItem *menuItem = getMenu()->getSelectedItem();
 		if (menuItem->hasFlag(MenuItem::FLAG_FILE)) {
+			setResult(EventHandler::HANDLED);
+			
 			// Play file!
-			std::string path = getFullPath(getCurrentDir(), menuItem->getName());
-			PlaySound *playSound = new PlaySound();
-			playSound->addFile(path);
-			MusicPlayerController *controller = new MusicPlayerController(playSound);
-			ConsMusicPlayerView *view = new ConsMusicPlayerView(playSound);
-			CompositeEventHandler *pair = new CompositeEventHandler(controller, view);
-			CarPiApp::instance()->pushEventHandler(pair);
+			PlaySound *playSound = createPlayer();
 			
 			// At this point it should be safe to start playing, since
 			// the controller and view are ready to receive events.
+			std::string path = getFullPath(getCurrentDir(), menuItem->getName());
+			playSound->addFile(path);
 			playSound->play(0);
+		} else if (menuItem->getValue() == PLAY_ALL_VALUE) {
+			// TODO
 		}
 	}
 	
 	if (!handled()) {
 		Base::visitButtonEvent(evt);
 	}
+}
+
+PlaySound *MusicFileNavigatorMenuController::createPlayer()
+{
+	PlaySound *playSound = new PlaySound();
+	MusicPlayerController *controller = new MusicPlayerController(playSound);
+	ConsMusicPlayerView *view = new ConsMusicPlayerView(playSound);
+	CompositeEventHandler *pair = new CompositeEventHandler(controller, view);
+	CarPiApp::instance()->pushEventHandler(pair);
+	return playSound;
 }

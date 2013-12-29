@@ -20,6 +20,7 @@
 #define MUSICFILENAVIGATORMENUCONTROLLER_H
 
 #include "file_navigator_menu_controller.h"
+class PlaySound;
 
 //
 // FileNavigatorMenuController specialization for browsing and playing
@@ -43,6 +44,9 @@ public:
 	virtual void onMenuPopulated(Menu *menu);
 	
 	virtual void visitButtonEvent(ButtonEvent *evt);
+	
+private:
+	PlaySound *createPlayer();
 };
 
 #endif // MUSICFILENAVIGATORMENUCONTROLLER_H
