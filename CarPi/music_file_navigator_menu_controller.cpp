@@ -23,6 +23,7 @@
 #include "music_player_controller.h"
 #include "cons_music_player_view.h"
 #include "composite_event_handler.h"
+#include "static_menu.h"
 #include "music_file_navigator_menu_controller.h"
 
 MusicFileNavigatorMenuController::MusicFileNavigatorMenuController(const std::string &baseDir)
@@ -47,6 +48,41 @@ bool MusicFileNavigatorMenuController::includeEntry(const std::string &entryName
 	}
 	
 	return false;
+}
+
+void MusicFileNavigatorMenuController::onMenuPopulated(Menu *menu_)
+{
+	StaticMenu *menu = static_cast<StaticMenu *>(menu_);
+	
+	// Add the special "<<Play all>>" item after the PARENT_DIR_VALUE item
+	// or at the beginning of the menu (if the menu is the root of the
+	// music directory).
+	
+	// First, check to see if there are any actual music files.
+	// If not, then do nothing.
+	bool hasFiles = false;
+	for (size_t i = 0; i < menu->getNumItems(); i++) {
+		if (menu->getItem(i)->hasFlag(MenuItem::FLAG_FILE)) {
+			hasFiles = true;
+			break;
+		}
+	}
+	if (!hasFiles) {
+		return;
+	}
+	
+	// Find an appropriate insert position
+	for (size_t i = 0; i < menu->getNumItems(); i++) {
+		if (menu->getItem(i)->getValue() == FileNavigatorMenuController::PARENT_DIR_VALUE) {
+			menu->insertAndAdoptItem(i+1, new MenuItem("<<Play all>>", PLAY_ALL_VALUE));
+			return;
+		}
+	}
+	
+	// There was no parent dir item, so this must be the
+	// root music directory.  In this case, insert the <<Play All>> item
+	// at the beginning.
+	menu->insertAndAdoptItem(0, new MenuItem("<<Play all>>", PLAY_ALL_VALUE));
 }
 
 void MusicFileNavigatorMenuController::visitButtonEvent(ButtonEvent *evt)

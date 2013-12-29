@@ -23,6 +23,9 @@
 #include <vector>
 #include "menu_controller.h"
 
+//
+// MenuController specialization for file navigation.
+//
 class FileNavigatorMenuController : public MenuController
 {
 private:
@@ -56,6 +59,11 @@ public:
 	// Downcall method: subclasses can override to filter files and directories.
 	// Default is that all entries are included.
 	virtual bool includeEntry(const std::string &entryName, int flags);
+	
+	// Downcall method: called when menu items are populated,
+	// subclass can override to add/remove items.
+	// Default implementation is a no-op.
+	virtual void onMenuPopulated(Menu *menu);
 
 protected:
 	static std::string getFullPath(const std::string &dirName, const std::string &entryName);

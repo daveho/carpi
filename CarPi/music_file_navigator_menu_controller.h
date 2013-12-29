@@ -21,8 +21,17 @@
 
 #include "file_navigator_menu_controller.h"
 
+//
+// FileNavigatorMenuController specialization for browsing and playing
+// music files.
+//
 class MusicFileNavigatorMenuController : public FileNavigatorMenuController
 {
+public:
+	enum {
+		PLAY_ALL_VALUE, // value for menu item that plays all files in directory
+	};
+	
 private:
 	typedef FileNavigatorMenuController Base;
 	
@@ -31,6 +40,7 @@ public:
 	~MusicFileNavigatorMenuController();
 
 	virtual bool includeEntry(const std::string &entryName, int flags);
+	virtual void onMenuPopulated(Menu *menu);
 	
 	virtual void visitButtonEvent(ButtonEvent *evt);
 };

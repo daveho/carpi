@@ -105,6 +105,11 @@ bool FileNavigatorMenuController::includeEntry(const std::string &entryName, int
 	return true;
 }
 
+void FileNavigatorMenuController::onMenuPopulated(Menu *menu)
+{
+	// Default implementation is a no-op
+}
+
 void FileNavigatorMenuController::populateMenuItems()
 {
 	assert(m_dirStack.size() > 0);
@@ -167,6 +172,9 @@ void FileNavigatorMenuController::populateMenuItems()
 	
 	// Sort the menu items
 	menu->sort(compareDirectoryEntries);
+	
+	// Allow the subclass to contribute additional menu items
+	onMenuPopulated(menu);
 }
 
 void FileNavigatorMenuController::onDirectoryChanged()

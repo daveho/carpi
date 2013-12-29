@@ -37,6 +37,12 @@ void StaticMenu::addAndAdoptItem(MenuItem *menuItem)
 	m_itemList.push_back(menuItem);
 }
 
+void StaticMenu::insertAndAdoptItem(size_t pos, MenuItem *menuItem)
+{
+	assert(pos <= m_itemList.size());
+	m_itemList.insert(m_itemList.begin() + pos, menuItem);
+}
+
 size_t StaticMenu::getNumItems() const
 {
 	return size_t(m_itemList.size());

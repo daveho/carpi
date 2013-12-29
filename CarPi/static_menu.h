@@ -36,6 +36,8 @@ public:
 	~StaticMenu();
 
 	virtual void addAndAdoptItem(MenuItem *menuItem);
+	virtual void insertAndAdoptItem(size_t pos, MenuItem *menuItem);
+
 	virtual size_t getNumItems() const;
 	virtual const MenuItem *getItem(size_t i) const;
 	virtual size_t getSelected() const;
