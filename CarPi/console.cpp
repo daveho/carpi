@@ -119,6 +119,20 @@ void Console::printf(const char *fmt, ...)
 	va_end(args);
 }
 
+void Console::printCenter(int row, const std::string &s)
+{
+	if (int(s.size()) > m_numCols) {
+		moveCursor(row, 0);
+		print(s.substr(0, m_numCols));
+	} else {
+		int excess = m_numCols - int(s.size());
+		moveCursor(row, 0);
+		clearToEOL();
+		moveCursor(row, excess/2);
+		print(s);
+	}
+}
+
 void Console::commit()
 {
 	refresh();

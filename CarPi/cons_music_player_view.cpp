@@ -70,35 +70,30 @@ void ConsMusicPlayerView::doPaint()
 	cons->clear();
 	
 	cons->attr(Console::BLACK, Console::CYAN+Console::INTENSE);
-	cons->moveCursor(2, 0);
-	cons->print(m_title.substr(0, w));
+	cons->printCenter(2, m_title);
 	
 	cons->attr(Console::BLACK, Console::CYAN);
-	cons->moveCursor(4, 0);
-	cons->print(m_artist.substr(0, w));
+	cons->printCenter(4, m_artist);
 	
 	cons->attr(Console::BLACK, Console::BLUE);
-	cons->moveCursor(6, 0);
-	cons->print(m_album.substr(0, w));
+	cons->printCenter(6, m_album);
 	
 	cons->attr(Console::BLACK, Console::GRAY);
 	
-	cons->moveCursor(8, 0);
 	switch (m_playerStatus) {
 		case PLAYING:
-			cons->print("Playing"); break;
+			cons->printCenter(8, "Playing"); break;
 		case PAUSED:
-			cons->print("Paused"); break;
+			cons->printCenter(8, "Paused"); break;
 		case STOPPED:
-			cons->print("Stopped"); break;
+			cons->printCenter(8, "Stopped"); break;
 		default:
 			break;
 	}
 	
-	cons->moveCursor(10, 0);
-	//cons->printf("%.1f / %.1f", m_curTime, m_totalTime); // TODO: better formatting
 	int curTimeSec = m_curTime / 100;
 	int totalTimeSec = m_totalTime / 100;
+	cons->moveCursor(10, (cons->getNumCols() - 13) / 2);
 	cons->printf("% 2d:%02d / % 2d:%02d", curTimeSec/60, curTimeSec%60, totalTimeSec/60, totalTimeSec%60);
 	
 	cons->commit();

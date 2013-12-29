@@ -58,6 +58,7 @@ public:
 	void attr(int bg, int fg);
 	void print(const std::string &s);
 	void printf(const char *fmt, ...);
+	void printCenter(int row, const std::string &s);
 	void commit();
 	
 private:
