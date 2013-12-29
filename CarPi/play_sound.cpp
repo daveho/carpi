@@ -164,6 +164,7 @@ PlaySound::PlaySound()
 	, m_cmdfd(-1)
 	, m_statusfd(-1)
 	, m_monitor(0)
+	, m_callback(0)
 {
 }
 
@@ -176,14 +177,21 @@ void PlaySound::addFile(const std::string &fileName)
 	m_fileList.push_back(fileName);
 }
 
-bool PlaySound::play(/*const std::string &fileName*/)
+bool PlaySound::play(size_t i)
 {
 //	return startProcess(fileName);
 	// FIXME: for now, only support playing one file
-	if (m_fileList.empty()) {
+	if (i >= m_fileList.size()) {
 		return false;
 	}
-	return startProcess(m_fileList.front());
+	std::string fileName(m_fileList[i]);
+	if (m_state < ACTIVE) {
+		FileType fileType = determineFileType(fileName);
+		startProcess(fileType);
+	}
+	sendCommand("load " + fileName);
+	m_state = PLAYING;
+	return true;
 }
 
 bool PlaySound::pause()
@@ -216,10 +224,10 @@ bool PlaySound::stop()
 	return true;
 }
 
-void PlaySound::waitForIdle()
+bool PlaySound::waitForIdle()
 {
 	if (m_state != EXITING) {
-		return;
+		return false;
 	}
 	
 	// Close pipes to subprocess
@@ -240,6 +248,21 @@ void PlaySound::waitForIdle()
 	m_pid = -1;
 	m_cmdfd = -1;
 	m_statusfd = -1;
+	
+	return true;
+}
+
+
+PlaySound::FileType PlaySound::determineFileType(const std::string &fileName)
+{
+	if (StringUtil::endsWith(fileName, ".mp3")) {
+		return MP3;
+	} else if (StringUtil::endsWith(fileName, ".ogg")) {
+		return OGG;
+	} else {
+		// Unknown file extension
+		return UNKNOWN;
+	}
 }
 
 void PlaySound::closefd(int fd)
@@ -256,21 +279,17 @@ void PlaySound::sendCommand(const std::string &cmd)
 	}
 }
 
-bool PlaySound::startProcess(const std::string &fileName)
+bool PlaySound::startProcess(FileType fileType)
 {
 	bool rc = false;
-	std::string playerExe;
 
 	assert(m_state == IDLE);
-
-	// Determine which player to use
-	if (StringUtil::endsWith(fileName, ".mp3")) {
-		playerExe = MPG321_EXE_PATH;
-	} else if (StringUtil::endsWith(fileName, ".ogg")) {
-		playerExe = OGG123_EXE_PATH;
-	} else {
-		// Unknown file extension
-		return false;
+	
+	std::string playerExe;
+	switch (fileType) {
+		case MP3: playerExe = MPG321_EXE_PATH; break;
+		case OGG: playerExe = OGG123_EXE_PATH; break;
+		default: assert(false);
 	}
 	
 	int cmdpipe_fd[2] = {-1, -1};
@@ -306,11 +325,7 @@ bool PlaySound::startProcess(const std::string &fileName)
 		m_monitor = new MonitorThread(this);
 		m_monitor->start();
 
-		// tell the child to start playing the song
-		std::string playCommand("load " + fileName);
-		sendCommand(playCommand);
-
-		m_state = PLAYING;
+		m_state = ACTIVE;
 
 		// success!
 		rc = true;

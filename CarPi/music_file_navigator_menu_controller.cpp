@@ -101,7 +101,7 @@ void MusicFileNavigatorMenuController::visitButtonEvent(ButtonEvent *evt)
 			
 			// At this point it should be safe to start playing, since
 			// the controller and view are ready to receive events.
-			playSound->play();
+			playSound->play(0);
 		}
 	}
 	

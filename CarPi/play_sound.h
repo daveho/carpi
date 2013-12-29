@@ -19,6 +19,7 @@
 #ifndef PLAYSOUND_H
 #define PLAYSOUND_H
 
+#include <cstddef>
 #include <vector>
 #include <string>
 #include <sys/types.h>
@@ -54,11 +55,25 @@ public:
 class PlaySound
 {
 public:
+	//
+	// "Synchronous" player state: these are only affected
+	// by calls to the control methods, not by the asynchronous
+	// state of the subprocess.  Subprocess state must
+	// be monitored using the status callback (whose methods
+	// will be called from the subprocess monitor thread.)
+	//
 	enum State {
 		IDLE,     // subprocess not running
+		ACTIVE,   // subprocess is running, but playing has not started
 		PLAYING,  // subprocess is playing sound file
 		PAUSED,   // subprocess is paused
 		EXITING,  // subprocess is exiting
+	};
+	
+	enum FileType {
+		UNKNOWN,
+		MP3,
+		OGG,
 	};
 	
 private:
@@ -93,22 +108,23 @@ public:
 	~PlaySound();
 	
 	void addFile(const std::string &fileName);
+	size_t getNumFiles() const { return m_fileList.size(); }
 	
 	void setCallback(PlaySoundCallback *callback) { m_callback = callback; }
 
 	State getState() const { return m_state; }
 	
-	bool play(/*const std::string &fileName*/);
+	bool play(size_t i);
 	bool pause();
 	bool resume();
 	bool stop();
-	void waitForIdle();
+	bool waitForIdle();
 	
 private:
+	static FileType determineFileType(const std::string &fileName);
 	static void closefd(int fd);
-	//static void *monitor(void *arg);
 	void sendCommand(const std::string &cmd);
-	bool startProcess(const std::string &fileName);
+	bool startProcess(FileType fileType);
 };
 
 #endif // PLAYSOUND_H
