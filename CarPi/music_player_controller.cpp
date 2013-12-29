@@ -85,10 +85,26 @@ MusicPlayerController::~MusicPlayerController()
 
 void MusicPlayerController::visitButtonEvent(ButtonEvent *evt)
 {
-	if (evt->getType() == ButtonEvent::RELEASE && evt->getCode() == ButtonEvent::LEFT) {
-		// Go back
-		setResult(EventHandler::HANDLED);
-		CarPiApp::instance()->popEventHandler();
+	if (evt->getType() == ButtonEvent::RELEASE) {
+		switch (evt->getCode()) {
+			case ButtonEvent::LEFT:
+				// Go back
+				setResult(EventHandler::HANDLED);
+				CarPiApp::instance()->popEventHandler();
+				break;
+			case ButtonEvent::UP:
+				// Go to previous file
+				setResult(EventHandler::HANDLED);
+				m_playSound->previous();
+				break;
+			case ButtonEvent::DOWN:
+				// Go to next file
+				setResult(EventHandler::HANDLED);
+				m_playSound->next();
+				break;
+			default:
+				break;
+		}
 	}
 }
 

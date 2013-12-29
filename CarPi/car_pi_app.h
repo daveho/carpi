@@ -23,6 +23,11 @@
 
 class EventHandler;
 
+//
+// Main application base class.
+// Subclasses will provide implementations for specific user
+// interfaces (e.g., console).
+//
 class CarPiApp
 {
 private:

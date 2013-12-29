@@ -205,6 +205,16 @@ bool PlaySound::play(size_t i)
 	return true;
 }
 
+bool PlaySound::previous()
+{
+	return (m_selectedFile > 0) ? play(m_selectedFile - 1) : false;
+}
+
+bool PlaySound::next()
+{
+	return (m_fileList.size() > 1 && m_selectedFile < m_fileList.size()-1) ? play(m_selectedFile+1) : false;
+}
+
 bool PlaySound::pause()
 {
 	if (m_state != PLAYING) {

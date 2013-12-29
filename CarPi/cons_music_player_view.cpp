@@ -65,8 +65,6 @@ void ConsMusicPlayerView::doPaint()
 {
 	Console *cons = Console::instance();
 	
-	size_t w = size_t(cons->getNumCols());
-	
 	cons->clear();
 	
 	cons->attr(Console::BLACK, Console::CYAN+Console::INTENSE);

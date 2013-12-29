@@ -119,6 +119,8 @@ public:
 	size_t getSelectedFile() const { return m_selectedFile; }
 	
 	bool play(size_t i);
+	bool previous();
+	bool next();
 	bool pause();
 	bool resume();
 	bool stop();
