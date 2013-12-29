@@ -98,9 +98,6 @@ void PlaySound::MonitorThread::run()
 		if (StringUtil::startsWith(line, "@F ")) {
 			int curFrame, remainingFrames;
 			int curTime, remainingTime;
-//			if (sscanf(line.c_str() + 3, "%i %i %f %f", &curFrame, &remainingFrames, &curTime, &remainingTime) == 4) {
-//				callback->onFrame(curFrame, remainingFrames, curTime, remainingTime);
-//			}
 			std::vector<std::string> tokens = StringUtil::tokenize(line.substr(3, line.size()-3));
 			if (tokens.size() == 4) {
 				curFrame = atoi(tokens[0].c_str());
@@ -147,6 +144,13 @@ int PlaySound::MonitorThread::parseHundredths(const std::string &s)
 	int val = 0;
 	int sec, h;
 	if (sscanf(s.c_str(), "%d.%d", &sec, &h) == 2) {
+		// Note: we're assuming here that the part after the decimal point
+		// is exactly 2 digits.  If it's not, then this computation won't
+		// be accurate.  However, it doesn't matter since we're only
+		// interested in second-level timing.
+		if (h > 99) {
+			h = 99;
+		}
 		val = sec*100 + h;
 	} else if (sscanf(s.c_str(), "%d", &sec) == 1) {
 		val = sec*100;
