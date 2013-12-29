@@ -97,6 +97,7 @@ private:
 	typedef std::vector<std::string> FileList;
 	FileList m_fileList;
 	State m_state;
+	size_t m_selectedFile;
 	pid_t m_pid;
 	int m_cmdfd;    // pipe to send commands to subprocess
 	int m_statusfd; // pipe to receive status updates from subprocess
@@ -113,6 +114,7 @@ public:
 	void setCallback(PlaySoundCallback *callback) { m_callback = callback; }
 
 	State getState() const { return m_state; }
+	size_t getSelectedFile() const { return m_selectedFile; }
 	
 	bool play(size_t i);
 	bool pause();

@@ -91,17 +91,24 @@ void MusicFileNavigatorMenuController::visitButtonEvent(ButtonEvent *evt)
 		const MenuItem *menuItem = getMenu()->getSelectedItem();
 		if (menuItem->hasFlag(MenuItem::FLAG_FILE)) {
 			setResult(EventHandler::HANDLED);
-			
-			// Play file!
 			PlaySound *playSound = createPlayer();
-			
-			// At this point it should be safe to start playing, since
-			// the controller and view are ready to receive events.
+			// Add just the selected file
 			std::string path = getFullPath(getCurrentDir(), menuItem->getName());
 			playSound->addFile(path);
 			playSound->play(0);
 		} else if (menuItem->getValue() == PLAY_ALL_VALUE) {
-			// TODO
+			setResult(EventHandler::HANDLED);
+			PlaySound *playSound = createPlayer();
+			// Add all files in the directory
+			for (size_t i = 0; i < getMenu()->getNumItems(); i++) {
+				const MenuItem *menuItem = getMenu()->getItem(i);
+				if (menuItem->hasFlag(MenuItem::FLAG_FILE)) {
+					std::string path = getFullPath(getCurrentDir(), menuItem->getName());
+					playSound->addFile(path);
+				}
+			}
+			// Start playing the first file
+			playSound->play(0);
 		}
 	}
 	

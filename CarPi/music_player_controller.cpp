@@ -94,5 +94,15 @@ void MusicPlayerController::visitButtonEvent(ButtonEvent *evt)
 
 void MusicPlayerController::visitNotificationEvent(NotificationEvent *evt)
 {
-	
+	// Listen for PLAYER_ENDED events: if there are more files to
+	// play, start the next one.
+	NotificationEvent::Type type = evt->getType();
+	if (type == NotificationEvent::PLAYER_ENDED) {
+		size_t selected = m_playSound->getSelectedFile();
+		if (m_playSound->getNumFiles() > 1 && selected < m_playSound->getNumFiles() - 1) {
+			m_playSound->play(selected + 1);
+		}
+		// NOTE: don't set the result to HANDLED, since the view might also
+		// want to handle this notification
+	}
 }

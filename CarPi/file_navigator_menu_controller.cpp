@@ -17,6 +17,9 @@
 // along with CarPi.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <cassert>
+#include <cstdlib>
+#include <cstdio>
+#include <cctype>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <dirent.h>
@@ -28,15 +31,44 @@
 #include "file_navigator_menu_controller.h"
 
 namespace {
+	// If the given string starts with a non-negative integer prefix,
+	// return it.  Otherwise, return -1.
+	int numericPrefix(const std::string &s) {
+		if (s.empty() || !isdigit(s[0])) {
+			return -1;
+		}
+		int val = 0;
+		size_t i = 0;
+		while (i < s.size() && isdigit(s[i])) {
+			val *= 10;
+			val += (s[i] - '0');
+			i++;
+		}
+		return val;
+	}
+	
 	bool compareDirectoryEntries(MenuItem *left, MenuItem *right) {
-		// Directories preceed regular files
+		// Directories precede regular files
 		bool leftIsDir = left->hasFlag(MenuItem::FLAG_DIRECTORY);
 		bool rightIsDir = right->hasFlag(MenuItem::FLAG_DIRECTORY);
 		if (leftIsDir != rightIsDir) {
 			return leftIsDir;
 		}
 		
-		// Compare based on name
+		// If both filenames start with an integer prefix,
+		// and they are not the same number, use those to determine the
+		// comparison order.  This ensures that, e.g.,
+		// "10 - Mix Up the Satellites.mp3" comes *after*
+		// "2 - My Son, My Secretary, My Country.mp3", rather
+		// than before it (which is what would happen using
+		// strict lexicographical order.
+		int lnum = numericPrefix(left->getName());
+		int rnum = numericPrefix(right->getName());
+		if (lnum >= 0 && rnum >= 0 && lnum != rnum) {
+			return lnum < rnum;
+		}
+		
+		// Lexicographical comparison
 		return left->getName() < right->getName();
 	}
 }

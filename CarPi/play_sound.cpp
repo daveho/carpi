@@ -160,6 +160,7 @@ int PlaySound::MonitorThread::parseHundredths(const std::string &s)
 
 PlaySound::PlaySound()
 	: m_state(IDLE)
+	, m_selectedFile(0)
 	, m_pid(-1)
 	, m_cmdfd(-1)
 	, m_statusfd(-1)
@@ -179,8 +180,6 @@ void PlaySound::addFile(const std::string &fileName)
 
 bool PlaySound::play(size_t i)
 {
-//	return startProcess(fileName);
-	// FIXME: for now, only support playing one file
 	if (i >= m_fileList.size()) {
 		return false;
 	}
@@ -191,6 +190,7 @@ bool PlaySound::play(size_t i)
 	}
 	sendCommand("load " + fileName);
 	m_state = PLAYING;
+	m_selectedFile = i;
 	return true;
 }
 
