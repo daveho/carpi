@@ -198,6 +198,8 @@ bool PlaySound::play(size_t i)
 	if (m_state < ACTIVE) {
 		FileType fileType = determineFileType(fileName);
 		startProcess(fileType);
+	} else if (m_state == PLAYING) {
+		sendCommand("stop\n");
 	}
 	sendCommand("load " + fileName);
 	m_state = PLAYING;
