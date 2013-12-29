@@ -27,6 +27,13 @@
 // Menu item class.
 //
 class MenuItem {
+public:
+	// Menu item flags.
+	enum {
+		FLAG_DIRECTORY = 1,
+		FLAG_FILE = 2,
+	};
+
 private:
 	std::string m_name;
 	int m_value;

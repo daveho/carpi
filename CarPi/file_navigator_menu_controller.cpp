@@ -30,8 +30,8 @@
 namespace {
 	bool compareDirectoryEntries(MenuItem *left, MenuItem *right) {
 		// Directories preceed regular files
-		bool leftIsDir = left->hasFlag(FileNavigatorMenuController::FLAG_DIRECTORY);
-		bool rightIsDir = right->hasFlag(FileNavigatorMenuController::FLAG_DIRECTORY);
+		bool leftIsDir = left->hasFlag(MenuItem::FLAG_DIRECTORY);
+		bool rightIsDir = right->hasFlag(MenuItem::FLAG_DIRECTORY);
 		if (leftIsDir != rightIsDir) {
 			return leftIsDir;
 		}
@@ -84,7 +84,7 @@ void FileNavigatorMenuController::visitNotificationEvent(NotificationEvent *evt)
 		} else if (selectedItem->getValue() >= FIRST_FILE_VALUE) {
 			setResult(EventHandler::HANDLED);
 			
-			if (selectedItem->hasFlag(FLAG_DIRECTORY)) {
+			if (selectedItem->hasFlag(MenuItem::FLAG_DIRECTORY)) {
 				// Navigate into subdirectory
 				m_dirStack.push_back(getFullPath(m_dirStack.back(), selectedItem->getName()));
 				onDirectoryChanged();
@@ -145,9 +145,9 @@ void FileNavigatorMenuController::populateMenuItems()
 			continue;
 		}
 		if (S_ISDIR(s.st_mode)) {
-			flags |= FLAG_DIRECTORY;
+			flags |= MenuItem::FLAG_DIRECTORY;
 		} else if (S_ISREG(s.st_mode)) {
-			flags |= FLAG_FILE;
+			flags |= MenuItem::FLAG_FILE;
 		} else {
 			// Skip anything that's not a regular file or directory
 			continue;

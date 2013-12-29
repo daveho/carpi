@@ -43,12 +43,6 @@ public:
 		// menu item value for first actual file or subdirectory
 		FIRST_FILE_VALUE = 100,
 	};
-	
-	// Menu item flags.
-	enum {
-		FLAG_DIRECTORY = 1,
-		FLAG_FILE = 2,
-	};
 
 	FileNavigatorMenuController(const std::string &baseDir);
 	~FileNavigatorMenuController();

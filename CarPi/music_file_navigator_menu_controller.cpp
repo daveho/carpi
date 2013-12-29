@@ -37,7 +37,7 @@ MusicFileNavigatorMenuController::~MusicFileNavigatorMenuController()
 bool MusicFileNavigatorMenuController::includeEntry(const std::string &entryName, int flags)
 {
 	// Include all directories
-	if ((flags & FLAG_DIRECTORY) != 0) {
+	if ((flags & MenuItem::FLAG_DIRECTORY) != 0) {
 		return true;
 	}
 	
@@ -53,7 +53,7 @@ void MusicFileNavigatorMenuController::visitButtonEvent(ButtonEvent *evt)
 {
 	if (evt->getType() == ButtonEvent::RELEASE && evt->getCode() == ButtonEvent::RIGHT) {
 		const MenuItem *menuItem = getMenu()->getSelectedItem();
-		if (menuItem->hasFlag(FLAG_FILE)) {
+		if (menuItem->hasFlag(MenuItem::FLAG_FILE)) {
 			// Play file!
 			std::string path = getFullPath(getCurrentDir(), menuItem->getName());
 			PlaySound *playSound = new PlaySound();

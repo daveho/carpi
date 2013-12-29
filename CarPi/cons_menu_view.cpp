@@ -91,7 +91,12 @@ void ConsMenuView::doPaint()
 			} else {
 				cons->attr(Console::BLACK, Console::GRAY);
 			}
-			std::string text = StringUtil::padWithSpaces(menu->getItem(item)->getName(), size_t(cons->getNumCols()));
+			const MenuItem *menuItem = menu->getItem(item);
+			std::string itemName = menuItem->getName();
+			if (menuItem->hasFlag(MenuItem::FLAG_DIRECTORY)) {
+				itemName += "/";
+			}
+			std::string text = StringUtil::padWithSpaces(itemName, size_t(cons->getNumCols()));
 			cons->print(text);
 		} else {
 			// Just clear the line
