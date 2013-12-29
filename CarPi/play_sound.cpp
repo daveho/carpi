@@ -74,6 +74,7 @@ PlaySoundCallback::~PlaySoundCallback()
 
 PlaySound::MonitorThread::MonitorThread(PlaySound *ps)
 	: m_ps(ps)
+	, m_currentStatus(PlaySoundCallback::STOPPED)
 {
 }
 
@@ -96,6 +97,9 @@ void PlaySound::MonitorThread::run()
 		// See README.remote from mpg321 documentation
 
 		if (StringUtil::startsWith(line, "@F ")) {
+			// A file is definitely playing if we receive this message.
+			updateStatus(PlaySoundCallback::PLAYING);
+			
 			int curFrame, remainingFrames;
 			int curTime, remainingTime;
 			std::vector<std::string> tokens = StringUtil::tokenize(line.substr(3, line.size()-3));
@@ -109,9 +113,7 @@ void PlaySound::MonitorThread::run()
 		} else if (StringUtil::startsWith(line, "@P ")) {
 			int playStatus;
 			if (sscanf(line.c_str() + 3, "%d", &playStatus) == 1) {
-				if (playStatus >= 0 && playStatus <= 3) {
-					callback->onPlayStatus(static_cast<PlaySoundCallback::PlayStatus>(playStatus));
-				}
+				updateStatus(static_cast<PlaySoundCallback::PlayStatus>(playStatus));
 			}
 		} else if (StringUtil::startsWith(line, "@I ID3:")) {
 			// Parse ID3 information
@@ -124,6 +126,15 @@ void PlaySound::MonitorThread::run()
 	}
 	
 	fclose(f);
+}
+
+void PlaySound::MonitorThread::updateStatus(PlaySoundCallback::PlayStatus status)
+{
+	if (status == m_currentStatus) {
+		return;
+	}
+	m_currentStatus = status;
+	m_ps->m_callback->onPlayStatus(status);
 }
 
 void PlaySound::MonitorThread::parseId3(const std::string &line, std::string &title, std::string &artist, std::string &album)

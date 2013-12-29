@@ -79,7 +79,7 @@ public:
 		MENU_ITEM_SELECTED,// a menu item was selected
 		PLAYER_STOPPED,    // player is stopped
 		PLAYER_PAUSED,     // player is paused
-		PLAYER_RESUMED,    // player is resumed
+		PLAYER_PLAYING,    // player is playing (or resumed)
 		PLAYER_ENDED,      // player has ended
 	};
 	

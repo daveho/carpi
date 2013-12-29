@@ -35,7 +35,7 @@ public:
 	enum PlayStatus {
 		STOPPED = 0,
 		PAUSED = 1,
-		RESUMED = 2,
+		PLAYING = 2, // equivalent to resumed
 		ENDED = 3,
 	};
 
@@ -83,6 +83,7 @@ private:
 	class MonitorThread : public Thread {
 	private:
 		PlaySound *m_ps;
+		PlaySoundCallback::PlayStatus m_currentStatus;
 		
 	public:
 		MonitorThread(PlaySound *ps);
@@ -90,6 +91,7 @@ private:
 		virtual void run();
 		
 	private:
+		void updateStatus(PlaySoundCallback::PlayStatus status);
 		static void parseId3(const std::string &line, std::string &title, std::string &artist, std::string &album);
 		static int parseHundredths(const std::string &s);
 	};

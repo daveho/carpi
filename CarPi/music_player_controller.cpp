@@ -56,8 +56,8 @@ namespace {
 			case PAUSED:
 				EventQueue::instance()->enqueue(new NotificationEvent(NotificationEvent::PLAYER_PAUSED, m_playSound));
 				break;
-			case RESUMED:
-				EventQueue::instance()->enqueue(new NotificationEvent(NotificationEvent::PLAYER_RESUMED, m_playSound));
+			case PLAYING:
+				EventQueue::instance()->enqueue(new NotificationEvent(NotificationEvent::PLAYER_PLAYING, m_playSound));
 				break;
 			case ENDED:
 				EventQueue::instance()->enqueue(new NotificationEvent(NotificationEvent::PLAYER_ENDED, m_playSound));

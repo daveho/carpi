@@ -34,7 +34,7 @@ void ConsMusicPlayerView::visitNotificationEvent(NotificationEvent *evt)
 			m_playerStatus = PAUSED;
 			doPaint();
 			
-		case NotificationEvent::PLAYER_RESUMED:
+		case NotificationEvent::PLAYER_PLAYING:
 			setResult(EventHandler::HANDLED);
 			m_playerStatus = PLAYING;
 			doPaint();
