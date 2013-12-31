@@ -83,10 +83,11 @@ private:
 	class MonitorThread : public Thread {
 	private:
 		PlaySound *m_ps;
+		PlaySound::FileType m_fileType;
 		PlaySoundCallback::PlayStatus m_currentStatus;
 		
 	public:
-		MonitorThread(PlaySound *ps);
+		MonitorThread(PlaySound *ps, FileType fileType);
 		virtual ~MonitorThread();
 		virtual void run();
 		

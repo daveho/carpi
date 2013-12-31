@@ -72,8 +72,9 @@ PlaySoundCallback::~PlaySoundCallback()
 {
 }
 
-PlaySound::MonitorThread::MonitorThread(PlaySound *ps)
+PlaySound::MonitorThread::MonitorThread(PlaySound *ps, PlaySound::FileType fileType)
 	: m_ps(ps)
+	, m_fileType(fileType)
 	, m_currentStatus(PlaySoundCallback::STOPPED)
 {
 }
@@ -109,6 +110,14 @@ void PlaySound::MonitorThread::run()
 				curTime = parseHundredths(tokens[2]);
 				remainingTime = parseHundredths(tokens[3]);
 				callback->onFrame(curFrame, remainingFrames, curTime, remainingTime);
+				
+				if (m_fileType == PlaySound::OGG && remainingTime < 100) {
+					// XXX: ogg123 does not send a @P message to let us know that playing has ended!
+					// So, as a complete hack, generate the status update synthetically
+					// after an appropriate delay.  Blech.
+					usleep(((unsigned long) remainingTime) * 10000UL);
+					updateStatus(PlaySoundCallback::ENDED);
+				}
 			}
 		} else if (StringUtil::startsWith(line, "@P ")) {
 			int playStatus;
@@ -348,7 +357,7 @@ bool PlaySound::startProcess(FileType fileType)
 		m_statusfd = dup(statuspipe_fd[0]);
 
 		// start the monitor thread to read status info from subprocess
-		m_monitor = new MonitorThread(this);
+		m_monitor = new MonitorThread(this, fileType);
 		m_monitor->start();
 
 		m_state = ACTIVE;
