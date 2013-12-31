@@ -18,6 +18,7 @@ private:
 
 	const PlaySound *m_playSound;
 	PlayerStatus m_playerStatus;
+	std::string m_fileName;
 	std::string m_title;
 	std::string m_artist;
 	std::string m_album;

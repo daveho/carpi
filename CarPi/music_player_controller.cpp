@@ -35,6 +35,7 @@ namespace {
 
 	void StatusUpdateCallback::onFileName(const std::string &fileName)
 	{
+		EventQueue::instance()->enqueue(new MediaFileInfoEvent(fileName));
 	}
 	
 	void StatusUpdateCallback::onID3(const std::string &title, const std::string &artist, const std::string &album)

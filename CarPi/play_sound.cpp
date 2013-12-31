@@ -122,6 +122,9 @@ void PlaySound::MonitorThread::run()
 			callback->onID3(title, artist, album);
 		} else if (StringUtil::startsWith(line, "@I ")) {
 			// Parse file name
+			size_t pos = line.find_last_of('/');
+			std::string fileName = (pos != std::string::npos) ? line.substr(pos+1, line.size()) : line.substr(3, line.size());
+			callback->onFileName(fileName);
 		}
 	}
 	
@@ -201,7 +204,7 @@ bool PlaySound::play(size_t i)
 	} else if (m_state == PLAYING) {
 		sendCommand("stop\n");
 	}
-	sendCommand("load " + fileName);
+	sendCommand("load " + fileName + "\n");
 	m_state = PLAYING;
 	m_selectedFile = i;
 	return true;

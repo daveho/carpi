@@ -49,9 +49,13 @@ void ConsMusicPlayerView::visitNotificationEvent(NotificationEvent *evt)
 void ConsMusicPlayerView::visitMediaFileInfoEvent(MediaFileInfoEvent *evt)
 {
 	setResult(EventHandler::HANDLED);
-	m_title = evt->getTitle();
-	m_artist = evt->getArtist();
-	m_album = evt->getAlbum();
+	if (evt->hasMetadata()) {
+		m_title = evt->getTitle();
+		m_artist = evt->getArtist();
+		m_album = evt->getAlbum();
+	} else {
+		m_fileName = evt->getFileName();
+	}
 	doPaint();
 }
 
@@ -69,15 +73,20 @@ void ConsMusicPlayerView::doPaint()
 	
 	cons->clear();
 	
-	cons->attr(Console::BLACK, Console::CYAN+Console::INTENSE);
-	cons->printCenter(2, m_title);
-	
-	cons->attr(Console::BLACK, Console::CYAN);
-	cons->printCenter(4, m_artist);
-	
-	cons->attr(Console::BLACK, Console::BLUE);
-	cons->printCenter(6, m_album);
-	
+	if (!m_fileName.empty()) {
+		cons->attr(Console::BLACK, Console::CYAN+Console::INTENSE);
+		cons->printCenter(2, m_fileName);
+	} else {
+		cons->attr(Console::BLACK, Console::CYAN+Console::INTENSE);
+		cons->printCenter(2, m_title);
+		
+		cons->attr(Console::BLACK, Console::CYAN);
+		cons->printCenter(4, m_artist);
+		
+		cons->attr(Console::BLACK, Console::BLUE);
+		cons->printCenter(6, m_album);
+	}
+		
 	cons->attr(Console::BLACK, Console::GRAY);
 	
 	switch (m_playerStatus) {

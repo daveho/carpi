@@ -62,6 +62,11 @@ void NotificationEvent::accept(EventVisitor *visitor)
 	visitor->visitNotificationEvent(this);
 }
 
+MediaFileInfoEvent::MediaFileInfoEvent(const std::string &fileName)
+	: m_fileName(fileName)
+{
+}
+
 MediaFileInfoEvent::MediaFileInfoEvent(const std::string &title, const std::string &artist, const std::string &album)
 	: m_title(title)
 	, m_artist(artist)

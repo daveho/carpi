@@ -103,13 +103,19 @@ public:
 //
 class MediaFileInfoEvent : public Event {
 private:
+	std::string m_fileName;
 	std::string m_title;
 	std::string m_artist;
 	std::string m_album;
 	
 public:
+	MediaFileInfoEvent(const std::string &fileName);
 	MediaFileInfoEvent(const std::string &title, const std::string &artist, const std::string &album);
 	virtual ~MediaFileInfoEvent();
+	
+	bool hasMetadata() const { return m_fileName.empty(); }
+	
+	const std::string &getFileName() const { return m_fileName; }
 	
 	const std::string &getTitle() const { return m_title; }
 	const std::string &getArtist() const { return m_artist; }
