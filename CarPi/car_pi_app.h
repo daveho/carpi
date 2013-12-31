@@ -48,6 +48,7 @@ public:
 	
 	void pushEventHandler(EventHandler *handler);
 	void popEventHandler();
+	virtual void startMusicNavigator();
 	
 protected:
 	static void setInstance(CarPiApp *theInstance);

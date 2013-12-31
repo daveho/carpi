@@ -16,7 +16,11 @@
 // You should have received a copy of the GNU General Public License
 // along with CarPi.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <cstdlib>
 #include <cassert>
+#include "music_file_navigator_menu_controller.h"
+#include "composite_event_handler.h"
+#include "event_queue.h"
 #include "event_queue.h"
 #include "console.h"
 #include "cons_input_reader_thread.h"
@@ -81,6 +85,21 @@ void CarPiApp::setInstance(CarPiApp *theInstance)
 {
 	assert(s_instance == 0);
 	s_instance = theInstance;
+}
+
+void CarPiApp::startMusicNavigator()
+{
+	std::string musicDir;
+	
+	musicDir += getenv("HOME");
+	musicDir += "/Music";
+	
+	MusicFileNavigatorMenuController *controller = new MusicFileNavigatorMenuController(musicDir);
+	EventHandler *view = createMenuView(controller->getMenu());
+	
+	CompositeEventHandler *pair = new CompositeEventHandler(controller, view);
+	
+	CarPiApp::instance()->pushEventHandler(pair);
 }
 
 void CarPiApp::pushEventHandler(EventHandler *handler)

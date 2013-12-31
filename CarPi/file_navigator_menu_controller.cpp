@@ -114,14 +114,11 @@ void FileNavigatorMenuController::visitNotificationEvent(NotificationEvent *evt)
 			m_dirStack.pop_back();
 			onDirectoryChanged();
 		} else if (selectedItem->getValue() >= FIRST_FILE_VALUE) {
-			setResult(EventHandler::HANDLED);
-			
 			if (selectedItem->hasFlag(MenuItem::FLAG_DIRECTORY)) {
+				setResult(EventHandler::HANDLED);
 				// Navigate into subdirectory
 				m_dirStack.push_back(getFullPath(m_dirStack.back(), selectedItem->getName()));
 				onDirectoryChanged();
-			} else {
-				// TODO: play file
 			}
 		}
 	}

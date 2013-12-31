@@ -16,14 +16,8 @@
 // You should have received a copy of the GNU General Public License
 // along with CarPi.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <cstdlib>
 #include "car_pi_app.h"
 #include "main_menu.h"
-#include "music_file_navigator_menu_controller.h"
-#include "console.h"
-#include "cons_menu_view.h"
-#include "composite_event_handler.h"
-#include "event_queue.h"
 #include "main_menu_controller.h"
 
 MainMenuController::MainMenuController()
@@ -42,7 +36,7 @@ void MainMenuController::onItemSelected(const MenuItem *item)
 		case MainMenu::VIDEOS:
 			break;
 		case MainMenu::MUSIC:
-			onMusicChosen();
+			CarPiApp::instance()->startMusicNavigator();
 			break;
 		case MainMenu::SETTINGS:
 			break;
@@ -52,20 +46,4 @@ void MainMenuController::onItemSelected(const MenuItem *item)
 			CarPiApp::instance()->quit();
 			break;
 	}
-}
-
-void MainMenuController::onMusicChosen()
-{
-	std::string musicDir;
-	
-	musicDir += getenv("HOME");
-	musicDir += "/Music";
-	
-	// FIXME: need a more abstract way to get an appropriate view for a controller
-	MusicFileNavigatorMenuController *controller = new MusicFileNavigatorMenuController(musicDir);
-	ConsMenuView *view = new ConsMenuView(controller->getMenu(), 1, Console::instance()->getNumRows() - 2);
-	
-	CompositeEventHandler *pair = new CompositeEventHandler(controller, view);
-	
-	CarPiApp::instance()->pushEventHandler(pair);
 }
