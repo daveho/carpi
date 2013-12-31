@@ -1,4 +1,6 @@
+#include <cstdio>
 #include "console.h"
+#include "play_sound.h"
 #include "cons_music_player_view.h"
 
 ConsMusicPlayerView::ConsMusicPlayerView(const PlaySound *playSound)
@@ -93,6 +95,13 @@ void ConsMusicPlayerView::doPaint()
 	int totalTimeSec = m_totalTime / 100;
 	cons->moveCursor(10, (cons->getNumCols() - 13) / 2);
 	cons->printf("% 2d:%02d / % 2d:%02d", curTimeSec/60, curTimeSec%60, totalTimeSec/60, totalTimeSec%60);
+	
+	if (m_playSound->getNumFiles() > 1) {
+		char *buf = new char[100];
+		sprintf(buf, "Track %d / %d", int(m_playSound->getSelectedFile())+1, int(m_playSound->getNumFiles()));
+		cons->printCenter(11, buf);
+		delete[] buf;
+	}
 	
 	cons->commit();
 }
