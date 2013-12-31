@@ -19,13 +19,8 @@
 #include <cstdlib>
 #include <cassert>
 #include "music_file_navigator_menu_controller.h"
-#include "composite_event_handler.h"
 #include "event_queue.h"
-#include "event_queue.h"
-#include "console.h"
-#include "cons_input_reader_thread.h"
 #include "main_menu_controller.h"
-#include "cons_menu_view.h"
 #include "composite_event_handler.h"
 #include "car_pi_app.h"
 
