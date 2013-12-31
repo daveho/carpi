@@ -22,6 +22,7 @@
 #include <vector>
 
 class EventHandler;
+class Menu;
 
 //
 // Main application base class.
@@ -37,17 +38,23 @@ private:
 	
 public:
 	CarPiApp();
-	~CarPiApp();
+	virtual ~CarPiApp();
 
-	static void initialize();
 	static CarPiApp *instance();
 	
-	void mainLoop();
+	virtual void mainLoop();
 	
 	void quit();
 	
 	void pushEventHandler(EventHandler *handler);
 	void popEventHandler();
+	
+protected:
+	static void setInstance(CarPiApp *theInstance);
+	
+	virtual void onStartMainLoop() = 0;
+	virtual void onEndMainLoop() = 0;
+	virtual EventHandler *createMenuView(Menu *menu) = 0;
 };
 
 #endif // CARPIAPP_H

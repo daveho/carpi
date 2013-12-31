@@ -38,12 +38,6 @@ CarPiApp::~CarPiApp()
 {
 }
 
-void CarPiApp::initialize()
-{
-	assert(s_instance == 0);
-	s_instance = new CarPiApp();
-}
-
 CarPiApp *CarPiApp::instance()
 {
 	assert(s_instance != 0);
@@ -54,22 +48,17 @@ void CarPiApp::mainLoop()
 {
 	// Create event queue
 	EventQueue::initialize();
-
-	// Initialize console
-	Console::initialize();
-	Console *cons = Console::instance();
-	cons->init();
 	
-	// Start the console input reader
-	ConsInputReaderThread *inputReader = new ConsInputReaderThread();
-	inputReader->start();
+	// Allow subclass to do any UI-specific initialization
+	onStartMainLoop();
 	
 	// Create the main menu controller/view and push it
 	MainMenuController *mainMenuController = new MainMenuController();
-	ConsMenuView *mainMenuView = new ConsMenuView(mainMenuController->getMenu(), 1, cons->getNumCols() - 1);
+	EventHandler *mainMenuView = createMenuView(mainMenuController->getMenu());
 	CompositeEventHandler *pair = new CompositeEventHandler(mainMenuController, mainMenuView);
 	pushEventHandler(pair);
 	
+	// Schedule the initial paint event
 	EventQueue::instance()->enqueue(new NotificationEvent(NotificationEvent::PAINT));
 	
 	// Event loop!
@@ -79,13 +68,19 @@ void CarPiApp::mainLoop()
 		delete evt;
 	}
 	
-	// Clean up
-	cons->cleanup();
+	// Allow subclass to do UI-specific cleanup
+	onEndMainLoop();
 }
 
 void CarPiApp::quit()
 {
 	m_quit = true;
+}
+
+void CarPiApp::setInstance(CarPiApp *theInstance)
+{
+	assert(s_instance == 0);
+	s_instance = theInstance;
 }
 
 void CarPiApp::pushEventHandler(EventHandler *handler)

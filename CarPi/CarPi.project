@@ -52,6 +52,8 @@
     <File Name="music_player_controller.cpp"/>
     <File Name="cons_music_player_view.h"/>
     <File Name="cons_music_player_view.cpp"/>
+    <File Name="cons_car_pi_app.h"/>
+    <File Name="cons_car_pi_app.cpp"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>

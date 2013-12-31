@@ -17,36 +17,11 @@
 // along with CarPi.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <cstddef>
-/*
-#include <iostream>
-#include <string>
-#include "string_util.h"
-*/
-#include "car_pi_app.h"
-
-/*
-void st() {
-	
-	const std::string line("Ticket To Ride                Asylum Party                  The Grey Years Vol 2 (CD 1)   2006                              New Wave");
-
-	std::string title, artist, album;
-	
-	size_t len = line.size();
-	title = StringUtil::trimSpaces(line.substr(0, 30));
-	artist = (len > 30) ? StringUtil::trimSpaces(line.substr(30, 30)) : "";
-	album = (len > 60) ? StringUtil::trimSpaces(line.substr(60, 30)) : "";
-
-	std::cout << "[" << title << "]" << std::endl;
-	std::cout << "[" << artist << "]" << std::endl;
-	std::cout << "[" << album << "]" << std::endl;
-	
-}
-*/
+#include "cons_car_pi_app.h"
 
 int main(void)
 {
-//	st();
-	CarPiApp::initialize();
+	ConsCarPiApp::initialize();
 	CarPiApp::instance()->mainLoop();
 	return 0;
 }
