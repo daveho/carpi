@@ -44,9 +44,6 @@ public:
 	virtual void onMenuPopulated(Menu *menu);
 	
 	virtual void visitButtonEvent(ButtonEvent *evt);
-	
-private:
-	PlaySound *createPlayer();
 };
 
 #endif // MUSICFILENAVIGATORMENUCONTROLLER_H

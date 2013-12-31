@@ -36,6 +36,7 @@ protected:
 	virtual void onStartMainLoop();
 	virtual void onEndMainLoop();
 	virtual EventHandler *createMenuView(Menu *menu);
+	virtual EventHandler *createMusicPlayerView(PlaySound *playSound);
 };
 
 #endif // CONSCARPIAPP_H

@@ -21,6 +21,7 @@
 #include "music_file_navigator_menu_controller.h"
 #include "event_queue.h"
 #include "main_menu_controller.h"
+#include "music_player_controller.h"
 #include "composite_event_handler.h"
 #include "car_pi_app.h"
 
@@ -94,6 +95,14 @@ void CarPiApp::startMusicNavigator()
 	
 	CompositeEventHandler *pair = new CompositeEventHandler(controller, view);
 	
+	CarPiApp::instance()->pushEventHandler(pair);
+}
+
+void CarPiApp::startMusicPlayer(PlaySound *playSound)
+{
+	MusicPlayerController *controller = new MusicPlayerController(playSound);
+	EventHandler *view = createMusicPlayerView(playSound);
+	CompositeEventHandler *pair = new CompositeEventHandler(controller, view);
 	CarPiApp::instance()->pushEventHandler(pair);
 }
 

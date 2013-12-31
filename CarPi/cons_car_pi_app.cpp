@@ -17,8 +17,9 @@
 // along with CarPi.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "console.h"
-#include "cons_menu_view.h"
 #include "cons_input_reader_thread.h"
+#include "cons_menu_view.h"
+#include "cons_music_player_view.h"
 #include "cons_car_pi_app.h"
 
 ConsCarPiApp::ConsCarPiApp()
@@ -54,4 +55,9 @@ void ConsCarPiApp::onEndMainLoop()
 EventHandler *ConsCarPiApp::createMenuView(Menu *menu)
 {
 	return new ConsMenuView(menu, 1, Console::instance()->getNumRows() - 2);
+}
+
+EventHandler *ConsCarPiApp::createMusicPlayerView(PlaySound *playSound)
+{
+	return new ConsMusicPlayerView(playSound);
 }

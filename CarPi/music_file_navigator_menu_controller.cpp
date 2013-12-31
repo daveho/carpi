@@ -20,9 +20,6 @@
 #include "car_pi_app.h"
 #include "menu.h"
 #include "play_sound.h"
-#include "music_player_controller.h"
-#include "cons_music_player_view.h"
-#include "composite_event_handler.h"
 #include "static_menu.h"
 #include "music_file_navigator_menu_controller.h"
 
@@ -91,15 +88,22 @@ void MusicFileNavigatorMenuController::visitButtonEvent(ButtonEvent *evt)
 		const MenuItem *menuItem = getMenu()->getSelectedItem();
 		if (menuItem->hasFlag(MenuItem::FLAG_FILE)) {
 			setResult(EventHandler::HANDLED);
-			PlaySound *playSound = createPlayer();
-			// Add just the selected file
+			
+			// Play just the selected file
+			PlaySound *playSound = new PlaySound();
 			std::string path = getFullPath(getCurrentDir(), menuItem->getName());
 			playSound->addFile(path);
+			
+			// Create player view/controller
+			CarPiApp::instance()->startMusicPlayer(playSound);
+			
+			// Start player
 			playSound->play(0);
 		} else if (menuItem->getValue() == PLAY_ALL_VALUE) {
 			setResult(EventHandler::HANDLED);
-			PlaySound *playSound = createPlayer();
-			// Add all files in the directory
+			
+			// Play all files in the directory
+			PlaySound *playSound = new PlaySound();
 			for (size_t i = 0; i < getMenu()->getNumItems(); i++) {
 				const MenuItem *menuItem = getMenu()->getItem(i);
 				if (menuItem->hasFlag(MenuItem::FLAG_FILE)) {
@@ -107,6 +111,10 @@ void MusicFileNavigatorMenuController::visitButtonEvent(ButtonEvent *evt)
 					playSound->addFile(path);
 				}
 			}
+
+			// Create player view/controller
+			CarPiApp::instance()->startMusicPlayer(playSound);
+
 			// Start playing the first file
 			playSound->play(0);
 		}
@@ -115,14 +123,4 @@ void MusicFileNavigatorMenuController::visitButtonEvent(ButtonEvent *evt)
 	if (!handled()) {
 		Base::visitButtonEvent(evt);
 	}
-}
-
-PlaySound *MusicFileNavigatorMenuController::createPlayer()
-{
-	PlaySound *playSound = new PlaySound();
-	MusicPlayerController *controller = new MusicPlayerController(playSound);
-	ConsMusicPlayerView *view = new ConsMusicPlayerView(playSound);
-	CompositeEventHandler *pair = new CompositeEventHandler(controller, view);
-	CarPiApp::instance()->pushEventHandler(pair);
-	return playSound;
 }
