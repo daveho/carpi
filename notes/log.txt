@@ -133,3 +133,4 @@ Jan 1st, 2014
   simplify the pushbutton circuit (no resistors/caps needed).
   The datasheet says it can run from 3V, and this should allow
   signal compatibility with the RPi.
+- Started program to run on attiny2313 to do the button debouncing.
