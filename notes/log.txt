@@ -111,3 +111,25 @@ Dec 23rd, 2013
   8x1 header (the LCD already has one, could easily solder one
   on the button PCB.)  8 pins is perfect for VCC, GND, and 1 signal
   for each of the 6 buttons.
+
+Dec 24th, 2013 - Dec 31st, 2013
+
+- Created initial version of software: using ncurses for the UI,
+  but making the models/controllers completely independent of the views
+  so ports to other UI toolkits will be possible.  Started by
+  implementing a music player using mpg321 and ogg123 via the
+  remote control interface as a back end.  Works fairly well for
+  mp3 playback, ogg playback needs some work because ogg123 doesn't
+  really implement the remote control interface fully.
+- Pushed repo to github: https://github.com/daveho/carpi
+- Ordered square pushbuttons from Adafruit: the ones I ordered from
+  Ebay haven't arrived.  This is the problem with ordering parts
+  from China: you don't know whether the parts will arrive in a
+  timely manner (or at all).
+
+Jan 1st, 2014
+
+- Idea: use attiny2313 to debounce pushbuttons.  This should greatly
+  simplify the pushbutton circuit (no resistors/caps needed).
+  The datasheet says it can run from 3V, and this should allow
+  signal compatibility with the RPi.
