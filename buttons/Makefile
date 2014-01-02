@@ -5,6 +5,17 @@ CC = avr-gcc
 CFLAGS = -Os -Wall -mmcu=$(MCU) -funsigned-bitfields -fpack-struct -fshort-enums -std=gnu99
 OBJCOPY = avr-objcopy
 
+# This is correct for the $10 USB programmer from alldav.com
+AVRDUDE_PROGRAMMER = stk500v2
+AVRDUDE_PORT = /dev/ttyUSB0
+
+# Avrdude flags
+# 128KHz internal oscillator
+# Computed by: http://www.engbedded.com/fusecalc/
+AVRDUDE_FLAGS = -U lfuse:w:0x46:m -U hfuse:w:0xdf:m -U efuse:w:0xff:m
+
+# Note that the default target just builds the hex file:
+# use "make program" to burn it to the device
 all : $(PROG).hex
 
 $(PROG).o : $(PROG).c
@@ -15,6 +26,9 @@ $(PROG).elf : $(PROG).o
 
 $(PROG).hex : $(PROG).elf
 	$(OBJCOPY) -O ihex -R .eeprom $(PROG).elf $(PROG).hex
+
+program : $(PROG).hex
+	avrdude -p $(MCU) -P $(AVRDUDE_PORT) -c $(AVRDUDE_PROGRAMMER) $(AVRDUDE_FLAGS) -U flash:w:$(PROG).hex
 
 clean :
 	rm -f *.o *.elf *.hex *.map
