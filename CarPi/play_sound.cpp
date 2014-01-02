@@ -207,12 +207,19 @@ bool PlaySound::play(size_t i)
 		return false;
 	}
 	std::string fileName(m_fileList[i]);
+	FileType fileType = determineFileType(fileName);
+
 	if (m_state < ACTIVE) {
-		FileType fileType = determineFileType(fileName);
 		startProcess(fileType);
 	} else if (m_state == PLAYING) {
 		sendCommand("stop\n");
 	}
+	
+	// Hack for ogg123 weirdness
+	if (fileType == OGG) {
+		//sendCommand("stop\n");
+	}
+	
 	sendCommand("load " + fileName + "\n");
 	m_state = PLAYING;
 	m_selectedFile = i;

@@ -12,7 +12,7 @@ AVRDUDE_PORT = /dev/ttyUSB0
 # Avrdude flags
 # 128KHz internal oscillator
 # Computed by: http://www.engbedded.com/fusecalc/
-AVRDUDE_FLAGS = -U lfuse:w:0x46:m -U hfuse:w:0xdf:m -U efuse:w:0xff:m
+AVRDUDE_FLAGS = 
 
 # Note that the default target just builds the hex file:
 # use "make program" to burn it to the device

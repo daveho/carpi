@@ -19,7 +19,7 @@
 // Use attiny2313 to debounce 6 pushbuttons
 // The buttons should connect to ground
 
-#define F_CPU 128000 // use internal oscillator, set to 128 KHz
+#define F_CPU 1000000 // use internal oscillator, set to 1 MHz
 #include <stdint.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
@@ -61,10 +61,17 @@ int main(void)
 	// Enable PA0-1, PD0-3 as outputs
 	DDRA = (_BV(PA0) | _BV(PA1));
 	DDRD = (_BV(PD0) | _BV(PD1) | _BV(PD2) | _BV(PD3));
+#ifndef NDEBUG
+	DDRD |= _BV(PD4);
+#endif
 
 	// Enable internal pull-up resistors on PB0-4, PD6
 	PORTB = (_BV(PB0) | _BV(PB1) | _BV(PB2) | _BV(PB3) | _BV(PB4));
 	PORTD = _BV(PD6);
+
+#ifndef NDEBUG
+	uint8_t count = 0;
+#endif
 
 	for (;;) {
 		read_inputs();
@@ -72,6 +79,12 @@ int main(void)
 		write_outputs();
 		last = cur;
 		_delay_ms(1);
+
+#ifndef NDEBUG
+		// Blink LED on PD4 for debugging
+		count++;
+		PORTD ^= (((count & 128) != 0) ? _BV(PD4) : 0);
+#endif
 	}
 }
 

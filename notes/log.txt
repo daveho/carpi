@@ -134,3 +134,19 @@ Jan 1st, 2014
   The datasheet says it can run from 3V, and this should allow
   signal compatibility with the RPi.
 - Started program to run on attiny2313 to do the button debouncing.
+- Allocating RPi GPIO pins for button inputs:
+  * Button 1: GPIO2 (P1-3)
+  * Button 2: GPIO3 (P1-5)
+  * Button 3: GPIO4 (P1-7)
+  * Button 4: GPIO17 (P1-11)
+  * Button 5: GPIO27 (P1-13)
+  * Button 6: GPIO22 (P1-15)
+  [Pins used by LCD: GPIO18, SCLK, MOSI, CE0, GPIO25, GPIO24]
+
+Jan 2nd, 2014
+
+- Used Eagle CAD to capture the pushbutton circuit and design a
+  PCB for it.  My plan is to have the PCB made at OSHPark.com
+  (they purchased batchpcb.com, and seem to have a very similar
+  service).  First I will test the circuit (and the firmware)
+  on a breadboard.
