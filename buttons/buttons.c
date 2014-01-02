@@ -75,7 +75,8 @@ int main(void)
 
 	for (;;) {
 		read_inputs();
-		update_counts();
+		//update_counts();
+		out = cur; // no debouncing
 		write_outputs();
 		last = cur;
 		_delay_ms(1);
