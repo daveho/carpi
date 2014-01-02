@@ -1,8 +1,16 @@
 PROG = buttons
 MCU = attiny2313
 
+# Change this to "true" to enable debugging (blinking heartbeat LED
+# on PD4)
+DEBUG = false
+
 CC = avr-gcc
 CFLAGS = -Os -Wall -mmcu=$(MCU) -funsigned-bitfields -fpack-struct -fshort-enums -std=gnu99
+ifeq ($(DEBUG),false)
+CFLAGS += -DNDEBUG
+endif
+
 OBJCOPY = avr-objcopy
 
 # This is correct for the $10 USB programmer from alldav.com

@@ -131,11 +131,8 @@ void update_counts(void)
 
 		// Allow output to change if count is sufficiently high
 		if (count[i] > DEBOUNCE_TIME_MS && (cur & mask) != (out & mask)) {
-			//nextout &= ~mask;
 			nextout ^= mask;
 		}
-
-		mask <<= 1;
 	}
 
 	out = nextout;
