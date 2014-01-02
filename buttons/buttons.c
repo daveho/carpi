@@ -44,10 +44,10 @@
 // Button 5 - PD2
 // Button 6 - PD3
 
-uint8_t cur;      // current input values
-uint8_t last;     // last input values
-uint8_t count[6]; // count of how many polls buttons have had their current values
-uint8_t out;      // current output values
+uint8_t cur = 0x3F;      // current input values
+uint8_t last = 0x3F;     // last input values
+uint8_t count[6];        // count of how many polls buttons have had their current values
+uint8_t out = 0x3F;      // current output values
 
 void read_inputs(void);
 void update_counts(void);
@@ -75,8 +75,8 @@ int main(void)
 
 	for (;;) {
 		read_inputs();
-		//update_counts();
-		out = cur; // no debouncing
+		update_counts();
+		//out = cur; // no debouncing
 		write_outputs();
 		last = cur;
 		_delay_ms(1);
@@ -131,7 +131,8 @@ void update_counts(void)
 
 		// Allow output to change if count is sufficiently high
 		if (count[i] > DEBOUNCE_TIME_MS && (cur & mask) != (out & mask)) {
-			nextout &= ~mask;
+			//nextout &= ~mask;
+			nextout ^= mask;
 		}
 
 		mask <<= 1;
