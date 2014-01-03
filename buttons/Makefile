@@ -3,7 +3,8 @@ MCU = attiny2313
 
 # Change this to "true" to enable debugging (blinking heartbeat LED
 # on PD4)
-DEBUG = false
+#DEBUG = false
+DEBUG = true
 
 CC = avr-gcc
 CFLAGS = -Os -Wall -mmcu=$(MCU) -funsigned-bitfields -fpack-struct -fshort-enums -std=gnu99

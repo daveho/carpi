@@ -29,12 +29,12 @@
 #define DEBOUNCE_TIME_MS 5
 
 // Inputs
-// Button 1 - PB4
-// Button 2 - PB3
-// Button 3 - PB2
-// Button 4 - PB1
-// Button 5 - PB0
-// Button 6 - PD6
+// Button 1 - PD6
+// Button 2 - PB0
+// Button 3 - PB1
+// Button 4 - PB2
+// Button 5 - PB3
+// Button 6 - PB4
 
 // Outputs (debounced button values, 0=not pressed, 1=pressed)
 // Button 1 - PD0
@@ -93,25 +93,24 @@ void read_inputs(void)
 {
 	// Process buttons in reverse order: button 1 is the
 	// least significant bit
-
+	uint8_t inb = PINB;
+	uint8_t ind = PIND;
 	cur = 0;
 
 	// Read input for button 6
-	uint8_t ind = PIND;
-	cur |= ((ind & _BV(PD6)) != 0);
+	cur |= ((inb & _BV(PB4)) != 0); // button 6
 	cur <<= 1;
 
 	// Read input for buttons 5-1
-	uint8_t inb = PINB;
-	cur |= ((inb & _BV(PB0)) != 0);
+	cur |= ((inb & _BV(PB3)) != 0); // button 5
 	cur <<= 1;
-	cur |= ((inb & _BV(PB1)) != 0);
+	cur |= ((inb & _BV(PB2)) != 0); // button 4
 	cur <<= 1;
-	cur |= ((inb & _BV(PB2)) != 0);
+	cur |= ((inb & _BV(PB1)) != 0); // button 3
 	cur <<= 1;
-	cur |= ((inb & _BV(PB3)) != 0);
+	cur |= ((inb & _BV(PB0)) != 0); // button 2
 	cur <<= 1;
-	cur |= ((inb & _BV(PB4)) != 0);
+	cur |= ((ind & _BV(PD6)) != 0); // button 1
 }
 
 void update_counts(void)
