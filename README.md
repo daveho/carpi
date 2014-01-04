@@ -1,5 +1,8 @@
-Plans and code for Raspberry Pi based car entertainment
+Hardware design and code for Raspberry Pi based car entertainment
 device.  This is very much a work in progress!
+
+Everything (software and hardware) is open source: see the file
+LICENSES.txt for details.
 
 The basic idea is being able to play videos and music
 from the Raspberry Pi.  The user interface will consist
@@ -30,3 +33,10 @@ Current status of the software is
 * Video playing will be supported via omxplayer, with
   composite output (because composite video monitors for
   cars are super cheap).
+
+Current status of the hardware is
+
+* Enclosure design is complete and I have submitted it for
+  laser cutting.
+* PCB design (for the buttons and LCD connector) is complete and
+  has been submitted for fabrication.

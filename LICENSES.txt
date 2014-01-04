@@ -1,0 +1,13 @@
+The design and implementation of CarPi, both software and hardware,
+is open source.
+
+These materials are made available in the hope that they will be
+useful, but without any warranty.  Use them at your own risk.
+
+You may use, modify, and/or redistribute the software under the terms of
+the GNU General Public License, version 2 or higher.  A copy is included
+in the file gpl-2.0.txt.
+
+You may use, modify, and/or redistribute the hardware under the terms of
+the CERN Open Hardware License, version 1.2 or higher.  A copy is included
+in the file cern_ohl_v_1_2.txt.
