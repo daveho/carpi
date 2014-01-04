@@ -6,7 +6,7 @@ from the Raspberry Pi.  The user interface will consist
 of a 2.2" LCD and 6 pushbuttons.  A sandwich-style
 enclosure consisting of two pieces of laser-cut acrylic
 and various bits of hardware is planned.  The "enclosure"
-directory has mostly-complete CAD drawings.
+directory has (hopefully) complete CAD drawings.
 
 Current status of the software is
 
