@@ -56,6 +56,10 @@
     <File Name="cons_car_pi_app.cpp"/>
     <File Name="video_file_navigator_menu_controller.h"/>
     <File Name="video_file_navigator_menu_controller.cpp"/>
+    <File Name="video_player_controller.h"/>
+    <File Name="video_player_controller.cpp"/>
+    <File Name="play_video.h"/>
+    <File Name="play_video.cpp"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>
