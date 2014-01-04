@@ -30,6 +30,7 @@ class FileNavigatorMenuController : public MenuController
 {
 private:
 	std::vector<std::string> m_dirStack;
+	std::vector<size_t> m_selectedItemStack;
 	
 	typedef MenuController Base;
 	
@@ -70,7 +71,7 @@ protected:
 	
 private:
 	void populateMenuItems();
-	void onDirectoryChanged();
+	void onDirectoryChanged(size_t selectedItem);
 };
 
 #endif // FILENAVIGATORMENUCONTROLLER_H

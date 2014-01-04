@@ -95,7 +95,9 @@ void FileNavigatorMenuController::visitButtonEvent(ButtonEvent *evt)
 		} else {
 			// Go back to parent directory
 			m_dirStack.pop_back();
-			onDirectoryChanged();
+			size_t selectedItem = m_selectedItemStack.back();
+			m_selectedItemStack.pop_back();
+			onDirectoryChanged(selectedItem);
 		}
 	}
 	
@@ -112,13 +114,22 @@ void FileNavigatorMenuController::visitNotificationEvent(NotificationEvent *evt)
 			// Go back to parent directory
 			setResult(EventHandler::HANDLED);
 			m_dirStack.pop_back();
-			onDirectoryChanged();
+			
+			// Restore selected item
+			size_t selectedItem = m_selectedItemStack.back();
+			m_selectedItemStack.pop_back();
+			
+			onDirectoryChanged(selectedItem);
 		} else if (selectedItem->getValue() >= FIRST_FILE_VALUE) {
 			if (selectedItem->hasFlag(MenuItem::FLAG_DIRECTORY)) {
 				setResult(EventHandler::HANDLED);
+				
+				// Save current selected item
+				m_selectedItemStack.push_back(getMenu()->getSelected());
+				
 				// Navigate into subdirectory
 				m_dirStack.push_back(getFullPath(m_dirStack.back(), selectedItem->getName()));
-				onDirectoryChanged();
+				onDirectoryChanged(0);
 			}
 		}
 	}
@@ -206,9 +217,12 @@ void FileNavigatorMenuController::populateMenuItems()
 	onMenuPopulated(menu);
 }
 
-void FileNavigatorMenuController::onDirectoryChanged()
+void FileNavigatorMenuController::onDirectoryChanged(size_t selectedItem)
 {
 	populateMenuItems();
+	if (getMenu()->getNumItems() > selectedItem) {
+		getMenu()->setSelected(selectedItem);
+	}
 	EventQueue::instance()->enqueue(new NotificationEvent(NotificationEvent::MENU_CHANGED));
 }
 
