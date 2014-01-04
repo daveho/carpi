@@ -150,3 +150,19 @@ Jan 2nd, 2014
   (they purchased batchpcb.com, and seem to have a very similar
   service).  First I will test the circuit (and the firmware)
   on a breadboard.
+- Built the circuit on the breadboard, with some bugfixes the
+  firmware works fine.
+
+Jan 3rd, 2014
+
+- I got the placement of the buttons wrong on the PCB (it was kind of
+  hard to visualize because the board will be mounted upside down.)
+  Rather than re-routing, I just changed the schematic and the
+  firmware to reflect the button placement.  No biggie.
+- Made various tweaks to the PCB.  In particular, made it just a bit
+  bigger so the standoffs are a reasonable distance from the cutout
+  in the top plate that will provide access to the buttons.
+- Ordered PCBs from OSHPark - 3 boards for about $20.
+- Did plate drawings and a combined top/bottom plate drawing, purchased
+  the Mini Cut service ($20) from SpikenzieLabs, sent them my drawing.
+  Hopefully it's OK - I used pretty much all of the available area.
