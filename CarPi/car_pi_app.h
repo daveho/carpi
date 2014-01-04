@@ -51,6 +51,7 @@ public:
 	void popEventHandler();
 	virtual void startMusicNavigator();
 	virtual void startMusicPlayer(PlaySound *playSound);
+	virtual void startVideoNavigator();
 	
 protected:
 	static void setInstance(CarPiApp *theInstance);

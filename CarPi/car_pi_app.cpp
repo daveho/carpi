@@ -19,6 +19,7 @@
 #include <cstdlib>
 #include <cassert>
 #include "music_file_navigator_menu_controller.h"
+#include "video_file_navigator_menu_controller.h"
 #include "event_queue.h"
 #include "main_menu_controller.h"
 #include "music_player_controller.h"
@@ -103,6 +104,21 @@ void CarPiApp::startMusicPlayer(PlaySound *playSound)
 	MusicPlayerController *controller = new MusicPlayerController(playSound);
 	EventHandler *view = createMusicPlayerView(playSound);
 	CompositeEventHandler *pair = new CompositeEventHandler(controller, view);
+	CarPiApp::instance()->pushEventHandler(pair);
+}
+
+void CarPiApp::startVideoNavigator()
+{
+	std::string musicDir;
+	
+	musicDir += getenv("HOME");
+	musicDir += "/Videos";
+	
+	VideoFileNavigatorMenuController *controller = new VideoFileNavigatorMenuController(musicDir);
+	EventHandler *view = createMenuView(controller->getMenu());
+	
+	CompositeEventHandler *pair = new CompositeEventHandler(controller, view);
+	
 	CarPiApp::instance()->pushEventHandler(pair);
 }
 

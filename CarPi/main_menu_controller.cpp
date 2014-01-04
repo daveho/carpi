@@ -34,6 +34,7 @@ void MainMenuController::onItemSelected(const MenuItem *item)
 	MainMenu::ItemValue value = static_cast<MainMenu::ItemValue>(item->getValue());
 	switch (value) {
 		case MainMenu::VIDEOS:
+			CarPiApp::instance()->startVideoNavigator();
 			break;
 		case MainMenu::MUSIC:
 			CarPiApp::instance()->startMusicNavigator();
