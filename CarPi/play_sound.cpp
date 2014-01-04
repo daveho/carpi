@@ -283,6 +283,8 @@ bool PlaySound::waitForIdle()
 	DEBUG("exited\n");
 	DEBUG("waiting for monitor thread to complete...");
 	m_monitor->join();
+	delete m_monitor;
+	m_monitor = 0;
 	DEBUG("completed\n");
 	
 	// Resume idle state
