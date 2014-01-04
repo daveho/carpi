@@ -46,11 +46,9 @@ namespace StringUtil {
 	
 	inline std::string padWithSpaces(const std::string &s, size_t n)
 	{
-		std::string result;
+		std::string result(s);
 		if (result.size() > n) {
 			result = trimToSize(s, n);
-		} else {
-			result = s;
 		}
 		while (result.size() < n) {
 			result += ' ';
