@@ -6,8 +6,12 @@ MCU = attiny2313
 #DEBUG = false
 DEBUG = true
 
+# Uncomment this to enable low-power mode (recommended)
+POWER_MODE = -DUSE_LOW_POWER_MODE
+
 CC = avr-gcc
-CFLAGS = -Os -Wall -mmcu=$(MCU) -funsigned-bitfields -fpack-struct -fshort-enums -std=gnu99
+CFLAGS = -Os -Wall $(POWER_MODE) \
+	-mmcu=$(MCU) -funsigned-bitfields -fpack-struct -fshort-enums -std=gnu99
 ifeq ($(DEBUG),false)
 CFLAGS += -DNDEBUG
 endif

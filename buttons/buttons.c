@@ -21,12 +21,16 @@
 
 #define F_CPU 1000000 // use internal oscillator, set to 1 MHz
 #include <stdint.h>
+#include <avr/io.h>
 #include <avr/interrupt.h>
+#ifdef USE_LOW_POWER_MODE
+#  include <avr/sleep.h>
+#endif
 #include <util/delay.h>
 
 // Input level must be stable for at least this many
-// milliseconds to propagate to output
-#define DEBOUNCE_TIME_MS 5
+// time units, where a time unit is 1/4096 sec.
+#define DEBOUNCE_TIME 16
 
 // Inputs
 // Button 1 - PD6
@@ -57,9 +61,28 @@ uint8_t g_last = 0x3F;     // last input values
 uint8_t g_count[6];        // count of how many polls buttons have had their current values
 uint8_t g_out = 0x3F;      // current output values
 
+#ifndef NDEBUG
+uint8_t g_debug_count = 0;
+#endif
+
 void read_inputs(void);
 void update_counts(void);
 void write_outputs(void);
+
+// Timer interrupt, called once per 1ms
+ISR(TIMER0_OVF_vect)
+{
+	read_inputs();
+	update_counts();
+	write_outputs();
+	g_last = g_cur;
+
+#ifndef NDEBUG
+	// Blink LED on PD4 for debugging
+	g_debug_count++;
+	PORTD ^= (((g_debug_count & 128) != 0) ? _BV(PD4) : 0);
+#endif
+}
 
 int main(void)
 {
@@ -77,21 +100,23 @@ int main(void)
 	PORTB = PORTB_INPUT_MASK;
 	PORTD = PORTD_INPUT_MASK;
 
-#ifndef NDEBUG
-	uint8_t count = 0;
-#endif
+	// Set up timer interrupt to fire 4096 times per second
+	TCCR0B |= (1<<CS00);   // no prescaling
+	TIMSK |= (1 << TOIE0); // interrupt on overflow of counter 0
 
+	// Enable interrupts
+	sei();
+
+	// At this point, the interrupt handler should
+	// do all of the work.
 	for (;;) {
-		read_inputs();
-		update_counts();
-		write_outputs();
-		g_last = g_cur;
-		_delay_ms(1);
-
-#ifndef NDEBUG
-		// Blink LED on PD4 for debugging
-		count++;
-		PORTD ^= (((count & 128) != 0) ? _BV(PD4) : 0);
+#ifdef USE_LOW_POWER_MODE
+		// The main loop attempts to spend as
+		// much time as possible in low-power mode.
+		cli();
+		sleep_enable();
+		sei();
+		sleep_cpu();
 #endif
 	}
 }
@@ -136,7 +161,7 @@ void update_counts(void)
 		}
 
 		// Allow output to change if count is sufficiently high
-		if (g_count[i] > DEBOUNCE_TIME_MS && (g_cur & mask) != (g_out & mask)) {
+		if (g_count[i] > DEBOUNCE_TIME && (g_cur & mask) != (g_out & mask)) {
 			nextout ^= mask;
 		}
 	}
