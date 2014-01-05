@@ -80,7 +80,7 @@ ISR(TIMER0_OVF_vect)
 #ifndef NDEBUG
 	// Blink LED on PD4 for debugging
 	g_debug_count++;
-	if (g_debug_count & 0x400) {
+	if ((g_debug_count & 0x1FF) == 0) {
 		PORTD ^= _BV(PD4);
 	}
 #endif
