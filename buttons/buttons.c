@@ -62,7 +62,7 @@ uint8_t g_count[6];        // count of how many polls buttons have had their cur
 uint8_t g_out = 0x3F;      // current output values
 
 #ifndef NDEBUG
-uint8_t g_debug_count = 0;
+uint16_t g_debug_count = 0;
 #endif
 
 void read_inputs(void);
@@ -80,7 +80,9 @@ ISR(TIMER0_OVF_vect)
 #ifndef NDEBUG
 	// Blink LED on PD4 for debugging
 	g_debug_count++;
-	PORTD ^= (((g_debug_count & 128) != 0) ? _BV(PD4) : 0);
+	if (g_debug_count & 0x400) {
+		PORTD ^= _BV(PD4);
+	}
 #endif
 }
 
