@@ -177,20 +177,23 @@ void write_outputs(void)
 	uint8_t outd = PORTD & ~PORTD_OUTPUT_MASK;
 
 	// Set button output bits in port A/D as appropriate.
-	// Note that the button inputs are 0=pressed, but we generate
-	// the debounced outputs as 1=pressed.
+	// Note that the button inputs are 0=pressed, and we generate
+	// the debounced outputs as 0=pressed.
+	// There is a good reason for this: if a 0 (ground) is
+	// asserted on the RPi's SCL pin, it boots in safe mode,
+	// which we don't want to happen by default.
 	uint8_t genout = g_out;
-	if ((genout & 1) == 0) { outd |= _BV(PD0); }
+	if ((genout & 1) != 0) { outd |= _BV(PD0); }
 	genout >>= 1;
-	if ((genout & 1) == 0) { outd |= _BV(PD1); }
+	if ((genout & 1) != 0) { outd |= _BV(PD1); }
 	genout >>= 1;
-	if ((genout & 1) == 0) { outa |= _BV(PA1); }
+	if ((genout & 1) != 0) { outa |= _BV(PA1); }
 	genout >>= 1;
-	if ((genout & 1) == 0) { outa |= _BV(PA0); }
+	if ((genout & 1) != 0) { outa |= _BV(PA0); }
 	genout >>= 1;
-	if ((genout & 1) == 0) { outd |= _BV(PD2); }
+	if ((genout & 1) != 0) { outd |= _BV(PD2); }
 	genout >>= 1;
-	if ((genout & 1) == 0) { outd |= _BV(PD3); }
+	if ((genout & 1) != 0) { outd |= _BV(PD3); }
 
 	// Update outputs!
 	PORTA = outa;
