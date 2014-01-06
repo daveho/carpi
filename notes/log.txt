@@ -207,3 +207,9 @@ Jan 6th, 2014
   Here's the documentation of this behavior:
     http://www.raspberrypi.org/phpBB3/viewtopic.php?f=28&t=27457
     http://elinux.org/RPI_safe_mode
+- Idle thought: if the attiny2313 used 0=pressed, 1=not pressed for the
+  button outputs, we wouldn't need avoid_safe_mode=1, and as a bonus,
+  pressing button 5 on power-up would cause the RPi to boot in
+  safe mode.  Should probably go with this plan.
+- Made this change (outputting 0=pressed instead of 1=pressed).
+  Verified that the RPi does boot normally without avoid_safe_mode=1.
