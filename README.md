@@ -40,3 +40,6 @@ Current status of the hardware is
   laser cutting.
 * PCB design (for the buttons and LCD connector) is complete and
   has been submitted for fabrication.
+* The pushbutton circuit has been prototyped on a breadboard and
+  connected to the Raspberry Pi without (as far as I can tell)
+  breaking anything.
