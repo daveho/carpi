@@ -166,3 +166,44 @@ Jan 3rd, 2014
 - Did plate drawings and a combined top/bottom plate drawing, purchased
   the Mini Cut service ($20) from SpikenzieLabs, sent them my drawing.
   Hopefully it's OK - I used pretty much all of the available area.
+
+Jan 4th, 2014
+
+- Preliminary implementation of playing videos using omxplayer.
+  Since omxplayer only exists on the RPi,  I can't actually test this
+  on my laptop.  I've reached the point where I will need to
+  do development on the RPi itself!
+
+Jan 5th, 2014
+
+- Refactored button debouncing firmware to be driven by a timer
+  interrupt, and to enter low power mode between interrupts.
+  Seems to work: might be interesting to measure the current
+  draw.  The RPi is supposed to be able to source about 50 mA:
+  the attiny2313 should need much, much less than that.
+
+Jan 6th, 2014
+
+- Connected the button circuit to the RPi.  First, just connected
+  3.3V power to the attiny2313 and verified that the button outputs
+  changed voltage appropriately when the buttons were pressed.
+  Next, connected the button outputs to the assigned GPIO pins
+  on the RPi.  Unfortunately, there is a problem: when PD2 (button 5
+  output) is connected to GPIO (P1-5) 3 on the RPi, it does not boot
+  successfully.  The failure mode is that the video mode is set
+  incorrectly (looks like standard VGA resolution rather than the
+  full 1280x1024 supported by the monitor I'm using), and the
+  boot hangs after enumerating USB devices.  The problem appears
+  to be on the RPi side: if any output is connected to GPIO 3, the
+  RPi doesn't boot.  With some experimentation, it appears that
+  GPIO 23 (P1-16) doesn't cause the same problem.  So, when the button
+  PCBs arrive, I'll need to cut the connection to P1-5 on the RPi
+  header and jumper PD2 to P1-16.  Could be worse, I suppose.
+- Good news! Discovered that GPIO3 (SCL) causes the RPi to boot
+  in safe mode when pulled to ground, which is what the attiny2313
+  outputs when button 5 is not pressed.  Adding "avoid_safe_mode=1"
+  to /boot/config.txt allows the RPi to boot normally.  Sweet.
+  No changes should be necessary to the button PCB after all.
+  Here's the documentation of this behavior:
+    http://www.raspberrypi.org/phpBB3/viewtopic.php?f=28&t=27457
+    http://elinux.org/RPI_safe_mode
