@@ -52,10 +52,6 @@
 #define PORTA_OUTPUT_MASK (_BV(PA0)|_BV(PA1))
 #define PORTD_OUTPUT_MASK (_BV(PD0)|_BV(PD1)|_BV(PD2)|_BV(PD3))
 
-// Bit masks for input pins on ports B and D
-#define PORTB_INPUT_MASK (_BV(PB0)|_BV(PB1)|_BV(PB2)|_BV(PB3)|_BV(PB4))
-#define PORTD_INPUT_MASK _BV(PD6)
-
 uint8_t g_cur = 0x3F;      // current input values
 uint8_t g_last = 0x3F;     // last input values
 uint8_t g_count[6];        // count of how many polls buttons have had their current values
@@ -98,9 +94,11 @@ int main(void)
 	DDRD |= _BV(PD4);
 #endif
 
-	// Enable internal pull-up resistors on PB0-4, PD6
-	PORTB = PORTB_INPUT_MASK;
-	PORTD = PORTD_INPUT_MASK;
+	// Enable internal pull-up resistors on all pins that aren't
+	// being used as outputs
+	PORTA = ~PORTA_OUTPUT_MASK;
+	PORTB = 0xFF;
+	PORTD = ~PORTD_OUTPUT_MASK;
 
 	// Set up timer interrupt to fire 4096 times per second
 	TCCR0B |= (1<<CS00);   // no prescaling
