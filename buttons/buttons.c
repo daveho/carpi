@@ -32,7 +32,7 @@
 // time units, where a time unit is 1/4096 sec.
 #define DEBOUNCE_TIME 16
 
-// Inputs
+// Inputs (0=pressed)
 // Button 1 - PD6
 // Button 2 - PB0
 // Button 3 - PB1
@@ -40,7 +40,7 @@
 // Button 5 - PB3
 // Button 6 - PB4
 
-// Outputs (debounced button values, 0=not pressed, 1=pressed)
+// Outputs (debounced button values, 0=pressed)
 // Button 1 - PD0
 // Button 2 - PD1
 // Button 3 - PA1
