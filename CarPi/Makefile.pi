@@ -1,0 +1,45 @@
+CXX = g++
+CXXFLAGS = -g -Wall -D_REENTRANT
+SRCS := \
+	abstract_event_visitor.cpp \
+	car_pi_app.cpp \
+	composite_event_handler.cpp \
+	cons_car_pi_app.cpp \
+	cons_input_reader_thread.cpp \
+	cons_menu_view.cpp \
+	cons_music_player_view.cpp \
+	console.cpp \
+	event.cpp \
+	event_handler.cpp \
+	event_queue.cpp \
+	file_navigator_menu_controller.cpp \
+	main.cpp \
+	main_menu_controller.cpp \
+	main_menu.cpp \
+	menu_controller.cpp \
+	menu.cpp \
+	menu_view.cpp \
+	music_file_navigator_menu_controller.cpp \
+	music_player_controller.cpp \
+	play_sound.cpp \
+	play_video.cpp \
+	static_menu.cpp \
+	thread.cpp \
+	video_file_navigator_menu_controller.cpp \
+	video_player_controller.cpp
+
+OBJS := $(SRCS:%.cpp=%.o)
+
+CarPi : $(OBJS)
+	$(CXX) -o $@ $(OBJS) -lncurses -lpthread
+
+depend.mak :
+	touch $@
+
+depend :
+	$(CXX) $(CXXFLAGS) -M $(SRCS) > depend.mak
+
+clean :
+	rm -f *.o
+
+include depend.mak
