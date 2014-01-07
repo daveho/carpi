@@ -1,5 +1,21 @@
+CONFIG = Debug
+#CONFIG = Release
+
+ifeq ($(CONFIG),Debug)
+DEBUG := -g
+endif
+ifeq ($(CONFIG),Release)
+OPT := -O2 -DNDEBUG
+endif
+
+HAS_WIRING_PI := $(shell if [ -r /usr/local/include/wiringPi.h ]; then echo "yes"; fi)
+ifeq ($(HAS_WIRING_PI),yes)
+PLATFORM_DEFINES := -DHAS_WIRING_PI=1
+endif
+
 CXX = g++
-CXXFLAGS = -g -Wall -D_REENTRANT
+CXXFLAGS = $(DEBUG) $(OPT) $(PLATFORM_DEFINES) -Wall -D_REENTRANT
+
 SRCS := \
 	abstract_event_visitor.cpp \
 	car_pi_app.cpp \
@@ -28,18 +44,29 @@ SRCS := \
 	video_file_navigator_menu_controller.cpp \
 	video_player_controller.cpp
 
-OBJS := $(SRCS:%.cpp=%.o)
+ifeq ($(HAS_WIRING_PI),yes)
+SRCS += rpi_button_handler.cpp
+endif
 
-CarPi : $(OBJS)
+OBJS := $(SRCS:%.cpp=$(CONFIG)/%.o)
+
+$(CONFIG)/%.o : %.cpp
+	$(CXX) $(CXXFLAGS) -c $*.cpp -o $(CONFIG)/$*.o
+
+$(CONFIG)/CarPi : $(CONFIG) $(OBJS)
 	$(CXX) -o $@ $(OBJS) -lncurses -lpthread
 
-depend.mak :
+$(CONFIG) :
+	mkdir -p $(CONFIG)
+
+$(CONFIG)/depend.mak :
 	touch $@
 
 depend :
-	$(CXX) $(CXXFLAGS) -M $(SRCS) > depend.mak
+	$(CXX) $(CXXFLAGS) -M $(SRCS) | \
+		perl -n -e 's,^([a-z]),$(CONFIG)/\1,; print' > $(CONFIG)/depend.mak
 
 clean :
 	rm -f *.o
 
-include depend.mak
+include $(CONFIG)/depend.mak
