@@ -3050,8 +3050,8 @@ Based on the following sources:&lt;p&gt;
 </class>
 </classes>
 <parts>
-<part name="SV1" library="con-harting-ml" deviceset="ML26" device="" value="RPi_GPIO"/>
-<part name="JP1" library="SparkFun-Connectors" deviceset="M08" device="1X08" value="LCD_CONN"/>
+<part name="JP1" library="con-harting-ml" deviceset="ML26" device="" value="RPi_GPIO"/>
+<part name="JP2" library="SparkFun-Connectors" deviceset="M08" device="1X08" value="LCD_CONN"/>
 <part name="C1" library="capacitor-wima" deviceset="C" device="2.5/2" value="0.1uF"/>
 <part name="P+1" library="supply1" deviceset="VCC" device=""/>
 <part name="GND7" library="supply1" deviceset="GND" device=""/>
@@ -3082,8 +3082,8 @@ Based on the following sources:&lt;p&gt;
 <plain>
 </plain>
 <instances>
-<instance part="SV1" gate="1" x="35.56" y="78.74"/>
-<instance part="JP1" gate="G$1" x="38.1" y="33.02"/>
+<instance part="JP1" gate="1" x="35.56" y="78.74"/>
+<instance part="JP2" gate="G$1" x="38.1" y="33.02"/>
 <instance part="C1" gate="G$1" x="83.82" y="63.5"/>
 <instance part="P+1" gate="VCC" x="76.2" y="71.12"/>
 <instance part="GND7" gate="1" x="76.2" y="53.34"/>
@@ -3124,13 +3124,13 @@ Based on the following sources:&lt;p&gt;
 <junction x="91.44" y="58.42"/>
 </segment>
 <segment>
-<pinref part="JP1" gate="G$1" pin="2"/>
+<pinref part="JP2" gate="G$1" pin="2"/>
 <pinref part="GND8" gate="1" pin="GND"/>
 <wire x1="43.18" y1="27.94" x2="58.42" y2="27.94" width="0.1524" layer="91"/>
 <wire x1="58.42" y1="27.94" x2="58.42" y2="15.24" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="SV1" gate="1" pin="25"/>
+<pinref part="JP1" gate="1" pin="25"/>
 <wire x1="43.18" y1="93.98" x2="66.04" y2="93.98" width="0.1524" layer="91"/>
 <wire x1="66.04" y1="93.98" x2="66.04" y2="88.9" width="0.1524" layer="91"/>
 <pinref part="GND9" gate="1" pin="GND"/>
@@ -3232,13 +3232,13 @@ Based on the following sources:&lt;p&gt;
 <junction x="91.44" y="66.04"/>
 </segment>
 <segment>
-<pinref part="JP1" gate="G$1" pin="1"/>
+<pinref part="JP2" gate="G$1" pin="1"/>
 <pinref part="P+2" gate="VCC" pin="VCC"/>
 <wire x1="43.18" y1="25.4" x2="78.74" y2="25.4" width="0.1524" layer="91"/>
 <wire x1="78.74" y1="25.4" x2="78.74" y2="27.94" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="SV1" gate="1" pin="1"/>
+<pinref part="JP1" gate="1" pin="1"/>
 <wire x1="43.18" y1="63.5" x2="66.04" y2="63.5" width="0.1524" layer="91"/>
 <wire x1="66.04" y1="63.5" x2="66.04" y2="68.58" width="0.1524" layer="91"/>
 <pinref part="P+3" gate="VCC" pin="VCC"/>
@@ -3246,67 +3246,67 @@ Based on the following sources:&lt;p&gt;
 </net>
 <net name="CS" class="0">
 <segment>
-<pinref part="JP1" gate="G$1" pin="3"/>
+<pinref part="JP2" gate="G$1" pin="3"/>
 <wire x1="43.18" y1="30.48" x2="50.8" y2="30.48" width="0.1524" layer="91"/>
 <label x="50.8" y="30.48" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="SV1" gate="1" pin="24"/>
+<pinref part="JP1" gate="1" pin="24"/>
 <wire x1="27.94" y1="91.44" x2="20.32" y2="91.44" width="0.1524" layer="91"/>
 <label x="17.78" y="91.44" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="RESET" class="0">
 <segment>
-<pinref part="JP1" gate="G$1" pin="4"/>
+<pinref part="JP2" gate="G$1" pin="4"/>
 <wire x1="43.18" y1="33.02" x2="50.8" y2="33.02" width="0.1524" layer="91"/>
 <label x="50.8" y="33.02" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="SV1" gate="1" pin="22"/>
+<pinref part="JP1" gate="1" pin="22"/>
 <wire x1="27.94" y1="88.9" x2="20.32" y2="88.9" width="0.1524" layer="91"/>
 <label x="15.24" y="88.9" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="DC" class="0">
 <segment>
-<pinref part="JP1" gate="G$1" pin="5"/>
+<pinref part="JP2" gate="G$1" pin="5"/>
 <wire x1="43.18" y1="35.56" x2="50.8" y2="35.56" width="0.1524" layer="91"/>
 <label x="50.8" y="35.56" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="SV1" gate="1" pin="18"/>
+<pinref part="JP1" gate="1" pin="18"/>
 <wire x1="27.94" y1="83.82" x2="20.32" y2="83.82" width="0.1524" layer="91"/>
 <label x="17.78" y="83.82" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="MOSI" class="0">
 <segment>
-<pinref part="JP1" gate="G$1" pin="6"/>
+<pinref part="JP2" gate="G$1" pin="6"/>
 <wire x1="43.18" y1="38.1" x2="50.8" y2="38.1" width="0.1524" layer="91"/>
 <label x="50.8" y="38.1" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="SV1" gate="1" pin="19"/>
+<pinref part="JP1" gate="1" pin="19"/>
 <wire x1="43.18" y1="86.36" x2="50.8" y2="86.36" width="0.1524" layer="91"/>
 <label x="48.26" y="86.36" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="SCK" class="0">
 <segment>
-<pinref part="JP1" gate="G$1" pin="7"/>
+<pinref part="JP2" gate="G$1" pin="7"/>
 <wire x1="43.18" y1="40.64" x2="50.8" y2="40.64" width="0.1524" layer="91"/>
 <label x="50.8" y="40.64" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="SV1" gate="1" pin="23"/>
+<pinref part="JP1" gate="1" pin="23"/>
 <wire x1="43.18" y1="91.44" x2="50.8" y2="91.44" width="0.1524" layer="91"/>
 <label x="48.26" y="91.44" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="BUTTON1" class="0">
 <segment>
-<pinref part="SV1" gate="1" pin="3"/>
+<pinref part="JP1" gate="1" pin="3"/>
 <wire x1="43.18" y1="66.04" x2="50.8" y2="66.04" width="0.1524" layer="91"/>
 <label x="48.26" y="66.04" size="1.778" layer="95"/>
 </segment>
@@ -3323,7 +3323,7 @@ Based on the following sources:&lt;p&gt;
 <pinref part="U1" gate="G$1" pin="(TXD)PD1"/>
 </segment>
 <segment>
-<pinref part="SV1" gate="1" pin="5"/>
+<pinref part="JP1" gate="1" pin="5"/>
 <wire x1="43.18" y1="68.58" x2="50.8" y2="68.58" width="0.1524" layer="91"/>
 <label x="48.26" y="68.58" size="1.778" layer="95"/>
 </segment>
@@ -3336,7 +3336,7 @@ Based on the following sources:&lt;p&gt;
 <junction x="91.44" y="81.28"/>
 </segment>
 <segment>
-<pinref part="SV1" gate="1" pin="7"/>
+<pinref part="JP1" gate="1" pin="7"/>
 <wire x1="43.18" y1="71.12" x2="50.8" y2="71.12" width="0.1524" layer="91"/>
 <label x="48.26" y="71.12" size="1.778" layer="95"/>
 </segment>
@@ -3349,7 +3349,7 @@ Based on the following sources:&lt;p&gt;
 <junction x="91.44" y="76.2"/>
 </segment>
 <segment>
-<pinref part="SV1" gate="1" pin="11"/>
+<pinref part="JP1" gate="1" pin="11"/>
 <wire x1="43.18" y1="76.2" x2="50.8" y2="76.2" width="0.1524" layer="91"/>
 <label x="48.26" y="76.2" size="1.778" layer="95"/>
 </segment>
@@ -3361,7 +3361,7 @@ Based on the following sources:&lt;p&gt;
 <pinref part="U1" gate="G$1" pin="(INT0)PD2"/>
 </segment>
 <segment>
-<pinref part="SV1" gate="1" pin="13"/>
+<pinref part="JP1" gate="1" pin="13"/>
 <wire x1="43.18" y1="78.74" x2="50.8" y2="78.74" width="0.1524" layer="91"/>
 <label x="48.26" y="78.74" size="1.778" layer="95"/>
 </segment>
@@ -3373,19 +3373,19 @@ Based on the following sources:&lt;p&gt;
 <pinref part="U1" gate="G$1" pin="(INT1)PD3"/>
 </segment>
 <segment>
-<pinref part="SV1" gate="1" pin="15"/>
+<pinref part="JP1" gate="1" pin="15"/>
 <wire x1="43.18" y1="81.28" x2="50.8" y2="81.28" width="0.1524" layer="91"/>
 <label x="48.26" y="81.28" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="LED" class="0">
 <segment>
-<pinref part="JP1" gate="G$1" pin="8"/>
+<pinref part="JP2" gate="G$1" pin="8"/>
 <wire x1="43.18" y1="43.18" x2="50.8" y2="43.18" width="0.1524" layer="91"/>
 <label x="50.8" y="43.18" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="SV1" gate="1" pin="12"/>
+<pinref part="JP1" gate="1" pin="12"/>
 <wire x1="27.94" y1="76.2" x2="20.32" y2="76.2" width="0.1524" layer="91"/>
 <label x="17.78" y="76.2" size="1.778" layer="95"/>
 </segment>
