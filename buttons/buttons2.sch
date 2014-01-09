@@ -3075,7 +3075,7 @@ Based on the following sources:&lt;p&gt;
 <part name="GND4" library="supply1" deviceset="GND" device=""/>
 <part name="GND5" library="supply1" deviceset="GND" device=""/>
 <part name="GND6" library="supply1" deviceset="GND" device=""/>
-<part name="U$1" library="avr-6" deviceset="TINY2313*" device="-*P*"/>
+<part name="U1" library="avr-6" deviceset="TINY2313*" device="-*P*" value="attiny2313"/>
 </parts>
 <sheets>
 <sheet>
@@ -3107,7 +3107,7 @@ Based on the following sources:&lt;p&gt;
 <instance part="GND4" gate="1" x="170.18" y="40.64"/>
 <instance part="GND5" gate="1" x="193.04" y="40.64"/>
 <instance part="GND6" gate="1" x="213.36" y="40.64"/>
-<instance part="U$1" gate="G$1" x="111.76" y="86.36"/>
+<instance part="U1" gate="G$1" x="111.76" y="86.36"/>
 </instances>
 <busses>
 </busses>
@@ -3120,7 +3120,7 @@ Based on the following sources:&lt;p&gt;
 <wire x1="83.82" y1="58.42" x2="76.2" y2="58.42" width="0.1524" layer="91"/>
 <wire x1="76.2" y1="58.42" x2="76.2" y2="55.88" width="0.1524" layer="91"/>
 <junction x="83.82" y="58.42"/>
-<pinref part="U$1" gate="G$1" pin="GND"/>
+<pinref part="U1" gate="G$1" pin="GND"/>
 <junction x="91.44" y="58.42"/>
 </segment>
 <segment>
@@ -3171,7 +3171,7 @@ Based on the following sources:&lt;p&gt;
 <wire x1="129.54" y1="93.98" x2="170.18" y2="93.98" width="0.1524" layer="91"/>
 <wire x1="170.18" y1="93.98" x2="170.18" y2="81.28" width="0.1524" layer="91"/>
 <pinref part="S6" gate="G$1" pin="PIN-1"/>
-<pinref part="U$1" gate="G$1" pin="(OC1B)PB4"/>
+<pinref part="U1" gate="G$1" pin="(OC1B)PB4"/>
 </segment>
 </net>
 <net name="N$2" class="0">
@@ -3179,7 +3179,7 @@ Based on the following sources:&lt;p&gt;
 <wire x1="129.54" y1="91.44" x2="193.04" y2="91.44" width="0.1524" layer="91"/>
 <pinref part="S5" gate="G$1" pin="PIN-1"/>
 <wire x1="193.04" y1="91.44" x2="193.04" y2="81.28" width="0.1524" layer="91"/>
-<pinref part="U$1" gate="G$1" pin="(OC1A)PB3"/>
+<pinref part="U1" gate="G$1" pin="(OC1A)PB3"/>
 </segment>
 </net>
 <net name="N$3" class="0">
@@ -3187,7 +3187,7 @@ Based on the following sources:&lt;p&gt;
 <wire x1="129.54" y1="88.9" x2="213.36" y2="88.9" width="0.1524" layer="91"/>
 <pinref part="S4" gate="G$1" pin="PIN-1"/>
 <wire x1="213.36" y1="88.9" x2="213.36" y2="81.28" width="0.1524" layer="91"/>
-<pinref part="U$1" gate="G$1" pin="(OC0A)PB2"/>
+<pinref part="U1" gate="G$1" pin="(OC0A)PB2"/>
 </segment>
 </net>
 <net name="N$4" class="0">
@@ -3197,7 +3197,7 @@ Based on the following sources:&lt;p&gt;
 <wire x1="162.56" y1="63.5" x2="170.18" y2="63.5" width="0.1524" layer="91"/>
 <pinref part="S3" gate="G$1" pin="PIN-1"/>
 <wire x1="170.18" y1="63.5" x2="170.18" y2="55.88" width="0.1524" layer="91"/>
-<pinref part="U$1" gate="G$1" pin="(AIN1)PB1"/>
+<pinref part="U1" gate="G$1" pin="(AIN1)PB1"/>
 </segment>
 </net>
 <net name="N$5" class="0">
@@ -3207,7 +3207,7 @@ Based on the following sources:&lt;p&gt;
 <wire x1="160.02" y1="66.04" x2="193.04" y2="66.04" width="0.1524" layer="91"/>
 <pinref part="S2" gate="G$1" pin="PIN-1"/>
 <wire x1="193.04" y1="66.04" x2="193.04" y2="55.88" width="0.1524" layer="91"/>
-<pinref part="U$1" gate="G$1" pin="(AIN0)PB0"/>
+<pinref part="U1" gate="G$1" pin="(AIN0)PB0"/>
 </segment>
 </net>
 <net name="N$6" class="0">
@@ -3217,7 +3217,7 @@ Based on the following sources:&lt;p&gt;
 <wire x1="157.48" y1="68.58" x2="213.36" y2="68.58" width="0.1524" layer="91"/>
 <pinref part="S1" gate="G$1" pin="PIN-1"/>
 <wire x1="213.36" y1="68.58" x2="213.36" y2="55.88" width="0.1524" layer="91"/>
-<pinref part="U$1" gate="G$1" pin="(ICP)PD6"/>
+<pinref part="U1" gate="G$1" pin="(ICP)PD6"/>
 </segment>
 </net>
 <net name="VCC" class="0">
@@ -3228,7 +3228,7 @@ Based on the following sources:&lt;p&gt;
 <wire x1="83.82" y1="66.04" x2="76.2" y2="66.04" width="0.1524" layer="91"/>
 <wire x1="76.2" y1="66.04" x2="76.2" y2="68.58" width="0.1524" layer="91"/>
 <junction x="83.82" y="66.04"/>
-<pinref part="U$1" gate="G$1" pin="VCC"/>
+<pinref part="U1" gate="G$1" pin="VCC"/>
 <junction x="91.44" y="66.04"/>
 </segment>
 <segment>
@@ -3313,14 +3313,14 @@ Based on the following sources:&lt;p&gt;
 <segment>
 <wire x1="129.54" y1="58.42" x2="139.7" y2="58.42" width="0.1524" layer="91"/>
 <label x="137.16" y="58.42" size="1.778" layer="95"/>
-<pinref part="U$1" gate="G$1" pin="(RXD)PD0"/>
+<pinref part="U1" gate="G$1" pin="(RXD)PD0"/>
 </segment>
 </net>
 <net name="BUTTON2" class="0">
 <segment>
 <wire x1="129.54" y1="60.96" x2="139.7" y2="60.96" width="0.1524" layer="91"/>
 <label x="137.16" y="60.96" size="1.778" layer="95"/>
-<pinref part="U$1" gate="G$1" pin="(TXD)PD1"/>
+<pinref part="U1" gate="G$1" pin="(TXD)PD1"/>
 </segment>
 <segment>
 <pinref part="SV1" gate="1" pin="5"/>
@@ -3331,7 +3331,7 @@ Based on the following sources:&lt;p&gt;
 <net name="BUTTON3" class="0">
 <segment>
 <label x="76.2" y="81.28" size="1.778" layer="95"/>
-<pinref part="U$1" gate="G$1" pin="PA1(XTAL2)"/>
+<pinref part="U1" gate="G$1" pin="PA1(XTAL2)"/>
 <wire x1="91.44" y1="81.28" x2="83.82" y2="81.28" width="0.1524" layer="91"/>
 <junction x="91.44" y="81.28"/>
 </segment>
@@ -3344,7 +3344,7 @@ Based on the following sources:&lt;p&gt;
 <net name="BUTTON4" class="0">
 <segment>
 <label x="76.2" y="76.2" size="1.778" layer="95"/>
-<pinref part="U$1" gate="G$1" pin="PA0(XTAL1)"/>
+<pinref part="U1" gate="G$1" pin="PA0(XTAL1)"/>
 <wire x1="91.44" y1="76.2" x2="83.82" y2="76.2" width="0.1524" layer="91"/>
 <junction x="91.44" y="76.2"/>
 </segment>
@@ -3358,7 +3358,7 @@ Based on the following sources:&lt;p&gt;
 <segment>
 <wire x1="129.54" y1="63.5" x2="139.7" y2="63.5" width="0.1524" layer="91"/>
 <label x="137.16" y="63.5" size="1.778" layer="95"/>
-<pinref part="U$1" gate="G$1" pin="(INT0)PD2"/>
+<pinref part="U1" gate="G$1" pin="(INT0)PD2"/>
 </segment>
 <segment>
 <pinref part="SV1" gate="1" pin="13"/>
@@ -3370,7 +3370,7 @@ Based on the following sources:&lt;p&gt;
 <segment>
 <wire x1="129.54" y1="66.04" x2="139.7" y2="66.04" width="0.1524" layer="91"/>
 <label x="137.16" y="66.04" size="1.778" layer="95"/>
-<pinref part="U$1" gate="G$1" pin="(INT1)PD3"/>
+<pinref part="U1" gate="G$1" pin="(INT1)PD3"/>
 </segment>
 <segment>
 <pinref part="SV1" gate="1" pin="15"/>
