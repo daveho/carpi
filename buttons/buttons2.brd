@@ -641,12 +641,12 @@ design rules under a new name.</description>
 <element name="STANDOFF2" library="SparkFun-Electromechanical" package="STAND-OFF" value="STAND-OFF" x="2.93" y="2.84"/>
 <element name="STANDOFF3" library="SparkFun-Electromechanical" package="STAND-OFF" value="STAND-OFF" x="66.18" y="41.14"/>
 <element name="STANDOFF4" library="SparkFun-Electromechanical" package="STAND-OFF" value="STAND-OFF" x="2.89" y="41.13"/>
-<element name="S1" library="cherrymx" package="CHERRY-MX-I" value="CHERRY-MX-I" x="23" y="19.5"/>
-<element name="S2" library="cherrymx" package="CHERRY-MX-I" value="CHERRY-MX-I" x="39" y="19.5"/>
-<element name="S3" library="cherrymx" package="CHERRY-MX-I" value="CHERRY-MX-I" x="55" y="19.5"/>
-<element name="S4" library="cherrymx" package="CHERRY-MX-I" value="CHERRY-MX-I" x="23" y="35.5"/>
-<element name="S5" library="cherrymx" package="CHERRY-MX-I" value="CHERRY-MX-I" x="39" y="35.5"/>
-<element name="S6" library="cherrymx" package="CHERRY-MX-I" value="CHERRY-MX-I" x="55" y="35.5"/>
+<element name="S1" library="cherrymx" package="CHERRY-MX-I" value="CHERRY-MX-I" x="23" y="19.5" rot="MR0"/>
+<element name="S2" library="cherrymx" package="CHERRY-MX-I" value="CHERRY-MX-I" x="39" y="19.5" rot="MR0"/>
+<element name="S3" library="cherrymx" package="CHERRY-MX-I" value="CHERRY-MX-I" x="55" y="19.5" rot="MR0"/>
+<element name="S4" library="cherrymx" package="CHERRY-MX-I" value="CHERRY-MX-I" x="23" y="35.5" rot="MR0"/>
+<element name="S5" library="cherrymx" package="CHERRY-MX-I" value="CHERRY-MX-I" x="39" y="35.5" rot="MR0"/>
+<element name="S6" library="cherrymx" package="CHERRY-MX-I" value="CHERRY-MX-I" x="55" y="35.5" rot="MR0"/>
 <element name="U$1" library="avr-6" package="DIL20" value="TINY2313-*P*" x="8.3" y="25.1" rot="R90"/>
 </elements>
 <signals>
@@ -666,44 +666,44 @@ design rules under a new name.</description>
 <wire x1="49.81" y1="4.71" x2="51.5" y2="6.4" width="0.6096" layer="16"/>
 <wire x1="51.5" y1="6.4" x2="51.5" y2="7.89" width="0.6096" layer="16"/>
 <wire x1="51.5" y1="7.89" x2="51.52" y2="7.91" width="0.6096" layer="16"/>
-<wire x1="41.54" y1="40.58" x2="57.54" y2="40.58" width="0" layer="19" extent="1-1"/>
-<wire x1="57.54" y1="24.58" x2="57.54" y2="40.58" width="0" layer="19" extent="1-1"/>
-<wire x1="25.54" y1="40.58" x2="41.54" y2="40.58" width="0" layer="19" extent="1-1"/>
-<wire x1="12.11" y1="36.53" x2="25.54" y2="40.58" width="0" layer="19" extent="1-1"/>
-<wire x1="41.54" y1="24.58" x2="41.54" y2="40.58" width="0" layer="19" extent="1-1"/>
-<wire x1="25.54" y1="24.58" x2="25.54" y2="40.58" width="0" layer="19" extent="1-1"/>
-<wire x1="51.52" y1="7.91" x2="57.54" y2="24.58" width="0" layer="19" extent="1-1"/>
-<wire x1="4.5" y1="8.81" x2="25.54" y2="24.58" width="0" layer="19" extent="1-1"/>
+<wire x1="36.46" y1="40.58" x2="52.46" y2="40.58" width="0" layer="19" extent="1-1"/>
+<wire x1="52.46" y1="24.58" x2="52.46" y2="40.58" width="0" layer="19" extent="1-1"/>
+<wire x1="20.46" y1="40.58" x2="36.46" y2="40.58" width="0" layer="19" extent="1-1"/>
+<wire x1="12.11" y1="36.53" x2="20.46" y2="40.58" width="0" layer="19" extent="1-1"/>
+<wire x1="36.46" y1="24.58" x2="36.46" y2="40.58" width="0" layer="19" extent="1-1"/>
+<wire x1="20.46" y1="24.58" x2="20.46" y2="40.58" width="0" layer="19" extent="1-1"/>
+<wire x1="51.52" y1="7.91" x2="52.46" y2="24.58" width="0" layer="19" extent="1-1"/>
+<wire x1="4.5" y1="8.81" x2="20.46" y2="24.58" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="N$1">
 <contactref element="S6" pad="PIN-1"/>
 <contactref element="U$1" pad="16"/>
-<wire x1="4.49" y1="23.83" x2="51.19" y2="38.04" width="0" layer="19" extent="1-1"/>
+<wire x1="4.49" y1="23.83" x2="58.81" y2="38.04" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="N$2">
 <contactref element="S5" pad="PIN-1"/>
 <contactref element="U$1" pad="15"/>
-<wire x1="4.49" y1="26.37" x2="35.19" y2="38.04" width="0" layer="19" extent="1-1"/>
+<wire x1="4.49" y1="26.37" x2="42.81" y2="38.04" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="N$3">
 <contactref element="S4" pad="PIN-1"/>
 <contactref element="U$1" pad="14"/>
-<wire x1="4.49" y1="28.91" x2="19.19" y2="38.04" width="0" layer="19" extent="1-1"/>
+<wire x1="4.49" y1="28.91" x2="26.81" y2="38.04" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="N$4">
 <contactref element="S3" pad="PIN-1"/>
 <contactref element="U$1" pad="13"/>
-<wire x1="4.49" y1="31.45" x2="51.19" y2="22.04" width="0" layer="19" extent="1-1"/>
+<wire x1="4.49" y1="31.45" x2="58.81" y2="22.04" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="N$5">
 <contactref element="S2" pad="PIN-1"/>
 <contactref element="U$1" pad="12"/>
-<wire x1="4.49" y1="33.99" x2="35.19" y2="22.04" width="0" layer="19" extent="1-1"/>
+<wire x1="4.49" y1="33.99" x2="42.81" y2="22.04" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="N$6">
 <contactref element="S1" pad="PIN-1"/>
 <contactref element="U$1" pad="11"/>
-<wire x1="4.49" y1="36.53" x2="19.19" y2="22.04" width="0" layer="19" extent="1-1"/>
+<wire x1="4.49" y1="36.53" x2="26.81" y2="22.04" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="VCC">
 <contactref element="C1" pad="1"/>
