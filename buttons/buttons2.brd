@@ -105,9 +105,9 @@
 </layers>
 <board>
 <plain>
-<wire x1="0" y1="0" x2="73" y2="0" width="0" layer="20"/>
-<wire x1="73" y1="0" x2="73" y2="44" width="0" layer="20"/>
-<wire x1="73" y1="44" x2="0" y2="44" width="0" layer="20"/>
+<wire x1="0" y1="0" x2="74" y2="0" width="0" layer="20"/>
+<wire x1="74" y1="0" x2="74" y2="44" width="0" layer="20"/>
+<wire x1="74" y1="44" x2="0" y2="44" width="0" layer="20"/>
 <wire x1="0" y1="44" x2="0" y2="0" width="0" layer="20"/>
 <text x="14.1" y="25.9" size="1.778" layer="21" font="vector">CarPi button PCB v0.2 10Jan2014</text>
 <text x="14.9" y="22.6" size="1.778" layer="21" font="vector">https://github.com/daveho/carpi</text>
@@ -643,9 +643,9 @@ Please make sure your boards conform to these design rules.</description>
 <attribute name="NAME" x="1.579" y="10.334" size="1.27" layer="25" font="vector" ratio="10"/>
 <attribute name="VALUE" x="0.679" y="6.016" size="1.27" layer="27" font="vector" ratio="10"/>
 </element>
-<element name="STANDOFF1" library="SparkFun-Electromechanical" package="STAND-OFF" value="STAND-OFF" x="70.14" y="2.86"/>
+<element name="STANDOFF1" library="SparkFun-Electromechanical" package="STAND-OFF" value="STAND-OFF" x="71.14" y="2.86"/>
 <element name="STANDOFF2" library="SparkFun-Electromechanical" package="STAND-OFF" value="STAND-OFF" x="2.86" y="2.86"/>
-<element name="STANDOFF3" library="SparkFun-Electromechanical" package="STAND-OFF" value="STAND-OFF" x="70.14" y="41.14"/>
+<element name="STANDOFF3" library="SparkFun-Electromechanical" package="STAND-OFF" value="STAND-OFF" x="71.14" y="41.14"/>
 <element name="STANDOFF4" library="SparkFun-Electromechanical" package="STAND-OFF" value="STAND-OFF" x="2.86" y="41.14"/>
 <element name="S1" library="cherrymx" package="CHERRY-MX-I" value="CHERRY-MX-I" x="18.6" y="17.2" rot="MR180"/>
 <element name="S2" library="cherrymx" package="CHERRY-MX-I" value="CHERRY-MX-I" x="37.6" y="17.2" rot="MR180"/>
@@ -769,7 +769,6 @@ Please make sure your boards conform to these design rules.</description>
 <via x="5.4" y="19.3" extent="1-16" drill="0.6"/>
 <wire x1="5.4" y1="19.3" x2="5.6" y2="19.1" width="0.3048" layer="16"/>
 <wire x1="5.6" y1="19.1" x2="11.3" y2="19.1" width="0.3048" layer="16"/>
-<wire x1="11.3" y1="19.1" x2="13.1" y2="19.1" width="0" layer="19" extent="1-16"/>
 <wire x1="24.5" y1="21.7" x2="31.6" y2="14.6" width="0.3048" layer="16"/>
 <wire x1="31.6" y1="14.6" x2="33.73" y2="14.6" width="0.3048" layer="16"/>
 <wire x1="33.73" y1="14.6" x2="33.79" y2="14.66" width="0.3048" layer="16"/>
