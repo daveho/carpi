@@ -110,7 +110,7 @@
 <wire x1="74" y1="44" x2="0" y2="44" width="0" layer="20"/>
 <wire x1="0" y1="44" x2="0" y2="0" width="0" layer="20"/>
 <text x="14.1" y="25.9" size="1.778" layer="21" font="vector">CarPi button PCB v0.2 10Jan2014</text>
-<text x="14.9" y="22.6" size="1.778" layer="21" font="vector">https://github.com/daveho/carpi</text>
+<text x="14.9" y="20.9" size="1.778" layer="21" font="vector">https://github.com/daveho/carpi</text>
 </plain>
 <libraries>
 <library name="SparkFun-Electromechanical">
