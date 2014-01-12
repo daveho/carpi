@@ -8,13 +8,13 @@ ifeq ($(CONFIG),Release)
 OPT := -O2 -DNDEBUG
 endif
 
-HAS_WIRING_PI := $(shell if [ -r /usr/local/include/wiringPi.h ]; then echo "yes"; fi)
-ifeq ($(HAS_WIRING_PI),yes)
-PLATFORM_DEFINES := -DHAS_WIRING_PI=1
+# See if we're compiling on a Raspberry Pi.
+ifeq ($(shell uname -m),armv6l)
+IS_RASPBERRY_PI = true
 endif
 
 CXX = g++
-CXXFLAGS = $(DEBUG) $(OPT) $(PLATFORM_DEFINES) -Wall -D_REENTRANT
+CXXFLAGS = $(DEBUG) $(OPT) $(PLATFORM_DEFINES) -Wall -D_REENTRANT -std=c++0x
 
 SRCS := \
 	abstract_event_visitor.cpp \
@@ -44,8 +44,8 @@ SRCS := \
 	video_file_navigator_menu_controller.cpp \
 	video_player_controller.cpp
 
-ifeq ($(HAS_WIRING_PI),yes)
-SRCS += rpi_button_handler.cpp
+ifeq ($(IS_RASPBERRY_PI),true)
+SRCS += gpio_pin.cpp
 endif
 
 OBJS := $(SRCS:%.cpp=$(CONFIG)/%.o)
@@ -67,6 +67,6 @@ depend :
 		perl -n -e 's,^([a-z]),$(CONFIG)/\1,; print' > $(CONFIG)/depend.mak
 
 clean :
-	rm -f *.o
+	rm -f $(CONFIG)/*.o
 
 include $(CONFIG)/depend.mak
