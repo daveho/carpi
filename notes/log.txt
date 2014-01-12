@@ -222,3 +222,49 @@ Jan 7th, 2014
   circuit are high (which is the expected state when the buttons aren't
   pressed.)  This is a good confirmation that the button input is
   being detected correctly.
+
+Jan 8th-10th, 2014
+
+- I received the Adafruit pushbuttons a few days again, and the
+  quality is pretty terrible: the caps don't fit securely, and
+  the "feel" is not that great (too much pressure to activate,
+  tactile click sounds "cheap", etc.)  Did a bit of research,
+  and decided that keyboard keyswitches would provide a higher
+  quality experience, and because there is an "enthusiast"
+  community for keyboard hardware, parts and documentation
+  are widely available.  I decided to redesign the button PCB
+  for Cherry MX keyswitches.  Found an Eagle library:
+    https://github.com/c0z3n/cherrymx-eagle
+  WASD keyboard sells the keyswitches and blank caps:
+    http://www.wasdkeyboards.com/
+  I ordered the sampler blank keycap set, and 8 Cherry MX
+  brown switches.  (The brown ones are tactile, but not
+  "clicky".  Redesigning the button PCB was a fairly tight fit,
+  but I think I made it work.  I left a 19mm x 19mm area for
+  the keycaps (the WASD keyboard website shows them as 18mm x 18mm).
+  I also left 1mm at the edges.  I had to change the enclosure:
+  in particular, I moved the standoffs out a bit, and moved the
+  LCD to the left to make room for the (slightly larger)
+  button PCB.  Everything seems to fit, although it was a somewhat
+  tight fit.  I sent out the new button PCB for fabrication
+  (again through OSHPark).  I'll wait to see whether it works
+  before having the updated enclosure laser cut.
+
+Jan 11th, 2014
+
+- Started working on GPIO support using the documented /sys/class/gpio
+  interface, based on the Linux kernel GPIO documentation.
+  This turns out to be really easy to use: writing a pin number
+  to /sys/class/gpio/export "exports" the pin, creating a directory
+  will control files.  Also, if you enable interrupts on
+  a pin, you can use poll or select to do a blocking wait for
+  a pin status change.  Best of all, Raspbian has a "gpio"
+  group for permitting access to GPIO, eliminating the need for
+  being root to access gpio.  (The default "pi" user is in the
+  GPIO group.)  It looks like I won't need to use wiringPi after all.
+
+Jan 12th, 2014
+
+- The GPIO input is completely working, using interrupts to allow
+  blocking waits!  Next step is to generate button press events
+  based on button presses/releases.
