@@ -213,3 +213,12 @@ Jan 6th, 2014
   safe mode.  Should probably go with this plan.
 - Made this change (outputting 0=pressed instead of 1=pressed).
   Verified that the RPi does boot normally without avoid_safe_mode=1.
+
+Jan 7th, 2014
+
+- Built wiringPi library from source.  Used the command
+    gpio readall
+  and verified that all of the inputs being driven by the button
+  circuit are high (which is the expected state when the buttons aren't
+  pressed.)  This is a good confirmation that the button input is
+  being detected correctly.

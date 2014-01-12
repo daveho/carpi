@@ -19,6 +19,7 @@
 #ifndef STRING_UTIL_H
 #define STRING_UTIL_H
 
+#include <cstdio>
 #include <cctype>
 #include <string>
 #include <vector>
@@ -99,6 +100,34 @@ namespace StringUtil {
 		}
 
 		return results;
+	}
+
+	// Read a line of text from given file handle.
+	// Result is assigned to the string parameter.
+	// Returns false if EOF is reached without reading
+	// any characters.
+	inline bool readLine(FILE *f, std::string &line)
+	{
+		line.clear();
+		for (;;) {
+			int c = fgetc(f);
+			if (c == EOF) { return !line.empty(); }
+			if (c == '\n') { break; }
+			line += char(c);
+		}
+		return true;
+	}
+
+	// Read one line of text from named file
+	inline bool readOneLine(const std::string &fileName, std::string &line)
+	{
+		FILE *fh = fopen(fileName.c_str(), "r");
+		if (!fh) {
+			return false;
+		}
+		bool gotLine = readLine(fh, line);
+		fclose(fh);
+		return gotLine;
 	}
 };
 

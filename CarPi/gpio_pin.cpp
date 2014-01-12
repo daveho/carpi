@@ -24,12 +24,14 @@
 #include <dirent.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include "string_util.h"
 #include "gpio_pin.h"
 
 #define DEBUG(args...) printf(args)
 
 namespace {
-	void delay() {
+	void delay()
+	{
 		struct timespec ts;
 		ts.tv_sec = 0;
 		ts.tv_nsec = (1000000000L / 20);
@@ -67,6 +69,7 @@ namespace {
 GpioPin::GpioPin()
 	: m_pinNumber(-1)
 	, m_valueFd(-1)
+	, m_interruptMode(UNKNOWN)
 {
 }
 
@@ -106,15 +109,18 @@ bool GpioPin::initForReading(int pinNumber)
 	}
 	closedir(dir);
 
-	// Set direction to read (this should be the default, but be paranoid)
+	// Verify that the direction is set to "in"
 	std::string directionPath(pinDir + "/direction");
-	FILE *directionFh = waitForFile(directionPath, "w");
-	if (!directionFh) {
-		DEBUG("Could not open direction file\n");
+	std::string direction;
+	if (!StringUtil::readOneLine(directionPath, direction)) {
+		DEBUG("Could not read from direction file\n");
 		return false;
 	}
-	fprintf(directionFh, "in\n");
-	fclose(directionFh);
+	if (direction != "in") {
+		// This is bad
+		DEBUG("Direction is not set to in!\n");
+		return false;
+	}
 
 	// Open the value file (for accessing the input pin's value)
 	std::string valuePath(pinDir + "/value");
@@ -136,11 +142,7 @@ bool GpioPin::initInterrupts(InterruptMode mode)
 	assert(m_pinNumber >= 0);
 	assert(m_valueFd >= 0);
 
-	std::string edgePath("/sys/class/gpio/gpio" + std::to_string(m_pinNumber) + "/edge");
-	FILE *edgeFh = fopen(edgePath.c_str(), "w");
-	if (!edgeFh) {
-		return false;
-	}
+	// Determine the mode string
 	std::string modeStr;
 	switch (mode) {
 	case NONE:
@@ -151,13 +153,34 @@ bool GpioPin::initInterrupts(InterruptMode mode)
 		modeStr = "falling"; break;
 	case BOTH:
 		modeStr = "both"; break;
+	default:
+		// invalid mode
+		DEBUG("Invalid mode\n");
+		return false;
 	}
-	if (modeStr.empty()) {
-		return false; // invalid mode
+
+	// Set the direction
+	std::string edgePath("/sys/class/gpio/gpio" + std::to_string(m_pinNumber) + "/edge");
+	FILE *edgeFh = waitForFile(edgePath, "w");
+	if (!edgeFh) {
+		DEBUG("Could not open edge file\n");
+		return false;
 	}
 	fprintf(edgeFh, "%s\n", modeStr.c_str());
 	fclose(edgeFh);
 
+	// Verify that the direction was set correctly
+	std::string edge;
+	if (!StringUtil::readOneLine(edgePath, edge)) {
+		DEBUG("Could not read from edge file\n");
+		return false;
+	}
+	if (edge != modeStr) {
+		DEBUG("Interrupt mode wasn't set correctly\n");
+		return false;
+	}
+
+	// Success!
 	return true;
 }
 

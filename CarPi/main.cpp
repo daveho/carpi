@@ -54,8 +54,8 @@ int main(void)
 			exit(1);
 		}
 	}
-
 	printf("Pins initialized correctly?\n");
+	
 #else
 	ConsCarPiApp::initialize();
 	CarPiApp::instance()->mainLoop();

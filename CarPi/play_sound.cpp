@@ -51,19 +51,6 @@
 #  define DEBUG(args)
 #endif
 
-namespace {
-	bool readLine(FILE *f, std::string &line) {
-		line.clear();
-		for (;;) {
-			int c = fgetc(f);
-			if (c == EOF) { return false; }
-			if (c == '\n') { break; }
-			line += char(c);
-		}
-		return true;
-	}
-}
-
 PlaySoundCallback::PlaySoundCallback()
 {
 }
@@ -90,7 +77,7 @@ void PlaySound::MonitorThread::run()
 	PlaySoundCallback *callback = m_ps->m_callback;
 
 	std::string line;
-	while (readLine(f, line)) {
+	while (StringUtil::readLine(f, line)) {
 		if (callback == 0) {
 			continue; 
 		}

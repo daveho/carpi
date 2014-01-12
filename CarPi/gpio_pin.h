@@ -22,18 +22,21 @@
 #include <sys/select.h>
 
 class GpioPin {
-private:
-	int m_pinNumber;
-	int m_valueFd;
-
 public:
 	enum InterruptMode {
+		UNKNOWN,
 		NONE,
 		RISING,
 		FALLING,
 		BOTH,
 	};
 
+private:
+	int m_pinNumber;
+	int m_valueFd;
+	InterruptMode m_interruptMode;
+
+public:
 	GpioPin();
 	~GpioPin();
 
@@ -41,6 +44,7 @@ public:
 	bool isActive() const { return m_valueFd >= 0; }
 	int getPinNumber() const { return m_pinNumber; }
 	bool initInterrupts(InterruptMode mode);
+	InterruptMode getInterruptMode() const { return m_interruptMode; }
 	int getValue();
 
 	static void makeFdSet(fd_set *fdSet, GpioPin *pinList, int numPins);
