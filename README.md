@@ -28,8 +28,7 @@ Current status of the software is
 * Music playing works using mpg321 and ogg123 via the
   remote control interface (actually ogg123 playback doesn't
   work, need to investigate this).
-* Pushbutton input will be supported using the RPi's
-  GPIO (probably using the wiringPi library).
+* Pushbutton input will be supported using the RPi's GPIO.
 * Video playing will be supported via omxplayer, with
   composite output (because composite video monitors for
   cars are super cheap).
@@ -40,6 +39,7 @@ Current status of the hardware is
   laser cutting.
 * PCB design (for the buttons and LCD connector) is complete and
   has been submitted for fabrication.
-* The pushbutton circuit has been prototyped on a breadboard and
-  connected to the Raspberry Pi without (as far as I can tell)
-  breaking anything.
+* The pushbutton circuit has been prototyped on a breadboard,
+  connected to the Raspberry Pi, and the software can detect
+  button presses and releases via the Linux GPIO interface
+  (/sys/class/gpio).
