@@ -80,6 +80,7 @@ GpioPin::~GpioPin()
 bool GpioPin::initForReading(int pinNumber)
 {
 	assert(m_pinNumber < 0);
+	m_pinNumber = pinNumber;
 
 	// Each gpio pin (when exported) is represented by a directory
 	std::string pinDir("/sys/class/gpio/gpio" + std::to_string(pinNumber));
@@ -126,7 +127,6 @@ bool GpioPin::initForReading(int pinNumber)
 	fclose(valueFh);
 
 	// Success!
-	m_pinNumber = pinNumber;
 	m_valueFd = valueFd;
 	return true;
 }

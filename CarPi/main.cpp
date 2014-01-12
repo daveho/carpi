@@ -50,7 +50,7 @@ int main(void)
 	// Check that initializing the pins succeeded
 	for (int i = 0; i < 6; i++) {
 		if (!pinList[i].isActive()) {
-			printf("Pin at index %d not active?\n", i);
+			printf("Pin %d not active?\n", pinList[i].getPinNumber());
 			exit(1);
 		}
 	}
