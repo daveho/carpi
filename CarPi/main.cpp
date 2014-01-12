@@ -27,9 +27,9 @@
 #  include "cons_car_pi_app.h"
 #endif
 
-int main(void)
-{
 #ifdef GPIO_TEST
+void gpioTest()
+{
 	GpioPin pinList[6];
 
 	/*
@@ -69,6 +69,34 @@ int main(void)
 		}
 	}
 	printf("Set interrupt modes correctly?\n");
+
+	// Print changing pin values, using select to block waiting
+	// for an interrupt.  According to the Linux GPIO documentation,
+	// the pin value fds should be in the exception set
+	// (not the read or write sets).
+	fd_set pinSet;
+	int highestFd = GpioPin::makeFdSet(&pinSet, pinList, 6);
+
+	for (;;) {
+		for (int i = 0; i < 6; i++) {
+			printf("%d", pinList[i].getValue());
+		}
+		printf("\n");
+
+		fd_set waitSet(pinSet);
+		int rc = select(highestFd+1, 0, 0, &waitSet, 0);
+		if (rc < 0) {
+			printf("Select failed?\n");
+			break;
+		}
+	}
+}
+#endif
+
+int main(void)
+{
+#ifdef GPIO_TEST
+	gpioTest();
 #else
 	ConsCarPiApp::initialize();
 	CarPiApp::instance()->mainLoop();

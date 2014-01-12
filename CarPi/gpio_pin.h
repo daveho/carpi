@@ -47,7 +47,9 @@ public:
 	InterruptMode getInterruptMode() const { return m_interruptMode; }
 	int getValue();
 
-	static void makeFdSet(fd_set *fdSet, GpioPin *pinList, int numPins);
+	// Create an fd_set with the value file descriptors from
+	// given GpioPin objects.  Returns the highest file descriptor.
+	static int makeFdSet(fd_set *fdSet, GpioPin *pinList, int numPins);
 };
 
 #endif // GPIO_PIN_H

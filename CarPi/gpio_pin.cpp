@@ -204,11 +204,15 @@ int GpioPin::getValue()
 	return buf[0] == '1'; // buf[0] should be either '0' or '1'
 }
 
-void GpioPin::makeFdSet(fd_set *fdSet, GpioPin *pinList, int numPins)
+int GpioPin::makeFdSet(fd_set *fdSet, GpioPin *pinList, int numPins)
 {
 	FD_ZERO(fdSet);
+	int highestFd = -1;
 	for (int i = 0; i < numPins; i++) {
 		FD_SET(pinList[i].m_valueFd, fdSet);
-
+		if (pinList[i].m_valueFd > highestFd) {
+			highestFd = pinList[i].m_valueFd;
+		}
 	}
+	return highestFd;
 }
