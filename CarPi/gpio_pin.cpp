@@ -27,7 +27,11 @@
 #include "string_util.h"
 #include "gpio_pin.h"
 
-#define DEBUG(args...) printf(args)
+#ifndef NDEBUG
+#  define DEBUG(args...) printf(args)
+#else
+#  define DEBUG(args...)
+#endif
 
 namespace {
 	void delay()

@@ -11,6 +11,7 @@ endif
 # See if we're compiling on a Raspberry Pi.
 ifeq ($(shell uname -m),armv6l)
 IS_RASPBERRY_PI = true
+PLATFORM_DEFINES = -DRASPBERRY_PI
 endif
 
 CXX = g++
@@ -45,7 +46,7 @@ SRCS := \
 	video_player_controller.cpp
 
 ifeq ($(IS_RASPBERRY_PI),true)
-SRCS += gpio_pin.cpp
+SRCS += gpio_pin.cpp button_input_reader_thread.cpp
 endif
 
 OBJS := $(SRCS:%.cpp=$(CONFIG)/%.o)
