@@ -137,10 +137,12 @@ bool GpioPin::initForReading(int pinNumber)
 	return true;
 }
 
-bool GpioPin::initInterrupts(InterruptMode mode)
+bool GpioPin::setInterruptMode(InterruptMode mode)
 {
 	assert(m_pinNumber >= 0);
 	assert(m_valueFd >= 0);
+
+	m_interruptMode = UNKNOWN; // assume we won't succeed
 
 	// Determine the mode string
 	std::string modeStr;
@@ -181,6 +183,7 @@ bool GpioPin::initInterrupts(InterruptMode mode)
 	}
 
 	// Success!
+	m_interruptMode = mode;
 	return true;
 }
 

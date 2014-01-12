@@ -55,7 +55,20 @@ int main(void)
 		}
 	}
 	printf("Pins initialized correctly?\n");
-	
+
+	// Set the interrupt mode on each pin so that an interrupt is triggered
+	// on both rising and falling edges
+	for (int i = 0; i < 6; i++) {
+		pinList[i].setInterruptMode(GpioPin::BOTH);
+	}
+
+	// Verify that interrupt mode was set correctly
+	for (int i = 0; i < 6; i++) {
+		if (pinList[i].getInterruptMode() != GpioPin::BOTH) {
+			printf("Couldn't set interrupt mode on pin %d\n", pinList[i].getPinNumber());
+		}
+	}
+	printf("Set interrupt modes correctly?\n");
 #else
 	ConsCarPiApp::initialize();
 	CarPiApp::instance()->mainLoop();

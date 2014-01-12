@@ -43,7 +43,7 @@ public:
 	bool initForReading(int pinNumber);
 	bool isActive() const { return m_valueFd >= 0; }
 	int getPinNumber() const { return m_pinNumber; }
-	bool initInterrupts(InterruptMode mode);
+	bool setInterruptMode(InterruptMode mode);
 	InterruptMode getInterruptMode() const { return m_interruptMode; }
 	int getValue();
 
