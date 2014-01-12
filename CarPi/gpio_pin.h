@@ -45,7 +45,7 @@ public:
 	int getPinNumber() const { return m_pinNumber; }
 	bool setInterruptMode(InterruptMode mode);
 	InterruptMode getInterruptMode() const { return m_interruptMode; }
-	int getValue();
+	int getValue() const;
 
 	// Create an fd_set with the value file descriptors from
 	// given GpioPin objects.  Returns the highest file descriptor.

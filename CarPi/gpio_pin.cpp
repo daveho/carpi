@@ -187,7 +187,7 @@ bool GpioPin::setInterruptMode(InterruptMode mode)
 	return true;
 }
 
-int GpioPin::getValue()
+int GpioPin::getValue() const
 {
 	// Always seek to the beginning of the value file
 	// to ensure that a fresh value is read.
