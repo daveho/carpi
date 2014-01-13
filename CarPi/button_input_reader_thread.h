@@ -26,6 +26,7 @@ class GpioPin;
 class ButtonInputReaderThread : public Thread {
 private:
 	GpioPin *m_pinList;
+	int m_last;
 
 public:
 	ButtonInputReaderThread();
@@ -35,6 +36,9 @@ public:
 	bool initGpio();
 
 	virtual void run();
+
+private:
+	void generateEvents();
 };
 
 #endif // BUTTON_INPUT_READER_THREAD_H

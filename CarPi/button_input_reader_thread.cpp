@@ -16,6 +16,7 @@
 // You should have received a copy of the GNU General Public License
 // along with CarPi.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <memory>
 #include <unistd.h>
 #include "gpio_pin.h"
 #include "event.h"
@@ -46,6 +47,7 @@ namespace {
 
 ButtonInputReaderThread::ButtonInputReaderThread()
 	: m_pinList(0)
+	, m_last(~0) // assume that no buttons are pressed initially
 {
 	// Make this a detached thread: it will read the button input
 	// until the process exits
@@ -59,7 +61,7 @@ ButtonInputReaderThread::~ButtonInputReaderThread()
 
 bool ButtonInputReaderThread::initGpio()
 {
-	GpioPin *pinList = new GpioPin[NUM_BUTTONS];
+	std::unique_ptr<GpioPin[]> pinList(new GpioPin[NUM_BUTTONS]);
 	for (int i = 0; i < NUM_BUTTONS; i++) {
 		// Open the pin for reading
 		if (!pinList[i].initForReading(s_gpioPins[i])) {
@@ -72,7 +74,7 @@ bool ButtonInputReaderThread::initGpio()
 	}
 
 	// Successful initialization!
-	m_pinList = pinList;
+	m_pinList = pinList.release();
 	return true;
 }
 
@@ -82,42 +84,44 @@ void ButtonInputReaderThread::run()
 		return;
 	}
 
-	// Last input (assume all buttons are not pressed).
-	// Note that 0=pressed.
-	int last = ~(~0 << NUM_BUTTONS);
-
+	// Make a fd_set of the pin value file descriptors
 	fd_set pinSet;
 	int highestFd = GpioPin::makeFdSet(&pinSet, m_pinList, NUM_BUTTONS);
-	for (;;) {
-		fd_set waitSet(pinSet);
 
+	// Input loop
+	for (;;) {
 		// Wait for a button to be pressed or released
+		fd_set waitSet(pinSet);
 		int rc = select(highestFd+1, 0, 0, &waitSet, 0);
 
 		if (rc < 0) {
 			// FIXME: should log
 			sleep(1); // avoid burning CPU cycles
 		} else {
-			// Read updated state of buttons, generate
-			// press/release events
-			int cur = 0;
-			for (int i = 0; i < NUM_BUTTONS; i++) {
-				int value = m_pinList[i].getValue();
-				if (value > 0) {
-					cur |= (1 << i);
-				}
-				if ((cur & (1 << i)) != (last & (1 << i))) {
-					// Button press/release
-					if (cur & (1 << i)) {
-						// release
-						EventQueue::instance()->enqueue(new ButtonEvent(ButtonEvent::RELEASE, s_buttonCodes[i]));
-					} else {
-						// press
-						EventQueue::instance()->enqueue(new ButtonEvent(ButtonEvent::PRESS, s_buttonCodes[i]));
-					}
-				}
-			}
-			last = cur;
+			// Input pin or pins changed, so generate events
+			generateEvents();
 		}
 	}
+}
+
+void ButtonInputReaderThread::generateEvents()
+{
+	// Read updated state of buttons, generate
+	// press/release events
+	int cur = 0;
+	for (int i = 0, mask = 1; i < NUM_BUTTONS; i++, mask <<= 1) {
+		int value = m_pinList[i].getValue();
+		if (value > 0) {
+			cur |= mask;
+		}
+		if ((cur & mask) != (m_last & mask)) {
+			// Button press/release
+			ButtonEvent::Type type = ((cur & mask) != 0)
+				? ButtonEvent::RELEASE
+				: ButtonEvent::PRESS;
+			ButtonEvent::Code code = s_buttonCodes[i];
+			EventQueue::instance()->enqueue(new ButtonEvent(type, code));
+		}
+	}
+	m_last = cur;
 }
