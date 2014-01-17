@@ -60,7 +60,7 @@ $(CONFIG)/CarPi : $(CONFIG) $(OBJS)
 $(CONFIG) :
 	mkdir -p $(CONFIG)
 
-$(CONFIG)/depend.mak :
+$(CONFIG)/depend.mak : $(CONFIG)
 	touch $@
 
 depend :
