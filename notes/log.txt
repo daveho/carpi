@@ -268,3 +268,32 @@ Jan 12th, 2014
 - The GPIO input is completely working, using interrupts to allow
   blocking waits!  Next step is to generate button press events
   based on button presses/releases.
+
+Jan 13th-16th, 2014
+
+- The Cherry MX brown keyswitches and keycap set arrived from WASD
+  keyboards.  The switches don't have the two "stabilizer" posts to the
+  right and left of the center post: not sure if this will be a problem.
+  Keycaps seem quite nice, and they fit the switches very well.
+- Ordered some stuff from DigiKey:
+  * 3x attiny4313
+  * 2x 2x13 header
+  * 5' 26 conductor ribbon cable
+  * 2x 2x13 IDC ribbon cable connectors
+  * 6x Cherry MX black keyswitches
+  The keyswitches were only $.81, and they have the left/right
+  stabilizer posts.  The "feel" isn't quite as nice as the brown
+  switches, but it's fine and millions of times better than the
+  cheap Adafruit tactile switches.
+- The first version of the PCB arrived.  I soldered on a 20 pin
+  DIP socket (for the attiny2313/attiny4313), an 1x8 header for the
+  LCD, a 2x13 header for the RPi GPIO, and a .1uF cap (as the
+  decoupling cap for the attiny).  Next, I programmed one of the
+  attiny4313s from DigiKey with the button firmware.  However,
+  I had a huge amount of trouble trying to get the IC into the
+  socket!  Two of the pins were bent (pin 4 and pin 11).  Fortunately,
+  there does seem to be a good connection, and the circuit seems
+  to work (using a multimeter to observe the voltage level
+  as the buttons are pressed, using a standalone 5V power supply).
+  Note to self: in the future, buy high quality IC sockets.
+  Next step is to interface the board with the RPi.
