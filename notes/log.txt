@@ -297,3 +297,17 @@ Jan 13th-16th, 2014
   as the buttons are pressed, using a standalone 5V power supply).
   Note to self: in the future, buy high quality IC sockets.
   Next step is to interface the board with the RPi.
+
+Jan 17th, 2014
+
+- Connected the v0.1 button board to the RPi GPIO, and it worked
+  perfectly!  Also connected the LCD, and it worked perfectly as
+  well!  Hard to believe.  The one problem is that I didn't
+  correctly visualize how the ribbon cable would need to bend to connect
+  to the button PCB, so the 2x13 header on the button PCB is
+  180 degrees from the correct orientation.  This will make
+  cabling very awkward, although I think with a long-ish cable
+  I can probably make it work.  The good news is that the
+  v0.2 button board should be easier to connect (I think!),
+  since I'm 95% certain that the cable will run "straight" and
+  not require any twists.
