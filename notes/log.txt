@@ -311,3 +311,11 @@ Jan 17th, 2014
   v0.2 button board should be easier to connect (I think!),
   since I'm 95% certain that the cable will run "straight" and
   not require any twists.
+
+Jan 18th, 2014
+
+- Made new combined top/bottom plate drawing for new enclosure design
+  (with the Cherry MX keyswitches).  Submitted quote to Pololu
+  (they seem to have better prices than Spikenzie Labs).
+  I *think* I can get 3 copies of the design for around the
+  $25 minimum.
