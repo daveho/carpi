@@ -314,6 +314,11 @@ Jan 17th, 2014
 
 Jan 18th, 2014
 
+- Made new combined top/bottom plate drawing for new enclosure design
+  (with the Cherry MX keyswitches).  Submitted quote to Pololu
+  (they seem to have better prices than Spikenzie Labs).
+  I *think* I can get 3 copies of the design for around the
+  $25 minimum.
 - Tested the car LCD with the RPi - worked great.  It's fairly
   low resolution, and the RPi text console didn't look great,
   but it should be fine for video.
@@ -335,3 +340,4 @@ Jan 19th, 2014
   I've never tested it.
 - Tested playing a video (Monsters University) using omxplayer
   from the command line - works perfectly.
+HERE

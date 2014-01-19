@@ -1,5 +1,7 @@
 PROG = buttons
-MCU = attiny2313
+#MCU = attiny2313
+#MCU = attiny2313a
+MCU = attiny4313
 
 # Change this to "true" to enable debugging (blinking heartbeat LED
 # on PD4)
