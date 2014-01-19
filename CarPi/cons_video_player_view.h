@@ -16,23 +16,24 @@
 // You should have received a copy of the GNU General Public License
 // along with CarPi.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef VIDEOFILENAVIGATORMENUCONTROLLER_H
-#define VIDEOFILENAVIGATORMENUCONTROLLER_H
+#ifndef CONS_VIDEO_PLAYER_VIEW_H
+#define CONS_VIDEO_PLAYER_VIEW_H
 
-#include "file_navigator_menu_controller.h"
+#include "abstract_event_visitor.h"
+class PlayVideo;
 
-class VideoFileNavigatorMenuController : public FileNavigatorMenuController
-{
+class ConsVideoPlayerView : public AbstractEventVisitor {
 private:
-	typedef FileNavigatorMenuController Base;
+	PlayVideo *m_playVideo;
 
 public:
-	VideoFileNavigatorMenuController(const std::string &baseDir);
-	~VideoFileNavigatorMenuController();
+	ConsVideoPlayerView(PlayVideo *playVideo);
+	virtual ~ConsVideoPlayerView();
 
-	virtual bool includeEntry(const std::string &entryName, int flags);
+	virtual void visitNotificationEvent(NotificationEvent *evt);
 
-	virtual void visitButtonEvent(ButtonEvent *evt);
+private:
+	void onPaint();
 };
 
-#endif // VIDEOFILENAVIGATORMENUCONTROLLER_H
+#endif // CONS_VIDEO_PLAYER_VIEW_H

@@ -24,6 +24,7 @@
 class EventHandler;
 class Menu;
 class PlaySound;
+class PlayVideo;
 
 //
 // Main application base class.
@@ -52,6 +53,7 @@ public:
 	virtual void startMusicNavigator();
 	virtual void startMusicPlayer(PlaySound *playSound);
 	virtual void startVideoNavigator();
+	virtual void startVideoPlayer(PlayVideo *playVideo);
 	
 protected:
 	static void setInstance(CarPiApp *theInstance);
@@ -60,6 +62,7 @@ protected:
 	virtual void onEndMainLoop() = 0;
 	virtual EventHandler *createMenuView(Menu *menu) = 0;
 	virtual EventHandler *createMusicPlayerView(PlaySound *playSound) = 0;
+	virtual EventHandler *createVideoPlayerView(PlayVideo *playVideo) = 0;
 };
 
 #endif // CARPIAPP_H

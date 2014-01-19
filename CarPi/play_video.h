@@ -50,6 +50,8 @@ public:
 	PlayVideo(const std::string &fileName);
 	~PlayVideo();
 
+	std::string getFileName() const { return m_fileName; }
+
 	bool play();
 	bool pause();
 	bool stop();

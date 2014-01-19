@@ -16,23 +16,40 @@
 // You should have received a copy of the GNU General Public License
 // along with CarPi.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef VIDEOFILENAVIGATORMENUCONTROLLER_H
-#define VIDEOFILENAVIGATORMENUCONTROLLER_H
+#include "console.h"
+#include "string_util.h"
+#include "play_video.h"
+#include "cons_video_player_view.h"
 
-#include "file_navigator_menu_controller.h"
-
-class VideoFileNavigatorMenuController : public FileNavigatorMenuController
+ConsVideoPlayerView::ConsVideoPlayerView(PlayVideo *playVideo)
+	: m_playVideo(playVideo)
 {
-private:
-	typedef FileNavigatorMenuController Base;
+}
 
-public:
-	VideoFileNavigatorMenuController(const std::string &baseDir);
-	~VideoFileNavigatorMenuController();
+ConsVideoPlayerView::~ConsVideoPlayerView()
+{
+}
 
-	virtual bool includeEntry(const std::string &entryName, int flags);
+void ConsVideoPlayerView::visitNotificationEvent(NotificationEvent *evt)
+{
+	if (evt->getType() == NotificationEvent::PAINT) {
+		setResult(EventHandler::HANDLED);
+		onPaint();
+	}
+}
 
-	virtual void visitButtonEvent(ButtonEvent *evt);
-};
+void ConsVideoPlayerView::onPaint()
+{
+	// This is pretty basic for now
+	Console *cons = Console::instance();
 
-#endif // VIDEOFILENAVIGATORMENUCONTROLLER_H
+	cons->clear();
+	cons->attr(Console::BLACK, Console::GRAY);
+
+	cons->printCenter(2, "Playing:");
+
+	std::string filePart = StringUtil::getFilePart(m_playVideo->getFileName());
+	cons->printCenter(4, filePart);
+
+	cons->commit();
+}

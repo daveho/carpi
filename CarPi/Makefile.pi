@@ -25,6 +25,7 @@ SRCS := \
 	cons_input_reader_thread.cpp \
 	cons_menu_view.cpp \
 	cons_music_player_view.cpp \
+	cons_video_player_view.cpp \
 	console.cpp \
 	event.cpp \
 	event_handler.cpp \

@@ -18,6 +18,8 @@
 
 #include "menu.h"
 #include "string_util.h"
+#include "play_video.h"
+#include "car_pi_app.h"
 #include "video_file_navigator_menu_controller.h"
 
 VideoFileNavigatorMenuController::VideoFileNavigatorMenuController(const std::string &baseDir)
@@ -42,4 +44,24 @@ bool VideoFileNavigatorMenuController::includeEntry(const std::string &entryName
 	}
 	
 	return false;
+}
+
+void VideoFileNavigatorMenuController::visitButtonEvent(ButtonEvent *evt)
+{
+	if (evt->getType() == ButtonEvent::RELEASE
+		&& evt->getCode() == ButtonEvent::RIGHT) {
+		const MenuItem *menuItem = getMenu()->getSelectedItem();
+		if (menuItem->hasFlag(MenuItem::FLAG_FILE)) {
+			setResult(EventHandler::HANDLED);
+		
+			// Play the selected video
+			std::string path = getFullPath(getCurrentDir(), menuItem->getName());
+			PlayVideo *playVideo = new PlayVideo(path);
+			CarPiApp::instance()->startVideoPlayer(playVideo);
+		}
+	}
+
+	if (!handled()) {
+		Base::visitButtonEvent(evt);
+	}
 }

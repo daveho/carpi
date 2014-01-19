@@ -22,6 +22,7 @@
 #include "video_file_navigator_menu_controller.h"
 #include "event_queue.h"
 #include "main_menu_controller.h"
+#include "video_player_controller.h"
 #include "music_player_controller.h"
 #include "composite_event_handler.h"
 #include "car_pi_app.h"
@@ -119,6 +120,14 @@ void CarPiApp::startVideoNavigator()
 	
 	CompositeEventHandler *pair = new CompositeEventHandler(controller, view);
 	
+	CarPiApp::instance()->pushEventHandler(pair);
+}
+
+void CarPiApp::startVideoPlayer(PlayVideo *playVideo)
+{
+	VideoPlayerController *controller = new VideoPlayerController(playVideo);
+	EventHandler *view = createVideoPlayerView(playVideo);
+	CompositeEventHandler *pair = new CompositeEventHandler(controller, view);
 	CarPiApp::instance()->pushEventHandler(pair);
 }
 

@@ -23,6 +23,7 @@
 #include "cons_input_reader_thread.h"
 #include "cons_menu_view.h"
 #include "cons_music_player_view.h"
+#include "cons_video_player_view.h"
 #include "cons_car_pi_app.h"
 
 ConsCarPiApp::ConsCarPiApp()
@@ -71,4 +72,9 @@ EventHandler *ConsCarPiApp::createMenuView(Menu *menu)
 EventHandler *ConsCarPiApp::createMusicPlayerView(PlaySound *playSound)
 {
 	return new ConsMusicPlayerView(playSound);
+}
+
+EventHandler *ConsCarPiApp::createVideoPlayerView(PlayVideo *playVideo)
+{
+	return new ConsVideoPlayerView(playVideo);
 }

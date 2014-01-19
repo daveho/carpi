@@ -129,6 +129,17 @@ namespace StringUtil {
 		fclose(fh);
 		return gotLine;
 	}
+
+	// Return just the file part of a path
+	inline std::string getFilePart(const std::string &path)
+	{
+		size_t pos = path.find_last_of('/');
+		if (pos == std::string::npos) {
+			return path;
+		} else {
+			return path.substr(pos+1, path.size());
+		}
+	}
 };
 
 #endif // STRING_UTIL_H
