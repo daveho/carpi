@@ -311,3 +311,27 @@ Jan 17th, 2014
   v0.2 button board should be easier to connect (I think!),
   since I'm 95% certain that the cable will run "straight" and
   not require any twists.
+
+Jan 18th, 2014
+
+- Tested the car LCD with the RPi - worked great.  It's fairly
+  low resolution, and the RPi text console didn't look great,
+  but it should be fine for video.
+
+Jan 19th, 2014
+
+- Configured the SPI LCD as the boot console according to
+  the instructions here:
+    https://github.com/notro/fbtft/wiki/Boot-console
+  Works great!  I'm using the SUN8x16 font (as far as I can tell).
+  I restored the UI functionality, recompiled, and ran the
+  CarPi software using the buttons and SPI LCD as the UI.
+  It works very nicely!  The button input reader thread
+  worked the first time I tried it.  After installing mpg321,
+  it works as a music player.  "Play Alone" by Asylum Party
+  was officially the first music played.  Sweet.  Next step
+  is to try out (and debug) video playing using omxplayer.
+  There is some preliminary support for playing videos, but
+  I've never tested it.
+- Tested playing a video (Monsters University) using omxplayer
+  from the command line - works perfectly.
