@@ -340,4 +340,8 @@ Jan 19th, 2014
   I've never tested it.
 - Tested playing a video (Monsters University) using omxplayer
   from the command line - works perfectly.
-HERE
+- Working on VideoFileNavigatorController (add support for
+  selecting a video file to play), and adding
+  ConsVideoPlayerView.  Getting pretty close: doesn't actually
+  play video, but creates the PlayVideo object and shows the
+  correct view.  Almost there?
