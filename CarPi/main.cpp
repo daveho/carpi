@@ -16,9 +16,9 @@
 // You should have received a copy of the GNU General Public License
 // along with CarPi.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifdef RASPBERRY_PI
-#  define GPIO_TEST
-#endif
+//#ifdef RASPBERRY_PI
+//#  define GPIO_TEST
+//#endif
 
 #ifdef GPIO_TEST
 #  include <sys/select.h>
