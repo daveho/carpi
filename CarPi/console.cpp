@@ -1,5 +1,5 @@
 // CarPi - Raspberry Pi car entertainment system
-// Copyright (c) 2013, David H. Hovemeyer <david.hovemeyer@gmail.com>
+// Copyright (c) 2013,2014 David H. Hovemeyer <david.hovemeyer@gmail.com>
 
 // This file is part of CarPi.
 // 
@@ -121,6 +121,7 @@ void Console::printf(const char *fmt, ...)
 
 void Console::printCenter(int row, const std::string &s)
 {
+	/*
 	if (int(s.size()) > m_numCols) {
 		moveCursor(row, 0);
 		print(s.substr(0, m_numCols));
@@ -131,6 +132,9 @@ void Console::printCenter(int row, const std::string &s)
 		moveCursor(row, excess/2);
 		print(s);
 	}
+	 */
+	moveCursor(row, 0);
+	print(s);
 }
 
 void Console::commit()

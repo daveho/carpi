@@ -60,6 +60,8 @@
     <File Name="video_player_controller.cpp"/>
     <File Name="play_video.h"/>
     <File Name="play_video.cpp"/>
+    <File Name="cons_video_player_view.cpp"/>
+    <File Name="cons_video_player_view.h"/>
   </VirtualDirectory>
   <Settings Type="Executable">
     <GlobalSettings>

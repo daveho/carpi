@@ -29,6 +29,8 @@
 #  include "cons_car_pi_app.h"
 #endif
 
+#include "string_util.h" // XXX
+
 #ifdef GPIO_TEST
 void gpioTest()
 {
@@ -95,13 +97,28 @@ void gpioTest()
 }
 #endif
 
-int main(void)
+void t(const std::string &s) {
+	printf("%s\n", s.c_str());
+	std::vector<std::string> lines;
+	StringUtil::splitIntoLines(s, 30, lines);
+	for (std::vector<std::string>::iterator i = lines.begin(); i != lines.end(); i++) {
+		printf("[%s]\n", (*i).c_str());
+	}
+}
+
+int main(int argc, char **argv)
 {
 #ifdef GPIO_TEST
 	gpioTest();
 #else
+	if (argc == 1) {
 	ConsCarPiApp::initialize();
 	CarPiApp::instance()->mainLoop();
+	return 0;
+	}
+	t("My Son, My Secretary, My Country");
+	t("The Day That Lassie Went To The Moon");
+
 #endif
 	return 0;
 }

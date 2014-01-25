@@ -140,6 +140,71 @@ namespace StringUtil {
 			return path.substr(pos+1, path.size());
 		}
 	}
+	
+	// Split a string into multiple lines (with each line being at most
+	// a given number of characters).  There is probably a better way
+	// to do this, but this is what I came up with.
+	inline void splitIntoLines(const std::string &line, size_t maxLen, std::vector<std::string> &result) {
+		result.clear();
+		
+		// Start by tokenizing the line
+		std::vector<std::string> tokens = tokenize(line);
+		
+		std::string curLine;
+		std::vector<std::string>::iterator i = tokens.begin();
+		std::string tok;
+		
+		while (true) {
+			// Get token (if necessary)
+			if (tok.size() == 0) {
+				if (i == tokens.end()) {
+					// No more tokens
+					break;
+				}
+				tok = *i;
+				i++;
+				continue;
+			}
+
+			// See if token will fit in current line
+			if ((curLine.empty() && tok.size() <= maxLen) || (!curLine.empty() && curLine.size() + tok.size() + 1 < maxLen)) {
+				// Can append token to current line
+				if (!curLine.empty()) {
+					curLine += " ";
+				}
+				curLine += tok;
+				tok.clear(); // token has been processed
+				continue;
+			}
+			
+			// Token does not fit on current line.
+			// If it would fit on a new line, end the current line as-is
+			// and restart the loop.
+			if (tok.size() <= maxLen) {
+				result.push_back(curLine);
+				curLine.clear();
+				continue;
+			}
+			
+			// Token is too large to fit on a single line.
+			// Add as much of it as will fit onto this line (if any),
+			// and then start a new line.
+			if (curLine.size() + 1 < maxLen) {
+				size_t snip = maxLen - (curLine.size() + 1);
+				std::string tokPart = tok.substr(0, snip);
+				curLine += " ";
+				curLine += tokPart;
+				tok = tok.substr(snip, tok.size());
+			}
+			result.push_back(curLine);
+			curLine.clear();
+		}
+		
+		// If there is a current line, add it to result
+		if (!curLine.empty()) {
+			result.push_back(curLine);
+		}
+	}
 };
 
 #endif // STRING_UTIL_H
