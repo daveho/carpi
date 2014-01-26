@@ -16,6 +16,8 @@
 // You should have received a copy of the GNU General Public License
 // along with CarPi.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "car_pi_app.h"
+#include "event_queue.h"
 #include "play_video.h"
 #include "video_player_controller.h"
 
@@ -33,14 +35,43 @@ void VideoPlayerController::visitButtonEvent(ButtonEvent *evt)
 	if (evt->getType() == ButtonEvent::RELEASE) {
 		switch (evt->getCode()) {
 			case ButtonEvent::A:
+				setResult(EventHandler::HANDLED);
 				if (m_playVideo->getState() == PlayVideo::IDLE
 					|| m_playVideo->getState() == PlayVideo::PAUSED) {
+					// Stopped/paused -> Playing
 					m_playVideo->play();
+					EventQueue::instance()->repaint();
 				} else if (m_playVideo->getState() == PlayVideo::PLAYING) {
+					// Playing -> Paused
 					m_playVideo->pause();
+					EventQueue::instance()->repaint();
 				}
 				break;
-			// TODO: handle left arrow (to go back to video menu)
+
+			case ButtonEvent::LEFT:
+				setResult(EventHandler::HANDLED);
+
+				// Ignore this button press if the video is playing:
+				// it must be paused first.  We want to prevent
+				// accidental stoppages (which would upset the
+				// viewers :-)
+				if (m_playVideo->getState() == PlayVideo::PLAYING) {
+					break;
+				}
+
+				// If the omxplayer subprocess has started, send the
+				// quit command and wait for it to stop.
+				if (m_playVideo->getState() > PlayVideo::IDLE) {
+					// Shutdown
+					m_playVideo->stop();
+					m_playVideo->waitForIdle();
+				}
+
+				// Go back to the video navigation menu.
+				CarPiApp::instance()->popEventHandler();
+
+				break;
+
 			default:
 				break;
 		}

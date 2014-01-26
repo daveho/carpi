@@ -1,5 +1,5 @@
 // CarPi - Raspberry Pi car entertainment system
-// Copyright (c) 2013, David H. Hovemeyer <david.hovemeyer@gmail.com>
+// Copyright (c) 2013,2014 David H. Hovemeyer <david.hovemeyer@gmail.com>
 
 // This file is part of CarPi.
 // 
@@ -17,6 +17,7 @@
 // along with CarPi.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <cassert>
+#include "event.h"
 #include "event_queue.h"
 
 namespace {
@@ -68,4 +69,9 @@ Event *EventQueue::dequeue()
 	pthread_mutex_unlock(&m_mutex);
 	
 	return evt;
+}
+
+void EventQueue::repaint()
+{
+	enqueue(new NotificationEvent(NotificationEvent::PAINT));
 }

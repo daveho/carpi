@@ -1,5 +1,5 @@
 // CarPi - Raspberry Pi car entertainment system
-// Copyright (c) 2013, David H. Hovemeyer <david.hovemeyer@gmail.com>
+// Copyright (c) 2013,2014 David H. Hovemeyer <david.hovemeyer@gmail.com>
 
 // This file is part of CarPi.
 // 
@@ -45,6 +45,9 @@ public:
 	
 	void enqueue(Event *evt);
 	Event *dequeue();
+
+	// Convenience method for scheduling a repaint.
+	void repaint();
 };
 
 #endif // EVENTQUEUE_H

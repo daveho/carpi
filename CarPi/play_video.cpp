@@ -109,6 +109,7 @@ bool PlayVideo::pause()
 		return false;
 	}
 	sendCommand("p");
+	m_state = PAUSED;
 	return true;
 }
 
@@ -118,12 +119,13 @@ bool PlayVideo::stop()
 		return false;
 	}
 	sendCommand("q");
+	m_state = EXITING;
 	return true;
 }
 
 bool PlayVideo::waitForIdle()
 {
-	if (m_state == IDLE) {
+	if (m_state != EXITING) {
 		return false;
 	}
 	
