@@ -16,6 +16,7 @@
 // You should have received a copy of the GNU General Public License
 // along with CarPi.  If not, see <http://www.gnu.org/licenses/>.
 
+#include "play_video.h"
 #include "video_player_controller.h"
 
 VideoPlayerController::VideoPlayerController(PlayVideo *playVideo)
@@ -27,3 +28,21 @@ VideoPlayerController::~VideoPlayerController()
 {
 }
 
+void VideoPlayerController::visitButtonEvent(ButtonEvent *evt)
+{
+	if (evt->getType() == ButtonEvent::RELEASE) {
+		switch (evt->getCode()) {
+			case ButtonEvent::A:
+				if (m_playVideo->getState() == PlayVideo::IDLE
+					|| m_playVideo->getState() == PlayVideo::PAUSED) {
+					m_playVideo->play();
+				} else if (m_playVideo->getState() == PlayVideo::PLAYING) {
+					m_playVideo->pause();
+				}
+				break;
+			// TODO: handle left arrow (to go back to video menu)
+			default:
+				break;
+		}
+	}
+}

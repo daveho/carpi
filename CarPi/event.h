@@ -46,11 +46,21 @@ public:
 	};
 	
 	enum Code {
+		// The arrows are used for menu navigation.
+		// The left arrow typically goes back to the
+		// previous menu.
 		UP,
 		DOWN,
 		LEFT,
 		RIGHT,
-		A,      // TODO: think of a better name
+
+		// This button is play/pause for the player screens.
+		// It is the button at the top left.
+		A,
+
+		// I think in the future this will be the "settings"
+		// button, to bring up a menu to control volume, etc.
+		// It is the button at the top left.
 		B,      // TODO: think of a better name
 	};
 	

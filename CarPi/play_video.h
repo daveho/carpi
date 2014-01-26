@@ -29,7 +29,7 @@ class Thread;
 //
 class PlayVideo
 {
-private:
+public:
 	enum State {
 		IDLE,
 		PLAYING,
@@ -37,6 +37,7 @@ private:
 		EXITING,
 	};
 
+private:
 	State m_state;
 	std::string m_fileName;
 	pid_t m_pid;
@@ -51,6 +52,7 @@ public:
 	~PlayVideo();
 
 	std::string getFileName() const { return m_fileName; }
+	State getState() const { return m_state; }
 
 	bool play();
 	bool pause();

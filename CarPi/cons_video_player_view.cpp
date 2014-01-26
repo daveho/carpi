@@ -46,10 +46,18 @@ void ConsVideoPlayerView::onPaint()
 	cons->clear();
 	cons->attr(Console::BLACK, Console::GRAY);
 
-	cons->printCenter(2, "Playing:");
-
 	std::string filePart = StringUtil::getFilePart(m_playVideo->getFileName());
-	cons->printCenter(4, filePart);
+	cons->printCenter(2, filePart);
+
+	switch (m_playVideo->getState()) {
+		case PlayVideo::IDLE:
+		case PlayVideo::EXITING:
+			cons->printCenter(4, "Stopped"); break;
+		case PlayVideo::PLAYING:
+			cons->printCenter(4, "Playing"); break;
+		case PlayVideo::PAUSED:
+			cons->printCenter(4, "Paused"); break;
+	}
 
 	cons->commit();
 }

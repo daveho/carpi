@@ -34,7 +34,7 @@ public:
 	VideoPlayerController(PlayVideo *playVideo);
 	~VideoPlayerController();
 	
-	// TODO: event visit methods
+	virtual void visitButtonEvent(ButtonEvent *evt);
 
 };
 
