@@ -2,7 +2,7 @@ The enclosure designs were created with LibreCAD.
 
 Here's how it looks completely assembled (click for large version)!
 
-<a href="https://raw2.github.com/daveho/carpi/master/enclosure/pic-big.jpg"><img style="margin-left: 40px;" src="https://raw2.github.com/daveho/carpi/master/enclosure/pic-sm.jpg" /></a>
+<a href="https://raw2.github.com/daveho/carpi/master/enclosure/pic-big.jpg"><img src="https://raw2.github.com/daveho/carpi/master/enclosure/pic-sm.jpg" /></a>
 
 Files:
 
