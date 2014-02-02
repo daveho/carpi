@@ -345,3 +345,48 @@ Jan 19th, 2014
   ConsVideoPlayerView.  Getting pretty close: doesn't actually
   play video, but creates the PlayVideo object and shows the
   correct view.  Almost there?
+
+Jan 20th-26th, 2014
+
+- Classes started, so I don't have quite as much time to work on
+  this project. Sigh.
+- The v0.2 button PCBs (with Cherry MX switches) arrived, and the
+  acrylic pieces for the new enclosure designs also arrived.
+- Mounted the RPi on the bottom plate using the Adafruit board
+  mounts and the M2.5 nylon standoffs.  Everything fits nicely
+  and the RPi is very secure.  I attached the standoffs, and
+  discovered that the one in the bottom left partially blocks
+  the micro-USB power receptacle on the RPi, if I used the "nice"
+  wider standoffs.  My plan is to use a not-as-nice hex
+  standoff in that corner.  The hex standoffs are slightly shorter
+  (1.375" rather than 1.425"), but I figure I can compensate with a
+  washer or two.  I couldn't attach the top plate because I
+  ran out of 6-32 screws.
+- On the 26th I went into work to solder and test the new button
+  PCBs, and for the final assembly!
+- The new button PCB worked great!  The Cherry MX switches fit
+  perfectly, and the circuit worked the first time I tried it.
+  With the keycaps installed, the "feel" is great, a huge
+  improvements over the awful Adafruit pushbuttons.  Also, I
+  used a different 20-pin DIP socket, and avoided the bent pin
+  issues I had with the previous buttons PCB.
+- The ME tool room had lots of useful hardware for assembling
+  the enclosure, including some nice nylon washers that worked
+  extremely well for attaching the button PCB and LCD, and also
+  for slightly extending the height of the standoffs.  It turned
+  out that IDC connector for the ribbon cable connecting to the
+  button PCB hit the RPi composite video jack.  One washer's worth
+  of additional clearance was sufficient to fix this.
+  For the LCD, I had to cut one side of each washer because the
+  LCD stands proud of the PCB it's mounted on, and the washers didn't
+  quite fit in the space between the PCB screw hole and the side
+  of the LCD.  Diagonal cutters took care of that with no problem.
+- I plugged in the RPi to the USB hub, started the software,
+  and was able to use the UI via the pushbuttons.  So, the "device"
+  is basically complete!  The software needs work because it still
+  doesn't play video, but I think it's pretty close.
+
+Jan 27th, 2014
+
+- Sent a pull request with my (extremely minor) updates to the Cherry MX
+  Eagle library.
