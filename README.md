@@ -1,5 +1,7 @@
 Hardware design and code for Raspberry Pi based car entertainment
-device.  This is very much a work in progress!
+device.  This is a work in progress, although the hardware and software
+are more or less working at this point.  Some work remains to
+get it into an easily installable and deployable form.
 
 Everything (software and hardware) is open source: see the file
 LICENSES.txt for details.
@@ -34,8 +36,9 @@ Current status of the software is
   remote control interface (actually ogg123 playback doesn't
   work, need to investigate this).
 * Pushbutton input is supported using the RPi's GPIO.
-* Video playing will be supported via omxplayer, with
-  composite output (because composite video monitors for
-  cars are super cheap).  This doesn't quite work yet.
+* Video playing is supported by running omxplayer as a
+  subprocess, with video output going to the composite output
+  (because composite video monitors for cars are super cheap).  
 
-Current status of the hardware is that it more or less works.
+Things are pretty close to completely working: the main remaining
+task is the video setup in the car.

@@ -390,3 +390,10 @@ Jan 27th, 2014
 
 - Sent a pull request with my (extremely minor) updates to the Cherry MX
   Eagle library.
+
+Feb 2, 2014
+
+- Finally got video playing working!  My previous effort was nearly
+  correct, except that I forgot to call the play() method on the
+  object that managers the omxplayer subprocess.  There are still
+  some improvements to be made, but it basically works.
