@@ -17,7 +17,7 @@ endif
 CXX = g++
 CXXFLAGS = $(DEBUG) $(OPT) $(PLATFORM_DEFINES) -Wall -D_REENTRANT -std=c++0x
 
-SRCS := \
+MAIN_SRCS := \
 	abstract_event_visitor.cpp \
 	car_pi_app.cpp \
 	composite_event_handler.cpp \
@@ -47,16 +47,20 @@ SRCS := \
 	video_player_controller.cpp
 
 ifeq ($(IS_RASPBERRY_PI),true)
-SRCS += gpio_pin.cpp button_input_reader_thread.cpp
+DAEMON_SRCS = button_event_daemon.cpp gpio_pin.cpp
 endif
 
-OBJS := $(SRCS:%.cpp=$(CONFIG)/%.o)
+MAIN_OBJS := $(MAIN_SRCS:%.cpp=$(CONFIG)/%.o)
+DAEMON_OBJS :=  $(DAEMON_SRCS:%.cpp=$(CONFIG)/%.o)
 
 $(CONFIG)/%.o : %.cpp
 	$(CXX) $(CXXFLAGS) -c $*.cpp -o $(CONFIG)/$*.o
 
-$(CONFIG)/CarPi : $(CONFIG) $(OBJS)
-	$(CXX) -o $@ $(OBJS) -lncurses -lpthread
+$(CONFIG)/CarPi : $(CONFIG) $(MAIN_OBJS)
+	$(CXX) -o $@ $(MAIN_OBJS) -lncurses -lpthread
+
+$(CONFIG)/ButtonDaemon : $(CONFIG) $(DAEMON_OBJS)
+	$(CXX) -o $@ $(DAEMON_OBJS)
 
 $(CONFIG) :
 	mkdir -p $(CONFIG)
@@ -65,7 +69,7 @@ $(CONFIG)/depend.mak : $(CONFIG)
 	touch $@
 
 depend :
-	$(CXX) $(CXXFLAGS) -M $(SRCS) | \
+	$(CXX) $(CXXFLAGS) -M $(MAIN_SRCS) | \
 		perl -n -e 's,^([a-z]),$(CONFIG)/\1,; print' > $(CONFIG)/depend.mak
 
 clean :
