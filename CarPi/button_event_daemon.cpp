@@ -58,7 +58,7 @@ int g_uinputFd;
 GpioPin g_pinList[NUM_BUTTONS];
 int g_highestFd;
 fd_set g_pinSet;
-int g_last = (~0 << NUM_BUTTONS);
+int g_last = ~(~0 << NUM_BUTTONS);
 
 void setupUinput()
 {
@@ -127,18 +127,12 @@ void generateEvents()
 		}
 		if ((cur & mask) != (g_last & mask)) {
 			// Button press/release
-/*
-			ButtonEvent::Type type = ((cur & mask) != 0)
-				? ButtonEvent::RELEASE
-				: ButtonEvent::PRESS;
-			ButtonEvent::Code code = s_buttonCodes[i];
-			EventQueue::instance()->enqueue(new ButtonEvent(type, code));
-*/
 			struct input_event evt;
 			memset(&evt, 0, sizeof(evt));
 			evt.type = EV_KEY;
 			evt.code = g_buttonCodes[i];
 			evt.value = ((cur & mask) != 0) ? 0 : 1; // 0=release, 1=press
+			printf("Generating %s for button %d\n", evt.value?"press":"release", i);
 			write(g_uinputFd, &evt, sizeof(evt));
 		}
 	}

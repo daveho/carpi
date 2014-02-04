@@ -53,8 +53,15 @@ endif
 MAIN_OBJS := $(MAIN_SRCS:%.cpp=$(CONFIG)/%.o)
 DAEMON_OBJS :=  $(DAEMON_SRCS:%.cpp=$(CONFIG)/%.o)
 
+TARGETS = $(CONFIG)/CarPi
+ifeq ($(IS_RASPBERRY_PI),true)
+TARGETS += $(CONFIG)/ButtonDaemon
+endif
+
 $(CONFIG)/%.o : %.cpp
 	$(CXX) $(CXXFLAGS) -c $*.cpp -o $(CONFIG)/$*.o
+
+all : $(TARGETS)
 
 $(CONFIG)/CarPi : $(CONFIG) $(MAIN_OBJS)
 	$(CXX) -o $@ $(MAIN_OBJS) -lncurses -lpthread
