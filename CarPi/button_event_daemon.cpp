@@ -55,10 +55,24 @@ const int g_buttonCodes[] = {
 };
 
 int g_uinputFd;
+bool g_deviceRegistered;
 GpioPin g_pinList[NUM_BUTTONS];
 int g_highestFd;
 fd_set g_pinSet;
 int g_last = ~(~0 << NUM_BUTTONS);
+
+// Singleton object to ensure de-registering of the uinput device
+// (if one was successfully registered).
+class Dereg {
+public:
+	~Dereg() {
+		if (g_deviceRegistered) {
+			printf("Deregistering uinput device\n");
+			ioctl(g_uinputFd, UI_DEV_DESTROY);
+		}
+	}
+};
+Dereg g_cleanup;
 
 void setupUinput()
 {
@@ -97,6 +111,7 @@ void setupUinput()
 		fprintf(stderr, "Error registering uinput device\n");
 		exit(1);
 	}
+	g_deviceRegistered = true;
 }
 
 void setupGpio()
@@ -115,8 +130,23 @@ void setupGpio()
 	g_highestFd = GpioPin::makeFdSet(&g_pinSet, g_pinList, NUM_BUTTONS);
 }
 
-void generateEvents()
+void writeFully(int fd, const void *buf, size_t size)
 {
+	typedef const unsigned char *const_uchar_ptr;
+	size_t remaining = size;
+	while (remaining > 0) {
+		ssize_t rc = write(fd, static_cast<const_uchar_ptr>(buf) + (size-remaining), remaining);
+		if (rc < 0) {
+			fprintf(stderr, "Key event write failed!\n");
+			return;
+		}
+	}
+}
+
+int generateEvents()
+{
+	int eventCount = 0;
+
 	// Read updated state of buttons, generate
 	// press/release events
 	int cur = 0;
@@ -134,9 +164,12 @@ void generateEvents()
 			evt.value = ((cur & mask) != 0) ? 0 : 1; // 0=release, 1=press
 			printf("Generating %s for button %d\n", evt.value?"press":"release", i);
 			write(g_uinputFd, &evt, sizeof(evt));
+			eventCount++;
 		}
 	}
 	g_last = cur;
+
+	return eventCount;
 }
 
 int main(void)
@@ -145,7 +178,9 @@ int main(void)
 	setupGpio();
 
 	// Input loop
-	for (;;) {
+	//for (;;) {
+	int count = 0;
+	while (count < 24) {
 		// Wait for a button to be pressed or released
 		fd_set waitSet(g_pinSet);
 		int rc = select(g_highestFd+1, 0, 0, &waitSet, 0);
@@ -155,9 +190,11 @@ int main(void)
 			sleep(1); // avoid burning CPU cycles
 		} else {
 			// Input pin or pins changed, so generate events
-			generateEvents();
+			count += generateEvents();
+			printf("Total events generated: %d\n", count);
 		}
 	}
 
 	// Doesn't exit, but can be terminated by a signal
+	return 0;
 }

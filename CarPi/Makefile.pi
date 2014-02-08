@@ -76,7 +76,7 @@ $(CONFIG)/depend.mak : $(CONFIG)
 	touch $@
 
 depend :
-	$(CXX) $(CXXFLAGS) -M $(MAIN_SRCS) | \
+	$(CXX) $(CXXFLAGS) -M $(MAIN_SRCS) $(DAEMON_SRCS) | \
 		perl -n -e 's,^([a-z]),$(CONFIG)/\1,; print' > $(CONFIG)/depend.mak
 
 clean :
