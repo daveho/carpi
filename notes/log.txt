@@ -391,9 +391,50 @@ Jan 27th, 2014
 - Sent a pull request with my (extremely minor) updates to the Cherry MX
   Eagle library.
 
-Feb 2, 2014
+Feb 2nd, 2014
 
 - Finally got video playing working!  My previous effort was nearly
   correct, except that I forgot to call the play() method on the
   object that managers the omxplayer subprocess.  There are still
   some improvements to be made, but it basically works.
+- Decided that the cheap LCD monitor I ordered was servicable, but the
+  viewing angle is problematic (image is dim if you're looking directly
+  at it), and mounting it would require some effort.  On Ebay, found
+  a slave LCD from a Philips 7012 car dual DVD player for $25.
+  (This is the car DVD player we have now, so we now have 2 slave screens.)
+  This should work well, the viewing angles are good, and it is easy
+  to mount to a car headrest (it comes with a strap).  Ordered some
+  camcorder AV cables (for input to the Philips slave screens),
+  and also an extra power cable (I will be modifying it to tie into
+  the 12V that is also supplying the video signal amplifier.)
+- I also ordered (from Ebay) a USB audio adapter in case we decide
+  the quality of the regular audio output on the Pi is too low.
+  (It was only $5 shipped.)
+
+Feb 5th, 2014
+
+- Kate's dad John Swope cut me a 5"x5" piece of plywood on which to mount
+  the video amplifier and a terminal strip (for 12V power connections to
+  the amplifier and the DVD slave screens.)  This will sit in the front
+  of the car (in the recess in front of the cupholders) and plug
+  into the 12V from the car power adapter (that also has USB power
+  for the Pi).
+
+Feb 7th, 2014
+
+- Screwed the video amplifier and terminal strip to the plywood with
+  #4 wood screws.
+- The DVD power cables and the camcorder AV cables arrived.  Once the
+  extra slave screen arrived all the parts we need will be here!
+  The USB audio adapter also arrived (they actually sent 2 for some reason).
+
+Feb 8th, 2014
+
+- Figured out how to use ioctl to "poke" the console to reset the
+  screen blanking timer.  Added code to do this whenever a button
+  is pressed.  This was needed because the gpio button press/release
+  events don't go through in the input event subsystem (and thus
+  don't automatically reset the screen blanking timer.)
+  I had actually tried to use the Linux uinput device to generate
+  actual key events, but it didn't work correctly and was generally
+  more complicated anyway.
