@@ -438,3 +438,20 @@ Feb 8th, 2014
   I had actually tried to use the Linux uinput device to generate
   actual key events, but it didn't work correctly and was generally
   more complicated anyway.
+- The Philips slave DVD screen arrived.  Found a 12V power supply and
+  turned it on - backlight lit as expected.  Connected it to the RPi
+  via the camcorder AV cable - no dice.  Got a signal on the red
+  connection, but not a valid one.  Experimented with different
+  sdtv video modes on the RPi, but none of them worked.  The good
+  news is that I found the AV output cable from the master unit
+  (to connect it to a TV), hooked it up to the RPi using an RCA
+  cable, and it worked!  So, it appears that the camcorder cable is
+  wired in a fundamentally different and incompatible way.  I
+  could have cut the camcorder cable apart and rewired it, but
+  instead I just ordered 2 x 5ft AV cables that were specifically
+  listed as being for the Philips 7012 (to connect it to a TV, and
+  thus hopefully having the same wiring as the working cable.)
+  They weren't too expensive, but it's still a bit annoying.
+  HOWEVER - I think this was the last major hurdle.  Once the new
+  cables arrive, and I get the aux adapter installed in the Fit,
+  we should be in business!
