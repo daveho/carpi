@@ -92,16 +92,16 @@ void ConsMusicPlayerView::doPaint()
 	cons->clear();
 	
 	if (!m_fileName.empty()) {
-		cons->attr(Console::BLACK, Console::CYAN+Console::INTENSE);
+		cons->attr(Console::BLACK, Console::GRAY+Console::INTENSE);
 		cons->printCenter(2, m_fileName);
 	} else {
-		cons->attr(Console::BLACK, Console::CYAN+Console::INTENSE);
+		cons->attr(Console::BLACK, Console::GRAY+Console::INTENSE);
 		cons->printCenter(2, m_title);
 		
 		cons->attr(Console::BLACK, Console::CYAN);
 		cons->printCenter(4, m_artist);
 		
-		cons->attr(Console::BLACK, Console::BLUE);
+		cons->attr(Console::BLACK, Console::GREEN+Console::INTENSE);
 		cons->printCenter(6, m_album);
 	}
 		
@@ -129,6 +129,10 @@ void ConsMusicPlayerView::doPaint()
 		cons->printCenter(11, buf);
 		delete[] buf;
 	}
+
+	// move the cursor to the bottom of the screen,
+	// where it will be less distracting
+	cons->moveCursor(cons->getNumRows() - 2, 0);
 	
 	cons->commit();
 }
