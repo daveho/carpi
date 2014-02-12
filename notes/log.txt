@@ -455,3 +455,25 @@ Feb 8th, 2014
   HOWEVER - I think this was the last major hurdle.  Once the new
   cables arrive, and I get the aux adapter installed in the Fit,
   we should be in business!
+
+Feb 12th, 2014
+
+- Did the power wiring on the "piece of wood" (power terminal block
+  and video signal amplifier) by cutting appropriate length wires,
+  crimping ring terminals to them, and attaching the ring terminals
+  to the terminal block.  To make the wire/plug assembly that
+  plugs into the car 12V socket, I used the 12V plug from the
+  Philips DVD power cables, and the fuse from the video signal
+  amplifier (which will now serve all of the 12V-powered components).
+  My colleague Dave showed me how to use heat strink tubing on
+  the places where the wires were soldered together, so it looks
+  like a fairly professional job!
+- Added an "install" target to the Makefile that installs the CarPi
+  binary to /home/pi/Software/carpi/bin.
+- Modified /etc/inittab to start CarPi automatically as follows
+  by replacing the line that read
+    1:2345:respawn:/sbin/getty --noclear 38400 tty1
+  with
+    /bin/su -c /home/pi/Software/carpi/bin/CarPi pi </dev/tty1 >/dev/tty1 2>/dev/tty1
+- Modified the software so that the "Shut down" main menu
+  actually uses the shutdown command to shut down the RPi.
