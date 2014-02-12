@@ -16,6 +16,7 @@
 // You should have received a copy of the GNU General Public License
 // along with CarPi.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <cstdlib>
 #include "car_pi_app.h"
 #include "main_menu.h"
 #include "main_menu_controller.h"
@@ -44,7 +45,8 @@ void MainMenuController::onItemSelected(const MenuItem *item)
 		case MainMenu::SHELL:
 			break;
 		case MainMenu::SHUT_DOWN:
-			CarPiApp::instance()->quit();
+			system("/usr/bin/sudo /sbin/shutdown -h now");
+			//CarPiApp::instance()->quit();
 			break;
 	}
 }
