@@ -492,3 +492,5 @@ Feb 13th, 2014
   so the "piece of wood" power distribution system seems to be doing
   its job.  All that remains now is to get the aux adapter for the car
   and install everything for real.
+- Changed the code to use TIOCL_SETVESABLANK ioctl to disable powersaving
+  mode.  We'll see if that works to keep the backlight on.
