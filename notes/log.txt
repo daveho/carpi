@@ -474,7 +474,7 @@ Feb 12th, 2014
   by replacing the line that read
     1:2345:respawn:/sbin/getty --noclear 38400 tty1
   with
-    /bin/su -c /home/pi/Software/carpi/bin/CarPi pi </dev/tty1 >/dev/tty1 2>/dev/tty1
+    1:2345:/bin/su -c /home/pi/Software/carpi/bin/CarPi pi </dev/tty1 >/dev/tty1 2>/dev/tty1
 - Modified the software so that the "Shut down" main menu
   actually uses the shutdown command to shut down the RPi.
 
