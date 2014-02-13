@@ -477,3 +477,18 @@ Feb 12th, 2014
     /bin/su -c /home/pi/Software/carpi/bin/CarPi pi </dev/tty1 >/dev/tty1 2>/dev/tty1
 - Modified the software so that the "Shut down" main menu
   actually uses the shutdown command to shut down the RPi.
+
+Feb 13th, 2014
+
+- Noticed that when the backlight on the LCD powers off, the ioctl that
+  disables screen blanking doesn't turn it back on.  Need to investigate.
+- The new AV cables arrived, and the one I tried works perfectly.
+  [We got 10" of snow, but our mail carrier was out making deliveries.
+  Hats off to the US postal service!]  I actually tried out (almost)
+  the whole setup in the car, and everything worked great.  I was concerned
+  that the RPi might have problems being powered by the car USB power
+  adapter, but it worked fine.  The 12V equipment (the video signal
+  amplifer and one of the Philips slave screens) worked great as well,
+  so the "piece of wood" power distribution system seems to be doing
+  its job.  All that remains now is to get the aux adapter for the car
+  and install everything for real.
