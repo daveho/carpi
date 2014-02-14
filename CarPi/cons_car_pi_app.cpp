@@ -17,10 +17,8 @@
 // along with CarPi.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "console.h"
-#if 0
 #ifdef RASPBERRY_PI
 #  include "button_input_reader_thread.h"
-#endif
 #endif
 #include "cons_input_reader_thread.h"
 #include "cons_menu_view.h"
@@ -51,14 +49,12 @@ void ConsCarPiApp::onStartMainLoop()
 	ConsInputReaderThread *inputReader = new ConsInputReaderThread();
 	inputReader->start();
 
-#if 0
 #ifdef RASPBERRY_PI
 	// Start the button reader thread
 	ButtonInputReaderThread *buttonInputReader = new ButtonInputReaderThread();
 	if (buttonInputReader->initGpio()) {
 		buttonInputReader->start();
 	}
-#endif
 #endif
 }
 

@@ -19,14 +19,20 @@
 #ifndef BUTTON_INPUT_READER_THREAD_H
 #define BUTTON_INPUT_READER_THREAD_H
 
+#include <cstdint>
 #include "thread.h"
 
 class GpioPin;
 
+//
+// Thread to read button press/release events and generate
+// key events.
+//
 class ButtonInputReaderThread : public Thread {
 private:
 	GpioPin *m_pinList;
 	int m_last;
+	int m_uinputFd;
 
 public:
 	ButtonInputReaderThread();
@@ -38,6 +44,7 @@ public:
 	virtual void run();
 
 private:
+	void sendEvent(uint16_t type, uint16_t code, int32_t value);
 	void generateEvents();
 };
 

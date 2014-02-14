@@ -17,13 +17,28 @@
 // along with CarPi.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <memory>
+#include <cstdio>
+#include <cstring>
 #include <sys/ioctl.h>
-#include <linux/tiocl.h>
+#include <linux/input.h>
+#include <linux/uinput.h>
+#include <fcntl.h>
 #include <unistd.h>
 #include "gpio_pin.h"
-#include "event.h"
-#include "event_queue.h"
 #include "button_input_reader_thread.h"
+
+// Notes:
+//
+// This thread is a bit weird.  You might ask why it doesn't add
+// ButtonEvents to the event queue directly, and that's a good
+// question.  The reason is that the LCD backlight is powered off
+// if no input events occur for a period of time, and there does
+// not seem to be any way to explicitly power it back on!  So,
+// this thread reads the button events and turns them into
+// genuine key input events using /dev/uinput.  Those key events
+// in turn are read by ConsInputReaderThread, and as a side effect
+// they will restore power to the LCD backlight if it has been
+// powered off.  That's the idea, anyway.
 
 namespace {
 	// Assignment of buttons to GPIO pins:
@@ -36,20 +51,21 @@ namespace {
 	const int NUM_BUTTONS = 6;
 	const int s_gpioPins[NUM_BUTTONS] = { 2, 3, 4, 17, 27, 22 };
 
-	// Assignment of pins to button event codes
-	const ButtonEvent::Code s_buttonCodes[] = {
-		ButtonEvent::A,      // button 1
-		ButtonEvent::UP,     // button 2
-		ButtonEvent::B,      // button 3
-		ButtonEvent::LEFT,   // button 4
-		ButtonEvent::DOWN,   // button 5
-		ButtonEvent::RIGHT,  // button 6
+	// Assignment of pins to key event codes
+	uint16_t s_buttonCodes[] = {
+		KEY_Q,
+		KEY_W,
+		KEY_E,
+		KEY_A,
+		KEY_S,
+		KEY_D,
 	};
 }
 
 ButtonInputReaderThread::ButtonInputReaderThread()
 	: m_pinList(0)
 	, m_last(~0) // assume that no buttons are pressed initially
+	, m_uinputFd(-1)
 {
 	// Make this a detached thread: it will read the button input
 	// until the process exits
@@ -59,10 +75,16 @@ ButtonInputReaderThread::ButtonInputReaderThread()
 ButtonInputReaderThread::~ButtonInputReaderThread()
 {
 	delete[] m_pinList;
+	if (m_uinputFd >= 0) {
+		ioctl(m_uinputFd, UI_DEV_DESTROY);
+		close(m_uinputFd);
+	}
 }
 
 bool ButtonInputReaderThread::initGpio()
 {
+	// Initialize gpio pins for input and interrupts on both
+	// rising and falling edges
 	std::unique_ptr<GpioPin[]> pinList(new GpioPin[NUM_BUTTONS]);
 	for (int i = 0; i < NUM_BUTTONS; i++) {
 		// Open the pin for reading
@@ -73,6 +95,34 @@ bool ButtonInputReaderThread::initGpio()
 		if (!pinList[i].setInterruptMode(GpioPin::BOTH)) {
 			return false;
 		}
+	}
+
+	// Register a uinput device to turn button events into key events
+	m_uinputFd = open("/dev/uinput", O_WRONLY | O_NDELAY);
+	if (m_uinputFd < 0) {
+		return false;
+	}
+	if (ioctl(m_uinputFd, UI_SET_EVBIT, EV_KEY) < 0
+		|| ioctl(m_uinputFd, UI_SET_KEYBIT, KEY_Q) < 0
+		|| ioctl(m_uinputFd, UI_SET_KEYBIT, KEY_W) < 0
+		|| ioctl(m_uinputFd, UI_SET_KEYBIT, KEY_E) < 0
+		|| ioctl(m_uinputFd, UI_SET_KEYBIT, KEY_A) < 0
+		|| ioctl(m_uinputFd, UI_SET_KEYBIT, KEY_S) < 0
+		|| ioctl(m_uinputFd, UI_SET_KEYBIT, KEY_D) < 0) {
+		return false;
+	}
+	struct uinput_user_dev uinputDev;
+	memset(&uinputDev, 0, sizeof(uinputDev));
+	snprintf(uinputDev.name, UINPUT_MAX_NAME_SIZE, "carpi-buttons");
+	uinputDev.id.bustype = BUS_USB;
+	uinputDev.id.vendor  = 0x1234;
+	uinputDev.id.product = 0xfedc;
+	uinputDev.id.version = 1;
+	if (write(m_uinputFd, &uinputDev, sizeof(uinputDev)) < 0) {
+		return false;
+	}
+	if (ioctl(m_uinputFd, UI_DEV_CREATE) < 0) {
+		return false;
 	}
 
 	// Successful initialization!
@@ -106,6 +156,16 @@ void ButtonInputReaderThread::run()
 	}
 }
 
+void ButtonInputReaderThread::sendEvent(uint16_t type, uint16_t code, int32_t value)
+{
+	struct input_event evt;
+	memset(&evt, 0, sizeof(evt));
+	evt.type = type;
+	evt.code = code;
+	evt.value = value;
+	write(m_uinputFd, &evt, sizeof(evt));
+}
+
 void ButtonInputReaderThread::generateEvents()
 {
 	int count = 0;
@@ -120,20 +180,20 @@ void ButtonInputReaderThread::generateEvents()
 		}
 		if ((cur & mask) != (m_last & mask)) {
 			// Button press/release
-			ButtonEvent::Type type = ((cur & mask) != 0)
-				? ButtonEvent::RELEASE
-				: ButtonEvent::PRESS;
-			ButtonEvent::Code code = s_buttonCodes[i];
-			EventQueue::instance()->enqueue(new ButtonEvent(type, code));
+			int32_t value = ((cur & mask) != 0) ? 0 : 1; // 0=release,1=press
+			sendEvent(EV_KEY, s_buttonCodes[i], value);
 			count++;
 		}
 	}
 	m_last = cur;
 
-	// If any events were generated, unblank the console
-	// (in case screen blanking occurred.)
+	// Were any events generated?
 	if (count > 0) {
-		char arg = TIOCL_UNBLANKSCREEN;
-		ioctl(0, TIOCLINUX, &arg);
+		// Send an EV_SYN event.
+		// I think the idea is that this allows the program
+		// that generates the input events to explicitly control when
+		// the events are pushed to consumers.  In our case we
+		// definitely want them to be pushed immediately.
+		sendEvent(EV_SYN, SYN_REPORT, 0);
 	}
 }

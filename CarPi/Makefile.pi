@@ -49,27 +49,16 @@ MAIN_SRCS := \
 	video_player_controller.cpp
 
 ifeq ($(IS_RASPBERRY_PI),true)
-DAEMON_SRCS = button_event_daemon.cpp gpio_pin.cpp
+MAIN_SRCS += button_input_reader_thread.cpp gpio_pin.cpp
 endif
 
 MAIN_OBJS := $(MAIN_SRCS:%.cpp=$(CONFIG)/%.o)
-DAEMON_OBJS :=  $(DAEMON_SRCS:%.cpp=$(CONFIG)/%.o)
-
-TARGETS = $(CONFIG)/CarPi
-ifeq ($(IS_RASPBERRY_PI),true)
-TARGETS += $(CONFIG)/ButtonDaemon
-endif
 
 $(CONFIG)/%.o : %.cpp
 	$(CXX) $(CXXFLAGS) -c $*.cpp -o $(CONFIG)/$*.o
 
-all : $(TARGETS)
-
 $(CONFIG)/CarPi : $(CONFIG) $(MAIN_OBJS)
 	$(CXX) -o $@ $(MAIN_OBJS) -lncurses -lpthread
-
-$(CONFIG)/ButtonDaemon : $(CONFIG) $(DAEMON_OBJS)
-	$(CXX) -o $@ $(DAEMON_OBJS)
 
 install : $(CONFIG)/CarPi
 	mkdir -p $(INSTALL_DIR)
@@ -83,7 +72,7 @@ $(CONFIG)/depend.mak : $(CONFIG)
 	touch $@
 
 depend :
-	$(CXX) $(CXXFLAGS) -M $(MAIN_SRCS) $(DAEMON_SRCS) | \
+	$(CXX) $(CXXFLAGS) -M $(MAIN_SRCS) | \
 		perl -n -e 's,^([a-z]),$(CONFIG)/\1,; print' > $(CONFIG)/depend.mak
 
 clean :
