@@ -16,9 +16,10 @@
 // You should have received a copy of the GNU General Public License
 // along with CarPi.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <cstdint>
 #include <fcntl.h>
 #include <unistd.h>
 #include <linux/input.h>
@@ -45,7 +46,7 @@ const int NUM_BUTTONS = 6;
 const int gpioPins[NUM_BUTTONS] = { 2, 3, 4, 17, 27, 22 };
 
 // Assignment of pins to button event codes
-const int g_buttonCodes[] = {
+const uint16_t g_buttonCodes[] = {
 	KEY_Q,
 	KEY_W,
 	KEY_E,
@@ -130,6 +131,7 @@ void setupGpio()
 	g_highestFd = GpioPin::makeFdSet(&g_pinSet, g_pinList, NUM_BUTTONS);
 }
 
+/*
 void writeFully(int fd, const void *buf, size_t size)
 {
 	typedef const unsigned char *const_uchar_ptr;
@@ -140,7 +142,19 @@ void writeFully(int fd, const void *buf, size_t size)
 			fprintf(stderr, "Key event write failed!\n");
 			return;
 		}
+		remaining -= rc;
 	}
+}
+*/
+
+void send_event(uint16_t type, uint16_t code, int32_t value)
+{
+	struct input_event evt;
+	memset(&evt, 0, sizeof(evt));
+	evt.type = type;
+	evt.code = code;
+	evt.value = value;
+	write(g_uinputFd, &evt, sizeof(evt));
 }
 
 int generateEvents()
@@ -157,6 +171,7 @@ int generateEvents()
 		}
 		if ((cur & mask) != (g_last & mask)) {
 			// Button press/release
+/*
 			struct input_event evt;
 			memset(&evt, 0, sizeof(evt));
 			evt.type = EV_KEY;
@@ -164,10 +179,21 @@ int generateEvents()
 			evt.value = ((cur & mask) != 0) ? 0 : 1; // 0=release, 1=press
 			printf("Generating %s for button %d\n", evt.value?"press":"release", i);
 			write(g_uinputFd, &evt, sizeof(evt));
+*/
+			send_event(EV_KEY, g_buttonCodes[i], ((cur & mask) != 0) ? 0 : 1);
 			eventCount++;
 		}
 	}
 	g_last = cur;
+
+	if (eventCount > 0) {
+		// Send an EV_SYN event.
+		// I think the idea is that this allows the program
+		// that generates the events to explicitly control when
+		// the events are pushed to consumers.  In our case we
+		// definitely want them to be pushed immediately.
+		send_event(EV_SYN, SYN_REPORT, 0);
+	}
 
 	return eventCount;
 }
@@ -178,9 +204,9 @@ int main(void)
 	setupGpio();
 
 	// Input loop
-	//for (;;) {
-	int count = 0;
-	while (count < 24) {
+	//int count = 0;
+	//while (count < 24) {
+	for (;;) {
 		// Wait for a button to be pressed or released
 		fd_set waitSet(g_pinSet);
 		int rc = select(g_highestFd+1, 0, 0, &waitSet, 0);
@@ -190,11 +216,12 @@ int main(void)
 			sleep(1); // avoid burning CPU cycles
 		} else {
 			// Input pin or pins changed, so generate events
-			count += generateEvents();
-			printf("Total events generated: %d\n", count);
+			//count += generateEvents();
+			generateEvents();
+			//printf("Total events generated: %d\n", count);
 		}
 	}
 
 	// Doesn't exit, but can be terminated by a signal
-	return 0;
+	//return 0;
 }
