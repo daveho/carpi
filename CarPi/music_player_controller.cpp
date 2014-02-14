@@ -103,6 +103,14 @@ void MusicPlayerController::visitButtonEvent(ButtonEvent *evt)
 				setResult(EventHandler::HANDLED);
 				m_playSound->next();
 				break;
+			case ButtonEvent::A:
+				// pause or resume
+				if (m_playSound->getState() == PlaySound::PAUSED) {
+					m_playSound->resume();
+				} else if (m_playSound->getState() == PlaySound::PLAYING) {
+					m_playSound->pause();
+				}
+				break;
 			default:
 				break;
 		}

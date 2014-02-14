@@ -390,3 +390,107 @@ Jan 27th, 2014
 
 - Sent a pull request with my (extremely minor) updates to the Cherry MX
   Eagle library.
+
+Feb 2nd, 2014
+
+- Finally got video playing working!  My previous effort was nearly
+  correct, except that I forgot to call the play() method on the
+  object that managers the omxplayer subprocess.  There are still
+  some improvements to be made, but it basically works.
+- Decided that the cheap LCD monitor I ordered was servicable, but the
+  viewing angle is problematic (image is dim if you're looking directly
+  at it), and mounting it would require some effort.  On Ebay, found
+  a slave LCD from a Philips 7012 car dual DVD player for $25.
+  (This is the car DVD player we have now, so we now have 2 slave screens.)
+  This should work well, the viewing angles are good, and it is easy
+  to mount to a car headrest (it comes with a strap).  Ordered some
+  camcorder AV cables (for input to the Philips slave screens),
+  and also an extra power cable (I will be modifying it to tie into
+  the 12V that is also supplying the video signal amplifier.)
+- I also ordered (from Ebay) a USB audio adapter in case we decide
+  the quality of the regular audio output on the Pi is too low.
+  (It was only $5 shipped.)
+
+Feb 5th, 2014
+
+- Kate's dad John Swope cut me a 5"x5" piece of plywood on which to mount
+  the video amplifier and a terminal strip (for 12V power connections to
+  the amplifier and the DVD slave screens.)  This will sit in the front
+  of the car (in the recess in front of the cupholders) and plug
+  into the 12V from the car power adapter (that also has USB power
+  for the Pi).
+
+Feb 7th, 2014
+
+- Screwed the video amplifier and terminal strip to the plywood with
+  #4 wood screws.
+- The DVD power cables and the camcorder AV cables arrived.  Once the
+  extra slave screen arrived all the parts we need will be here!
+  The USB audio adapter also arrived (they actually sent 2 for some reason).
+
+Feb 8th, 2014
+
+- Figured out how to use ioctl to "poke" the console to reset the
+  screen blanking timer.  Added code to do this whenever a button
+  is pressed.  This was needed because the gpio button press/release
+  events don't go through in the input event subsystem (and thus
+  don't automatically reset the screen blanking timer.)
+  I had actually tried to use the Linux uinput device to generate
+  actual key events, but it didn't work correctly and was generally
+  more complicated anyway.
+- The Philips slave DVD screen arrived.  Found a 12V power supply and
+  turned it on - backlight lit as expected.  Connected it to the RPi
+  via the camcorder AV cable - no dice.  Got a signal on the red
+  connection, but not a valid one.  Experimented with different
+  sdtv video modes on the RPi, but none of them worked.  The good
+  news is that I found the AV output cable from the master unit
+  (to connect it to a TV), hooked it up to the RPi using an RCA
+  cable, and it worked!  So, it appears that the camcorder cable is
+  wired in a fundamentally different and incompatible way.  I
+  could have cut the camcorder cable apart and rewired it, but
+  instead I just ordered 2 x 5ft AV cables that were specifically
+  listed as being for the Philips 7012 (to connect it to a TV, and
+  thus hopefully having the same wiring as the working cable.)
+  They weren't too expensive, but it's still a bit annoying.
+  HOWEVER - I think this was the last major hurdle.  Once the new
+  cables arrive, and I get the aux adapter installed in the Fit,
+  we should be in business!
+
+Feb 12th, 2014
+
+- Did the power wiring on the "piece of wood" (power terminal block
+  and video signal amplifier) by cutting appropriate length wires,
+  crimping ring terminals to them, and attaching the ring terminals
+  to the terminal block.  To make the wire/plug assembly that
+  plugs into the car 12V socket, I used the 12V plug from the
+  Philips DVD power cables, and the fuse from the video signal
+  amplifier (which will now serve all of the 12V-powered components).
+  My colleague Dave showed me how to use heat strink tubing on
+  the places where the wires were soldered together, so it looks
+  like a fairly professional job!
+- Added an "install" target to the Makefile that installs the CarPi
+  binary to /home/pi/Software/carpi/bin.
+- Modified /etc/inittab to start CarPi automatically as follows
+  by replacing the line that read
+    1:2345:respawn:/sbin/getty --noclear 38400 tty1
+  with
+    1:2345:/bin/su -c /home/pi/Software/carpi/bin/CarPi pi </dev/tty1 >/dev/tty1 2>/dev/tty1
+- Modified the software so that the "Shut down" main menu
+  actually uses the shutdown command to shut down the RPi.
+
+Feb 13th, 2014
+
+- Noticed that when the backlight on the LCD powers off, the ioctl that
+  disables screen blanking doesn't turn it back on.  Need to investigate.
+- The new AV cables arrived, and the one I tried works perfectly.
+  [We got 10" of snow, but our mail carrier was out making deliveries.
+  Hats off to the US postal service!]  I actually tried out (almost)
+  the whole setup in the car, and everything worked great.  I was concerned
+  that the RPi might have problems being powered by the car USB power
+  adapter, but it worked fine.  The 12V equipment (the video signal
+  amplifer and one of the Philips slave screens) worked great as well,
+  so the "piece of wood" power distribution system seems to be doing
+  its job.  All that remains now is to get the aux adapter for the car
+  and install everything for real.
+- Changed the code to use TIOCL_SETVESABLANK ioctl to disable powersaving
+  mode.  We'll see if that works to keep the backlight on.

@@ -17,6 +17,8 @@
 // along with CarPi.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <memory>
+#include <sys/ioctl.h>
+#include <linux/tiocl.h>
 #include <unistd.h>
 #include "gpio_pin.h"
 #include "event.h"
@@ -106,6 +108,8 @@ void ButtonInputReaderThread::run()
 
 void ButtonInputReaderThread::generateEvents()
 {
+	int count = 0;
+
 	// Read updated state of buttons, generate
 	// press/release events
 	int cur = 0;
@@ -121,7 +125,15 @@ void ButtonInputReaderThread::generateEvents()
 				: ButtonEvent::PRESS;
 			ButtonEvent::Code code = s_buttonCodes[i];
 			EventQueue::instance()->enqueue(new ButtonEvent(type, code));
+			count++;
 		}
 	}
 	m_last = cur;
+
+	// If any events were generated, unblank the console
+	// (in case screen blanking occurred.)
+	if (count > 0) {
+		char arg = TIOCL_UNBLANKSCREEN;
+		ioctl(0, TIOCLINUX, &arg);
+	}
 }

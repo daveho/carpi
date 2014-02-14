@@ -1,12 +1,14 @@
-CONFIG = Debug
-#CONFIG = Release
+#CONFIG = Debug
+CONFIG = Release
 
 ifeq ($(CONFIG),Debug)
 DEBUG := -g
 endif
 ifeq ($(CONFIG),Release)
-OPT := -O2 -DNDEBUG
+OPT := -O1 -DNDEBUG
 endif
+
+INSTALL_DIR = $(HOME)/Software/carpi/bin
 
 # See if we're compiling on a Raspberry Pi.
 ifeq ($(shell uname -m),armv6l)
@@ -68,6 +70,11 @@ $(CONFIG)/CarPi : $(CONFIG) $(MAIN_OBJS)
 
 $(CONFIG)/ButtonDaemon : $(CONFIG) $(DAEMON_OBJS)
 	$(CXX) -o $@ $(DAEMON_OBJS)
+
+install : $(CONFIG)/CarPi
+	mkdir -p $(INSTALL_DIR)
+	cp $(CONFIG)/CarPi $(INSTALL_DIR)
+	chmod a+x $(INSTALL_DIR)/CarPi
 
 $(CONFIG) :
 	mkdir -p $(CONFIG)
