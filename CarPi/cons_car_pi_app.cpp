@@ -16,6 +16,7 @@
 // You should have received a copy of the GNU General Public License
 // along with CarPi.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <cstdio>
 #include "console.h"
 #ifdef RASPBERRY_PI
 #  include "button_input_reader_thread.h"
@@ -41,6 +42,10 @@ void ConsCarPiApp::initialize()
 
 void ConsCarPiApp::onStartMainLoop()
 {
+	// Use block cursor
+	printf("%c[?6c;", 27);
+	fflush(stdout);
+
 	// Initialize console
 	Console::initialize();
 	Console::instance()->init();
