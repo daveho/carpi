@@ -495,7 +495,7 @@ Feb 13th, 2014
 - Changed the code to use TIOCL_SETVESABLANK ioctl to disable powersaving
   mode.  We'll see if that works to keep the backlight on.
 
-Feb 14th
+Feb 14th, 2014
 
 - TIOCL_SETVESABLANK does not work to keep the LCD backlight on.
   What's worse, even explicitly writing 0 to
@@ -510,3 +510,14 @@ Feb 14th
   (same as if a key on a USB keyboard had been pressed.)  I haven't
   tested it yet to see if it will wake up correctly after the
   backlight has powered down.  We'll see...
+
+Feb 15th, 2014
+
+- Confirmed that button presses do wake up the LCD (and power the
+  backlight back on).
+- Added
+    echo 0 > /sys/class/graphics/fbcon/cursor_blink
+  to /etc/rc.local to disable cursor blinking.
+- Added code to cons_car_pi_app.cpp to enable a solid block cursor
+  rather than an underline cursor.  I think this looks a bit better
+  (although it's not really a big deal.)
