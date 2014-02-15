@@ -494,3 +494,19 @@ Feb 13th, 2014
   and install everything for real.
 - Changed the code to use TIOCL_SETVESABLANK ioctl to disable powersaving
   mode.  We'll see if that works to keep the backlight on.
+
+Feb 14th
+
+- TIOCL_SETVESABLANK does not work to keep the LCD backlight on.
+  What's worse, even explicitly writing 0 to
+  /sys/class/backlight/fb_ili9340/bl_power does not cause the
+  backlight to come back on!  Fortunately...
+- Figured out why my original attempts to use /dev/uinput didn't work:
+  there is a special event type (EV_SYN) that is required to force
+  input events to be pushed to the consumer (i.e., the console).
+  Modified button_input_reader_thread.cpp to generate key events using
+  /dev/uinput rather than directly posting them to the event queue.
+  In theory this should wake up the LCD from power saving mode
+  (same as if a key on a USB keyboard had been pressed.)  I haven't
+  tested it yet to see if it will wake up correctly after the
+  backlight has powered down.  We'll see...
