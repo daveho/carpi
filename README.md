@@ -13,7 +13,7 @@ enclosure consisting of two pieces of laser-cut acrylic
 and various bits of hardware has been designed and assembled.
 The "enclosure" directory has complete CAD drawings.
 
-Here is a photo of the assembled enclosure (with the Raspberry Pi,
+Here is a photo of the assembled device (with the Raspberry Pi,
 the LCD module, and the keyswitches):
 
 <a href="https://raw2.github.com/daveho/carpi/master/enclosure/pic-big.jpg"><img src="https://raw2.github.com/daveho/carpi/master/enclosure/pic-sm.jpg" /></a>
