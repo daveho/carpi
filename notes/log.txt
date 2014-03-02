@@ -521,3 +521,19 @@ Feb 15th, 2014
 - Added code to cons_car_pi_app.cpp to enable a solid block cursor
   rather than an underline cursor.  I think this looks a bit better
   (although it's not really a big deal.)
+
+Mar 1st, 2014
+
+- Finally got the aux audio input installed in the Honda Fit
+  (at Wyvon Audio Installations, http://wyvonaudio.com).
+  Set up all of the AV equipment, tried it out with the RPi,
+  and everything works!  The sound quality with omxplayer was quite
+  good.  Audio from mpg321 is rather quiet: perhaps it doesn't
+  default to 100% gain?
+
+Mar 2nd, 2014
+
+- Added support for seeking forwards/backwards by 30 seconds and
+  10 minutes in the video player.  (These are both supported by
+  underlying omxplayer commands.)
+- 
