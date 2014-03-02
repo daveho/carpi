@@ -8,9 +8,9 @@ in Eagle CAD.
 
 Rendering (via [OSH Park](http://www.oshpark.com), which is where I had the boards fabricated):
 
-<a href="https://raw2.github.com/daveho/carpi/master/buttons/pcbBottom.png"><img alt="bottom of PCB" src="https://raw2.github.com/daveho/carpi/master/buttons/pcbBottom-sm.png" /></a>
+<a href="https://raw.github.com/daveho/carpi/master/buttons/pcbBottom.png"><img alt="bottom of PCB" src="https://raw.github.com/daveho/carpi/master/buttons/pcbBottom-sm.png" /></a>
 
-<a href="https://raw2.github.com/daveho/carpi/master/buttons/pcbTop.png"><img alt="top of PCB" src="https://raw2.github.com/daveho/carpi/master/buttons/pcbTop-sm.png" /></a>
+<a href="https://raw.github.com/daveho/carpi/master/buttons/pcbTop.png"><img alt="top of PCB" src="https://raw.github.com/daveho/carpi/master/buttons/pcbTop-sm.png" /></a>
 
 Note that the PCB uses Cherry MX keyboard switches.  **cherrymx.lbr** is a
 (very slightly) modified version of the following Eagle library:
