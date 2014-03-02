@@ -83,16 +83,20 @@ void VideoPlayerController::visitButtonEvent(ButtonEvent *evt)
 
 			case ButtonEvent::UP:
 				// Seek backwards
+				setResult(EventHandler::HANDLED);
 				m_playVideo->seek(
 					PlayVideo::BACKWARD,
 					m_rightPressed ? PlayVideo::LARGE : PlayVideo::SMALL);
+				m_rightPressed = false;
 				break;
 
 			case ButtonEvent::DOWN:
 				// Seek forwards
+				setResult(EventHandler::HANDLED);
 				m_playVideo->seek(
 					PlayVideo::FORWARD,
 					m_rightPressed ? PlayVideo::LARGE : PlayVideo::SMALL);
+				m_rightPressed = false;
 				break;
 
 			default:
