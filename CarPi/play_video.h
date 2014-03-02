@@ -37,6 +37,16 @@ public:
 		EXITING,
 	};
 
+	enum SeekDir {
+		BACKWARD,
+		FORWARD,
+	};
+
+	enum SeekSize {
+		SMALL,
+		LARGE,
+	};
+
 private:
 	State m_state;
 	std::string m_fileName;
@@ -55,6 +65,7 @@ public:
 	State getState() const { return m_state; }
 
 	bool play();
+	bool seek(SeekDir dir, SeekSize size);
 	bool pause();
 	bool stop();
 	bool waitForIdle();

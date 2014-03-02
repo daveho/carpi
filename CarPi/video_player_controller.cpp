@@ -23,6 +23,7 @@
 
 VideoPlayerController::VideoPlayerController(PlayVideo *playVideo)
 	: m_playVideo(playVideo)
+	, m_rightPressed(false)
 {
 }
 
@@ -70,6 +71,28 @@ void VideoPlayerController::visitButtonEvent(ButtonEvent *evt)
 				// Go back to the video navigation menu.
 				CarPiApp::instance()->popEventHandler();
 
+				break;
+
+			case ButtonEvent::RIGHT:
+				// The right arrow acts as a modifier for the up
+				// (seek backwards) and down (seek forwards)
+				// buttons.
+				setResult(EventHandler::HANDLED);
+				m_rightPressed = true;
+				break;
+
+			case ButtonEvent::UP:
+				// Seek backwards
+				m_playVideo->seek(
+					PlayVideo::BACKWARD,
+					m_rightPressed ? PlayVideo::LARGE : PlayVideo::SMALL);
+				break;
+
+			case ButtonEvent::DOWN:
+				// Seek forwards
+				m_playVideo->seek(
+					PlayVideo::FORWARD,
+					m_rightPressed ? PlayVideo::LARGE : PlayVideo::SMALL);
 				break;
 
 			default:

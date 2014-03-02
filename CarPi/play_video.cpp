@@ -103,6 +103,25 @@ bool PlayVideo::play()
 	}
 }
 
+bool PlayVideo::seek(SeekDir dir, SeekSize size)
+{
+	if (m_state < PLAYING) {
+		return false;
+	}
+#define X(dir,size) ((dir*2)+size)
+	switch (X(dir,size)) {
+	case X(BACKWARD, SMALL):
+		sendCommand("\033[D"); break;
+	case X(BACKWARD, LARGE):
+		sendCommand("\033[B"); break;
+	case X(FORWARD, SMALL):
+		sendCommand("\033[C"); break;
+	case X(FORWARD, LARGE):
+		sendCommand("\033[A"); break;
+	}
+#undef X
+}
+
 bool PlayVideo::pause()
 {
 	if (m_state != PLAYING) {

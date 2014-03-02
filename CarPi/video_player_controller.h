@@ -29,6 +29,7 @@ class VideoPlayerController : public AbstractEventVisitor
 {
 private:
 	PlayVideo *m_playVideo;
+	bool m_rightPressed;
 	
 public:
 	VideoPlayerController(PlayVideo *playVideo);
