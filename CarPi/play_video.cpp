@@ -120,6 +120,7 @@ bool PlayVideo::seek(SeekDir dir, SeekSize size)
 		sendCommand("\033[A"); break;
 	}
 #undef X
+	return true;
 }
 
 bool PlayVideo::pause()
