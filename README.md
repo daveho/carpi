@@ -16,7 +16,7 @@ The "enclosure" directory has complete CAD drawings.
 Here is a photo of the assembled device (with the Raspberry Pi,
 the LCD module, and the keyswitches):
 
-<a href="https://raw2.github.com/daveho/carpi/master/enclosure/pic-big.jpg"><img src="https://raw2.github.com/daveho/carpi/master/enclosure/pic-sm.jpg" /></a>
+<a href="https://raw.github.com/daveho/carpi/master/enclosure/pic-big.jpg"><img src="https://raw.github.com/daveho/carpi/master/enclosure/pic-sm.jpg" /></a>
 
 Current status of the software is
 
