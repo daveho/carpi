@@ -206,6 +206,9 @@ bool PlaySound::play(size_t i)
 	if (fileType == OGG) {
 		//sendCommand("stop\n");
 	}
+
+	// Make sure volume is set to 100%
+	sendCommand("gain 100\n");
 	
 	sendCommand("load " + fileName + "\n");
 	m_state = PLAYING;
