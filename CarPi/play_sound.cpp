@@ -35,6 +35,7 @@
 
 #include "string_util.h"
 #include "thread.h"
+#include "playback_settings.h"
 #include "play_sound.h"
 
 // default mpg321 and ogg123 executables
@@ -176,6 +177,7 @@ PlaySound::PlaySound()
 	, m_statusfd(-1)
 	, m_monitor(0)
 	, m_callback(0)
+	, m_playbackSettings(new PlaybackSettings())
 {
 }
 
@@ -198,6 +200,7 @@ bool PlaySound::play(size_t i)
 
 	if (m_state < ACTIVE) {
 		startProcess(fileType);
+		applyPlaybackSettings();
 	} else if (m_state == PLAYING) {
 		sendCommand("stop\n");
 	}
@@ -206,9 +209,6 @@ bool PlaySound::play(size_t i)
 	if (fileType == OGG) {
 		//sendCommand("stop\n");
 	}
-
-	// Make sure volume is set to 100%
-	sendCommand("gain 100\n");
 	
 	sendCommand("load " + fileName + "\n");
 	m_state = PLAYING;
@@ -253,6 +253,17 @@ bool PlaySound::stop()
 	}
 	sendCommand("quit\n");
 	m_state = EXITING;
+	return true;
+}
+
+bool PlaySound::updatePlaybackSettings(const PlaybackSettings *other)
+{
+	if (*m_playbackSettings != *other) {
+		if (m_state > IDLE) {
+			applyPlaybackSettings();
+		}
+		*m_playbackSettings = *other;
+	}
 	return true;
 }
 
@@ -389,4 +400,9 @@ done:
 	closefd(statuspipe_fd[1]);
 
 	return rc;
+}
+
+void PlaySound::applyPlaybackSettings()
+{
+	sendCommand("gain " + std::to_string(m_playbackSettings->getVolumePercent()) + "\n");
 }

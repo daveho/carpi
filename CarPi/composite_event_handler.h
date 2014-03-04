@@ -30,17 +30,31 @@
 class CompositeEventHandler : public EventHandler
 {
 private:
-	typedef std::vector<EventHandler *> HandlerList;
-	HandlerList m_handlerList;
+	struct Delegate {
+		EventHandler *handler;
+		bool adopted;
+		Delegate(EventHandler *handler_, bool adopted_)
+			: handler(handler_)
+			, adopted(adopted_)
+		{ }
+	};
+
+	typedef std::vector<Delegate> DelegateList;
+	DelegateList m_delegateList;
 	
 public:
 	CompositeEventHandler();
-	CompositeEventHandler(EventHandler *controllerToAdopt, EventHandler *viewToAdopt);
 	~CompositeEventHandler();
 
-	void addAndAdoptEventHandler(EventHandler *handler);
-
+	void addHandler(EventHandler *handler, bool adopt);
 	virtual Result handleEvent(Event *evt);
+
+	static CompositeEventHandler *makeAdoptedPair(EventHandler *first, EventHandler *second) {
+		CompositeEventHandler *pair = new CompositeEventHandler();
+		pair->addHandler(first, true);
+		pair->addHandler(second, true);
+		return pair;
+	}
 };
 
 #endif // COMPOSITEEVENTHANDLER_H

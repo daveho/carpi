@@ -91,6 +91,7 @@ public:
 		PLAYER_PAUSED,     // player is paused
 		PLAYER_PLAYING,    // player is playing (or resumed)
 		PLAYER_ENDED,      // player has ended
+		PLAYBACK_SETTINGS_CHANGED, // playback settings changed
 	};
 	
 private:

@@ -38,6 +38,7 @@ protected:
 	virtual EventHandler *createMenuView(Menu *menu);
 	virtual EventHandler *createMusicPlayerView(PlaySound *playSound);
 	virtual EventHandler *createVideoPlayerView(PlayVideo *playVideo);
+	virtual EventHandler *createPlaybackSettingsView(PlaybackSettings *playbackSettings);
 };
 
 #endif // CONSCARPIAPP_H

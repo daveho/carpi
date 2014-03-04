@@ -26,6 +26,8 @@
 
 #include "thread.h"
 
+class PlaybackSettings;
+
 //
 // Callback interface to receive asynchronous status updates
 // from the PlaySound subprocess.
@@ -106,7 +108,8 @@ private:
 	int m_statusfd; // pipe to receive status updates from subprocess
 	MonitorThread *m_monitor;
 	PlaySoundCallback *m_callback;
-	
+	PlaybackSettings *m_playbackSettings;
+
 public:
 	PlaySound();
 	~PlaySound();
@@ -118,6 +121,10 @@ public:
 
 	State getState() const { return m_state; }
 	size_t getSelectedFile() const { return m_selectedFile; }
+
+	const PlaybackSettings *getPlaybackSettings() {
+		return m_playbackSettings;
+	}
 	
 	bool play(size_t i);
 	bool previous();
@@ -125,6 +132,7 @@ public:
 	bool pause();
 	bool resume();
 	bool stop();
+	bool updatePlaybackSettings(const PlaybackSettings *other);
 	bool waitForIdle();
 	
 private:
@@ -132,6 +140,7 @@ private:
 	static void closefd(int fd);
 	void sendCommand(const std::string &cmd);
 	bool startProcess(FileType fileType);
+	void applyPlaybackSettings();
 };
 
 #endif // PLAYSOUND_H

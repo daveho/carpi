@@ -1,5 +1,5 @@
-#CONFIG = Debug
-CONFIG = Release
+CONFIG = Debug
+#CONFIG = Release
 
 ifeq ($(CONFIG),Debug)
 DEBUG := -g
@@ -27,6 +27,7 @@ MAIN_SRCS := \
 	cons_input_reader_thread.cpp \
 	cons_menu_view.cpp \
 	cons_music_player_view.cpp \
+	cons_playback_settings_view.cpp \
 	cons_video_player_view.cpp \
 	console.cpp \
 	event.cpp \
@@ -41,6 +42,9 @@ MAIN_SRCS := \
 	menu_view.cpp \
 	music_file_navigator_menu_controller.cpp \
 	music_player_controller.cpp \
+	notification_event_filter.cpp \
+	playback_settings.cpp \
+	playback_settings_controller.cpp \
 	play_sound.cpp \
 	play_video.cpp \
 	static_menu.cpp \

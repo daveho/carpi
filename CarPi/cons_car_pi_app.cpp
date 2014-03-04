@@ -25,6 +25,7 @@
 #include "cons_menu_view.h"
 #include "cons_music_player_view.h"
 #include "cons_video_player_view.h"
+#include "cons_playback_settings_view.h"
 #include "cons_car_pi_app.h"
 
 ConsCarPiApp::ConsCarPiApp()
@@ -82,4 +83,9 @@ EventHandler *ConsCarPiApp::createMusicPlayerView(PlaySound *playSound)
 EventHandler *ConsCarPiApp::createVideoPlayerView(PlayVideo *playVideo)
 {
 	return new ConsVideoPlayerView(playVideo);
+}
+
+EventHandler *ConsCarPiApp::createPlaybackSettingsView(PlaybackSettings *playbackSettings)
+{
+	return new ConsPlaybackSettingsView(playbackSettings);
 }

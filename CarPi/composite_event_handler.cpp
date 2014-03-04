@@ -22,28 +22,24 @@ CompositeEventHandler::CompositeEventHandler()
 {
 }
 
-CompositeEventHandler::CompositeEventHandler(EventHandler *controllerToAdopt, EventHandler *viewToAdopt)
-{
-	addAndAdoptEventHandler(controllerToAdopt);
-	addAndAdoptEventHandler(viewToAdopt);
-}
-
 CompositeEventHandler::~CompositeEventHandler()
 {
-	for (HandlerList::iterator i = m_handlerList.begin(); i != m_handlerList.end(); i++) {
-		delete *i;
+	for (DelegateList::iterator i = m_delegateList.begin(); i != m_delegateList.end(); i++) {
+		if (i->adopted) {
+			delete i->handler;
+		}
 	}
 }
 
-void CompositeEventHandler::addAndAdoptEventHandler(EventHandler *handler)
+void CompositeEventHandler::addHandler(EventHandler *handler, bool adopt)
 {
-	m_handlerList.push_back(handler);
+	m_delegateList.push_back(Delegate(handler, adopt));
 }
 
 EventHandler::Result CompositeEventHandler::handleEvent(Event *evt)
 {
-	for (HandlerList::iterator i = m_handlerList.begin(); i != m_handlerList.end(); i++) {
-		EventHandler::Result result = (*i)->handleEvent(evt);
+	for (DelegateList::iterator i = m_delegateList.begin(); i != m_delegateList.end(); i++) {
+		EventHandler::Result result = i->handler->handleEvent(evt);
 		if (result == EventHandler::HANDLED) {
 			return result;
 		}

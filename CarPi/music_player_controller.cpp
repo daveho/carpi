@@ -1,6 +1,7 @@
 #include "car_pi_app.h"
 #include "event.h"
 #include "event_queue.h"
+#include "playback_settings.h"
 #include "play_sound.h"
 #include "music_player_controller.h"
 
@@ -111,6 +112,9 @@ void MusicPlayerController::visitButtonEvent(ButtonEvent *evt)
 					m_playSound->pause();
 				}
 				break;
+			case ButtonEvent::B:
+				// playback settings
+				CarPiApp::instance()->startPlaybackSettingsEditor(this, m_playSound->getPlaybackSettings()->clone());
 			default:
 				break;
 		}
@@ -129,5 +133,12 @@ void MusicPlayerController::visitNotificationEvent(NotificationEvent *evt)
 		}
 		// NOTE: don't set the result to HANDLED, since the view might also
 		// want to handle this notification
+	} else if (type == NotificationEvent::PLAYBACK_SETTINGS_CHANGED) {
+		const PlaybackSettings *playbackSettings =
+			static_cast<const PlaybackSettings *>(evt->getObject());
+		m_playSound->updatePlaybackSettings(playbackSettings);
+		// Don't set result to HANDLED: there is almost certainly
+		// another controller/view pair active (the playback settings
+		// controller/view)
 	}
 }

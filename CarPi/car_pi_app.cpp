@@ -25,6 +25,9 @@
 #include "video_player_controller.h"
 #include "music_player_controller.h"
 #include "composite_event_handler.h"
+#include "notification_event_filter.h"
+#include "playback_settings.h"
+#include "playback_settings_controller.h"
 #include "car_pi_app.h"
 
 namespace {
@@ -57,7 +60,7 @@ void CarPiApp::mainLoop()
 	// Create the main menu controller/view and push it
 	MainMenuController *mainMenuController = new MainMenuController();
 	EventHandler *mainMenuView = createMenuView(mainMenuController->getMenu());
-	CompositeEventHandler *pair = new CompositeEventHandler(mainMenuController, mainMenuView);
+	CompositeEventHandler *pair = CompositeEventHandler::makeAdoptedPair(mainMenuController, mainMenuView);
 	pushEventHandler(pair);
 	
 	// Schedule the initial paint event
@@ -95,17 +98,17 @@ void CarPiApp::startMusicNavigator()
 	MusicFileNavigatorMenuController *controller = new MusicFileNavigatorMenuController(musicDir);
 	EventHandler *view = createMenuView(controller->getMenu());
 	
-	CompositeEventHandler *pair = new CompositeEventHandler(controller, view);
+	CompositeEventHandler *pair = CompositeEventHandler::makeAdoptedPair(controller, view);
 	
-	CarPiApp::instance()->pushEventHandler(pair);
+	pushEventHandler(pair);
 }
 
 void CarPiApp::startMusicPlayer(PlaySound *playSound)
 {
 	MusicPlayerController *controller = new MusicPlayerController(playSound);
 	EventHandler *view = createMusicPlayerView(playSound);
-	CompositeEventHandler *pair = new CompositeEventHandler(controller, view);
-	CarPiApp::instance()->pushEventHandler(pair);
+	CompositeEventHandler *pair = CompositeEventHandler::makeAdoptedPair(controller, view);
+	pushEventHandler(pair);
 }
 
 void CarPiApp::startVideoNavigator()
@@ -118,17 +121,29 @@ void CarPiApp::startVideoNavigator()
 	VideoFileNavigatorMenuController *controller = new VideoFileNavigatorMenuController(musicDir);
 	EventHandler *view = createMenuView(controller->getMenu());
 	
-	CompositeEventHandler *pair = new CompositeEventHandler(controller, view);
+	CompositeEventHandler *pair = CompositeEventHandler::makeAdoptedPair(controller, view);
 	
-	CarPiApp::instance()->pushEventHandler(pair);
+	pushEventHandler(pair);
 }
 
 void CarPiApp::startVideoPlayer(PlayVideo *playVideo)
 {
 	VideoPlayerController *controller = new VideoPlayerController(playVideo);
 	EventHandler *view = createVideoPlayerView(playVideo);
-	CompositeEventHandler *pair = new CompositeEventHandler(controller, view);
-	CarPiApp::instance()->pushEventHandler(pair);
+	CompositeEventHandler *pair = CompositeEventHandler::makeAdoptedPair(controller, view);
+	pushEventHandler(pair);
+}
+
+void CarPiApp::startPlaybackSettingsEditor(EventHandler *currentController, PlaybackSettings *playbackSettings)
+{
+	// This works a little differently than a normal switch to
+	// a child controller and view: we allow the "parent" controller
+	// to continue handling notification events.
+	CompositeEventHandler *triple = new CompositeEventHandler();
+	triple->addHandler(new NotificationEventFilter(currentController), true);
+	triple->addHandler(new PlaybackSettingsController(playbackSettings), true);
+	triple->addHandler(createPlaybackSettingsView(playbackSettings), true);
+	pushEventHandler(triple);
 }
 
 void CarPiApp::pushEventHandler(EventHandler *handler)
