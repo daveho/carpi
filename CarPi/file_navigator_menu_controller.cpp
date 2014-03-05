@@ -26,7 +26,7 @@
 #include <unistd.h>
 #include "car_pi_app.h"
 #include "event.h"
-#include "static_menu.h"
+#include "menu.h"
 #include "event_queue.h"
 #include "file_navigator_menu_controller.h"
 
@@ -77,7 +77,7 @@ FileNavigatorMenuController::FileNavigatorMenuController(const std::string &base
 	: MenuController(0) // populated during construction
 {
 	m_dirStack.push_back(baseDir);
-	setMenu(new StaticMenu());
+	setMenu(new Menu());
 	populateMenuItems();
 }
 
@@ -155,7 +155,7 @@ void FileNavigatorMenuController::populateMenuItems()
 	assert(m_dirStack.size() > 0);
 	std::string dirName = m_dirStack.back();
 
-	StaticMenu *menu = static_cast<StaticMenu *>(getMenu());
+	Menu *menu = getMenu();
 	menu->clear();
 	
 	if (m_dirStack.size() > 1) {

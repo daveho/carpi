@@ -47,7 +47,6 @@ MAIN_SRCS := \
 	playback_settings_controller.cpp \
 	play_sound.cpp \
 	play_video.cpp \
-	static_menu.cpp \
 	thread.cpp \
 	video_file_navigator_menu_controller.cpp \
 	video_player_controller.cpp

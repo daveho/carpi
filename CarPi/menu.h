@@ -1,5 +1,5 @@
 // CarPi - Raspberry Pi car entertainment system
-// Copyright (c) 2013, David H. Hovemeyer <david.hovemeyer@gmail.com>
+// Copyright (c) 2013,2014 David H. Hovemeyer <david.hovemeyer@gmail.com>
 
 // This file is part of CarPi.
 // 
@@ -50,23 +50,32 @@ public:
 };
 
 //
-// Abstract menu base class.
+// Menu consisting of a static list of menu items.
 //
 class Menu
 {
+private:
+	std::vector<MenuItem *> m_itemList;
+	size_t m_selected;
+
 public:
 	Menu();
 	virtual ~Menu();
 
-	virtual size_t getNumItems() const = 0;
-	virtual const MenuItem *getItem(size_t i) const = 0;
-	virtual size_t getSelected() const = 0;
-	virtual void setSelected(size_t i) = 0;
-	virtual void clear() = 0;
+	void addAndAdoptItem(MenuItem *menuItem);
+	void insertAndAdoptItem(size_t pos, MenuItem *menuItem);
+
+	size_t getNumItems() const;
+	const MenuItem *getItem(size_t i) const;
+	size_t getSelected() const;
+	void setSelected(size_t i);
+	void clear();
 	
 	const MenuItem *getSelectedItem() const {
 		return getItem(getSelected());
 	}
+	
+	void sort(bool (*compareFunc)(MenuItem *left, MenuItem *right));
 };
 
 #endif // MENU_H

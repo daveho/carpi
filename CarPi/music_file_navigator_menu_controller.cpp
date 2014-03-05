@@ -1,5 +1,5 @@
 // CarPi - Raspberry Pi car entertainment system
-// Copyright (c) 2013, David H. Hovemeyer <david.hovemeyer@gmail.com>
+// Copyright (c) 2013,2014 David H. Hovemeyer <david.hovemeyer@gmail.com>
 
 // This file is part of CarPi.
 // 
@@ -20,7 +20,7 @@
 #include "car_pi_app.h"
 #include "menu.h"
 #include "play_sound.h"
-#include "static_menu.h"
+#include "menu.h"
 #include "music_file_navigator_menu_controller.h"
 
 MusicFileNavigatorMenuController::MusicFileNavigatorMenuController(const std::string &baseDir)
@@ -47,10 +47,8 @@ bool MusicFileNavigatorMenuController::includeEntry(const std::string &entryName
 	return false;
 }
 
-void MusicFileNavigatorMenuController::onMenuPopulated(Menu *menu_)
+void MusicFileNavigatorMenuController::onMenuPopulated(Menu *menu)
 {
-	StaticMenu *menu = static_cast<StaticMenu *>(menu_);
-	
 	// Add the special "<<Play all>>" item after the PARENT_DIR_VALUE item
 	// or at the beginning of the menu (if the menu is the root of the
 	// music directory).

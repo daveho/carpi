@@ -1,6 +1,5 @@
-#ifndef MENUCONTROLLER_H
 // CarPi - Raspberry Pi car entertainment system
-// Copyright (c) 2013, David H. Hovemeyer <david.hovemeyer@gmail.com>
+// Copyright (c) 2013,2014 David H. Hovemeyer <david.hovemeyer@gmail.com>
 
 // This file is part of CarPi.
 // 
@@ -17,6 +16,7 @@
 // You should have received a copy of the GNU General Public License
 // along with CarPi.  If not, see <http://www.gnu.org/licenses/>.
 
+#ifndef MENUCONTROLLER_H
 #define MENUCONTROLLER_H
 
 #include "abstract_event_visitor.h"
