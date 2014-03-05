@@ -115,6 +115,7 @@ void MusicPlayerController::visitButtonEvent(ButtonEvent *evt)
 			case ButtonEvent::B:
 				// playback settings
 				CarPiApp::instance()->startPlaybackSettingsEditor(this, m_playSound->getPlaybackSettings()->clone());
+				break;
 			default:
 				break;
 		}
