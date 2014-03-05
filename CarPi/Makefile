@@ -1,5 +1,5 @@
-CONFIG = Debug
-#CONFIG = Release
+#CONFIG = Debug
+CONFIG = Release
 
 ifeq ($(CONFIG),Debug)
 DEBUG := -g
