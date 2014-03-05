@@ -19,16 +19,19 @@ void PlaybackSettingsController::visitButtonEvent(ButtonEvent *evt)
 		switch (evt->getCode()) {
 		case ButtonEvent::LEFT:
 			// Decrease volume
+			setResult(EventHandler::HANDLED);
 			changeVolume(-2);
 			break;
 
 		case ButtonEvent::RIGHT:
 			// Increase volume
+			setResult(EventHandler::HANDLED);
 			changeVolume(2);
 			break;
 
 		case ButtonEvent::B:
 			// Go back to parent view
+			setResult(EventHandler::HANDLED);
 			CarPiApp::instance()->popEventHandler();
 			break;
 
