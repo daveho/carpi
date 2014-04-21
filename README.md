@@ -1,7 +1,6 @@
-Hardware design and code for Raspberry Pi based car entertainment
-device.  This is a work in progress, although the hardware and software
-are more or less working at this point.  Some work remains to
-get it into an easily installable and deployable form.
+Hardware design and code for Raspberry Pi based car entertainment device.  Everything is up and running and works fairly well at this point.  I wrote a [blog post](http://daveho.github.io/2014/04/19/carpi-car-videos-with-the-raspberry-pi.html) that summarizes the project.
+
+The [wiki](https://github.com/daveho/carpi/wiki) has complete information on building the device and installing the software.
 
 Everything (software and hardware) is open source: see the file
 LICENSES.txt for details.
@@ -39,6 +38,3 @@ Current status of the software is
 * Video playing is supported by running omxplayer as a
   subprocess, with video output going to the composite output
   (because composite video monitors for cars are super cheap).  
-
-Things are pretty close to completely working: the main remaining
-task is the video setup in the car.
