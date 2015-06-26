@@ -1,5 +1,5 @@
 // CarPi - Raspberry Pi car entertainment system
-// Copyright (c) 2013,2014 David H. Hovemeyer <david.hovemeyer@gmail.com>
+// Copyright (c) 2013-2015 David H. Hovemeyer <david.hovemeyer@gmail.com>
 
 // This file is part of CarPi.
 // 
@@ -23,6 +23,7 @@
 #include <sys/types.h>
 
 class Thread;
+class PlaybackSettings;
 
 //
 // Play video using omxplayer.
@@ -56,6 +57,7 @@ private:
 	int m_errfd; // read from subprocess  omxplayer stderr
 	Thread *m_stdoutMonitor;
 	Thread *m_stderrMonitor;
+	PlaybackSettings *m_playbackSettings;
 	
 public:
 	PlayVideo(const std::string &fileName);
@@ -69,6 +71,11 @@ public:
 	bool pause();
 	bool stop();
 	bool waitForIdle();
+
+	const PlaybackSettings *getPlaybackSettings() {
+		return m_playbackSettings;
+	}
+	bool updatePlaybackSettings(const PlaybackSettings *other);
 	
 private:
 	bool startProcess();

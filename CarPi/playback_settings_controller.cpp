@@ -1,5 +1,5 @@
 // CarPi - Raspberry Pi car entertainment system
-// Copyright (c) 2013,2014 David H. Hovemeyer <david.hovemeyer@gmail.com>
+// Copyright (c) 2013-2015 David H. Hovemeyer <david.hovemeyer@gmail.com>
 
 // This file is part of CarPi.
 // 
@@ -53,6 +53,12 @@ void PlaybackSettingsController::visitButtonEvent(ButtonEvent *evt)
 			CarPiApp::instance()->popEventHandler();
 			break;
 
+		case ButtonEvent::A:
+			// toggle between composite and HDMI video output
+			setResult(EventHandler::HANDLED);
+			toggleOutputType();
+			break;
+
 		default:
 			break;
 		}
@@ -69,6 +75,18 @@ void PlaybackSettingsController::changeVolume(int delta)
 		volume = 100;
 	}
 	m_playbackSettings->setVolumePercent(volume);
+	EventQueue::instance()->enqueue(
+		new NotificationEvent(NotificationEvent::PLAYBACK_SETTINGS_CHANGED, m_playbackSettings)
+	);
+}
+
+void PlaybackSettingsController::toggleOutputType()
+{
+	m_playbackSettings->setOutputType(
+		(m_playbackSettings->getOutputType() == PlaybackSettings::COMPOSITE)
+			? PlaybackSettings::HDMI
+			: PlaybackSettings::COMPOSITE
+	);
 	EventQueue::instance()->enqueue(
 		new NotificationEvent(NotificationEvent::PLAYBACK_SETTINGS_CHANGED, m_playbackSettings)
 	);

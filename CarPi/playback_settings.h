@@ -1,5 +1,5 @@
 // CarPi - Raspberry Pi car entertainment system
-// Copyright (c) 2013,2014 David H. Hovemeyer <david.hovemeyer@gmail.com>
+// Copyright (c) 2013-2015 David H. Hovemeyer <david.hovemeyer@gmail.com>
 
 // This file is part of CarPi.
 // 
@@ -20,8 +20,15 @@
 #define PLAYBACK_SETTINGS
 
 class PlaybackSettings {
+public:
+	enum OutputType {
+		COMPOSITE,
+		HDMI,
+	};
+
 private:
 	int m_volumePercent;
+	OutputType m_outputType;
 
 public:
 	PlaybackSettings();
@@ -32,6 +39,9 @@ public:
 
 	void setVolumePercent(int volumePercent);
 	int getVolumePercent() const;
+
+	void setOutputType(OutputType outputType);
+	OutputType getOutputType() const;
 
 	PlaybackSettings *clone() const;
 

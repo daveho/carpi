@@ -1,5 +1,5 @@
 // CarPi - Raspberry Pi car entertainment system
-// Copyright (c) 2013,2014 David H. Hovemeyer <david.hovemeyer@gmail.com>
+// Copyright (c) 2013-2015 David H. Hovemeyer <david.hovemeyer@gmail.com>
 
 // This file is part of CarPi.
 // 
@@ -51,6 +51,12 @@ void ConsPlaybackSettingsView::onPaint()
 	cons->clear();
 	cons->moveCursor(2, 0);
 	cons->printf("Volume: %3d%%", m_playbackSettings->getVolumePercent());
+
+	cons->moveCursor(4, 0);
+	cons->printf("Output: %s", (m_playbackSettings->getOutputType() == PlaybackSettings::COMPOSITE)
+		? "Composite"
+		: "HDMI");
+
 	cons->moveCursor(cons->getNumRows() - 2, 0);
 	cons->commit();
 }

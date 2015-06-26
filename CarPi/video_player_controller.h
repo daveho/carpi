@@ -1,5 +1,5 @@
 // CarPi - Raspberry Pi car entertainment system
-// Copyright (c) 2013,2014 David H. Hovemeyer <david.hovemeyer@gmail.com>
+// Copyright (c) 2013-2015 David H. Hovemeyer <david.hovemeyer@gmail.com>
 
 // This file is part of CarPi.
 // 
@@ -36,6 +36,7 @@ public:
 	~VideoPlayerController();
 	
 	virtual void visitButtonEvent(ButtonEvent *evt);
+	virtual void visitNotificationEvent(NotificationEvent *evt);
 
 };
 

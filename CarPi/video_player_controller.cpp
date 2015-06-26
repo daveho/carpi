@@ -1,5 +1,5 @@
 // CarPi - Raspberry Pi car entertainment system
-// Copyright (c) 2013,2014 David H. Hovemeyer <david.hovemeyer@gmail.com>
+// Copyright (c) 2013-2015 David H. Hovemeyer <david.hovemeyer@gmail.com>
 
 // This file is part of CarPi.
 // 
@@ -19,6 +19,7 @@
 #include "car_pi_app.h"
 #include "event_queue.h"
 #include "play_video.h"
+#include "playback_settings.h"
 #include "video_player_controller.h"
 
 VideoPlayerController::VideoPlayerController(PlayVideo *playVideo)
@@ -99,8 +100,24 @@ void VideoPlayerController::visitButtonEvent(ButtonEvent *evt)
 				m_rightPressed = false;
 				break;
 
+			case ButtonEvent::B:
+				// playback settings
+				CarPiApp::instance()->startPlaybackSettingsEditor(this, m_playVideo->getPlaybackSettings()->clone());
+				break;
+
 			default:
 				break;
 		}
+	}
+}
+
+void VideoPlayerController::visitNotificationEvent(NotificationEvent *evt)
+{
+	NotificationEvent::Type type = evt->getType();
+
+	if (type == NotificationEvent::PLAYBACK_SETTINGS_CHANGED) {
+		const PlaybackSettings *playbackSettings =
+			static_cast<const PlaybackSettings *>(evt->getObject());
+		m_playVideo->updatePlaybackSettings(playbackSettings);
 	}
 }

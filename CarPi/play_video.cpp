@@ -1,5 +1,5 @@
 // CarPi - Raspberry Pi car entertainment system
-// Copyright (c) 2013,2014 David H. Hovemeyer <david.hovemeyer@gmail.com>
+// Copyright (c) 2013-2015 David H. Hovemeyer <david.hovemeyer@gmail.com>
 
 // This file is part of CarPi.
 // 
@@ -24,6 +24,7 @@
 #include <fcntl.h>
 #include <sys/wait.h>
 #include "thread.h"
+#include "playback_settings.h"
 #include "play_video.h"
 
 // Default path to omxplayer executable.
@@ -75,6 +76,7 @@ PlayVideo::PlayVideo(const std::string &fileName)
 	, m_errfd(-1)
 	, m_stdoutMonitor(0)
 	, m_stderrMonitor(0)
+	, m_playbackSettings(new PlaybackSettings())
 {
 }
 
@@ -169,6 +171,14 @@ bool PlayVideo::waitForIdle()
 	return true;
 }
 
+bool PlayVideo::updatePlaybackSettings(const PlaybackSettings *other)
+{
+	if (*m_playbackSettings != *other) {
+		*m_playbackSettings = *other;
+	}
+	return true;
+}
+
 bool PlayVideo::startProcess()
 {
 	extern char **environ;
@@ -182,7 +192,9 @@ bool PlayVideo::startProcess()
 	args[0] = OMXPLAYER_EXE_PATH;
 	args[1] = "-b";  // show a blank background
 	args[2] = "-o";
-	args[3] = "local"; // TODO: make this configurable (HDMI vs. composite out)
+	args[3] = (m_playbackSettings->getOutputType() == PlaybackSettings::COMPOSITE)
+		? "local"
+		: "hdmi";
 	args[4] = m_fileName.c_str();
 	args[5] = 0;
 	

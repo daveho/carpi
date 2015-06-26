@@ -1,5 +1,5 @@
 // CarPi - Raspberry Pi car entertainment system
-// Copyright (c) 2013,2014 David H. Hovemeyer <david.hovemeyer@gmail.com>
+// Copyright (c) 2013-2015 David H. Hovemeyer <david.hovemeyer@gmail.com>
 
 // This file is part of CarPi.
 // 
@@ -259,10 +259,10 @@ bool PlaySound::stop()
 bool PlaySound::updatePlaybackSettings(const PlaybackSettings *other)
 {
 	if (*m_playbackSettings != *other) {
+		*m_playbackSettings = *other;
 		if (m_state > IDLE) {
 			applyPlaybackSettings();
 		}
-		*m_playbackSettings = *other;
 	}
 	return true;
 }

@@ -1,5 +1,5 @@
 // CarPi - Raspberry Pi car entertainment system
-// Copyright (c) 2013,2014 David H. Hovemeyer <david.hovemeyer@gmail.com>
+// Copyright (c) 2013-2015 David H. Hovemeyer <david.hovemeyer@gmail.com>
 
 // This file is part of CarPi.
 // 
@@ -20,11 +20,13 @@
 
 PlaybackSettings::PlaybackSettings()
 	: m_volumePercent(100)
+	, m_outputType(COMPOSITE)
 {
 }
 
 PlaybackSettings::PlaybackSettings(const PlaybackSettings& other)
 	: m_volumePercent(other.m_volumePercent)
+	, m_outputType(other.m_outputType)
 {
 }
 
@@ -36,6 +38,7 @@ PlaybackSettings &PlaybackSettings::operator=(const PlaybackSettings &rhs)
 {
 	if (this != &rhs) {
 		m_volumePercent = rhs.m_volumePercent;
+		m_outputType = rhs.m_outputType;
 	}
 	return *this;
 }
@@ -50,11 +53,22 @@ int PlaybackSettings::getVolumePercent() const
 	return m_volumePercent;
 }
 
+void PlaybackSettings::setOutputType(OutputType outputType)
+{
+	m_outputType = outputType;
+}
+
+PlaybackSettings::OutputType PlaybackSettings::getOutputType() const
+{
+	return m_outputType;
+}
+
 PlaybackSettings *PlaybackSettings::clone() const
 {
 	return new PlaybackSettings(*this);
 }
 
 bool PlaybackSettings::operator==(const PlaybackSettings &rhs) const {
-	return this->m_volumePercent == rhs.m_volumePercent;
+	return this->m_volumePercent == rhs.m_volumePercent
+		&& this->m_outputType == rhs.m_outputType;
 }
