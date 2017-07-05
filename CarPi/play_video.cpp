@@ -67,6 +67,14 @@ namespace {
 	}
 }
 
+PlayVideoCallback::PlayVideoCallback()
+{
+}
+
+PlayVideoCallback::~PlayVideoCallback()
+{
+}
+
 PlayVideo::PlayVideo(const std::string &fileName)
 	: m_state(IDLE)
 	, m_fileName(fileName)
@@ -77,6 +85,7 @@ PlayVideo::PlayVideo(const std::string &fileName)
 	, m_stdoutMonitor(0)
 	, m_stderrMonitor(0)
 	, m_playbackSettings(new PlaybackSettings())
+	, m_callback(0)
 {
 }
 

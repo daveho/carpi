@@ -25,6 +25,21 @@
 class Thread;
 class PlaybackSettings;
 
+class PlayVideoCallback {
+public:
+	enum Status {
+		IDLE, // no subprocess
+		PLAYING,
+		PAUSED,
+	};
+
+	PlayVideoCallback();
+	virtual ~PlayVideoCallback();
+
+	virtual void onStatus(Status status) = 0;
+	virtual void onTime(int numSeconds) = 0;
+};
+
 //
 // Play video using omxplayer.
 //
@@ -58,10 +73,13 @@ private:
 	Thread *m_stdoutMonitor;
 	Thread *m_stderrMonitor;
 	PlaybackSettings *m_playbackSettings;
+	PlayVideoCallback *m_callback;
 	
 public:
 	PlayVideo(const std::string &fileName);
 	~PlayVideo();
+
+	void setCallback(PlayVideoCallback *callback) { m_callback = callback; }
 
 	std::string getFileName() const { return m_fileName; }
 	State getState() const { return m_state; }
