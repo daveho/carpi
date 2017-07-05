@@ -207,9 +207,12 @@ bool PlayVideo::startProcess()
 	args[0] = OMXPLAYER_EXE_PATH;
 	args[1] = "-b";  // show a blank background
 	args[2] = "-o";
+/*
 	args[3] = (m_playbackSettings->getOutputType() == PlaybackSettings::COMPOSITE)
 		? "local"
 		: "hdmi";
+*/
+	args[3] = "both";
 	args[4] = m_fileName.c_str();
 	args[5] = 0;
 	
