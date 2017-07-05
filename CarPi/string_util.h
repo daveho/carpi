@@ -1,5 +1,5 @@
 // CarPi - Raspberry Pi car entertainment system
-// Copyright (c) 2013,2014 David H. Hovemeyer <david.hovemeyer@gmail.com>
+// Copyright (c) 2013-2017 David H. Hovemeyer <david.hovemeyer@gmail.com>
 
 // This file is part of CarPi.
 // 
@@ -105,15 +105,43 @@ namespace StringUtil {
 	// Read a line of text from given file handle.
 	// Result is assigned to the string parameter.
 	// Returns false if EOF is reached without reading
-	// any characters.
+	// any characters.  There is some complicated code here
+	// to account for the fact that omxplayer uses CR
+	// rather than NL to terminate lines.  (Ugh.)
 	inline bool readLine(FILE *f, std::string &line)
 	{
 		line.clear();
+		bool sawCR = false;
 		for (;;) {
 			int c = fgetc(f);
-			if (c == EOF) { return !line.empty(); }
-			if (c == '\n') { break; }
-			line += char(c);
+			if (c == EOF) {
+				// End of file: we have a line if we read anything
+				return !line.empty() || sawCR;
+			}
+			if (c == '\n') {
+				// Line terminated by a good old NL character
+				break;
+			}
+			if (c == '\r') {
+				if (sawCR) {
+					// Two CRs in a row: treat the first as terminating the line (and put back the second)
+					ungetc(c, f);
+					break;
+				} else {
+					// Saw initial CR character: make a note, but don't add it to the string
+					sawCR = true;
+				}
+			} else {
+				if (sawCR) {
+					// Saw a CR followed by a non-CR character: treat the CR as a line terminator
+					// (and put back the non-CR character since it's part of the next line)
+					ungetc(c, f);
+					break;
+				} else {
+					// Not a line terminator, so add it to the result string
+					line += char(c);
+				}
+			}
 		}
 		return true;
 	}

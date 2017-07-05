@@ -1,5 +1,5 @@
 // CarPi - Raspberry Pi car entertainment system
-// Copyright (c) 2013-2015 David H. Hovemeyer <david.hovemeyer@gmail.com>
+// Copyright (c) 2013-2017 David H. Hovemeyer <david.hovemeyer@gmail.com>
 
 // This file is part of CarPi.
 // 
@@ -25,6 +25,7 @@
 #include <sys/wait.h>
 #include "thread.h"
 #include "playback_settings.h"
+#include "string_util.h"
 #include "play_video.h"
 
 // Default path to omxplayer executable.
@@ -35,17 +36,19 @@
 namespace {
 	class MonitorThread : public Thread {
 	private:
+		PlayVideo *m_pv;
 		int m_fd;
 		
 	public:
-		MonitorThread(int fd);
+		MonitorThread(PlayVideo *pv, int fd);
 		virtual ~MonitorThread();
 		
 		virtual void run();
 	};
 	
-	MonitorThread::MonitorThread(int fd)
-		: m_fd(fd)
+	MonitorThread::MonitorThread(PlayVideo *pv, int fd)
+		: m_pv(pv)
+		, m_fd(fd)
 	{
 		
 	}
@@ -57,12 +60,15 @@ namespace {
 	
 	void MonitorThread::run()
 	{
-		// For now, just read without doing anything
 		FILE *fd = fdopen(m_fd, "r");
-		int c;
-		while ((c = fgetc(fd)) != EOF) {
-			// do nothing
+		while (true) {
+			std::string line;
+			if (!StringUtil::readLine(fd, line)) {
+				break;
+			}
+			// TODO: parse status
 		}
+		// TODO: send end of stream notification
 		fclose(fd);
 	}
 }
@@ -227,9 +233,9 @@ bool PlayVideo::startProcess()
 		m_errfd = dup(errpipe[0]);
 		
 		// start monitor threads
-		m_stdoutMonitor = new MonitorThread(m_statusfd);
+		m_stdoutMonitor = new MonitorThread(this, m_statusfd);
 		m_stdoutMonitor->start();
-		m_stderrMonitor = new MonitorThread(m_errfd);
+		m_stderrMonitor = new MonitorThread(this, m_errfd);
 		m_stderrMonitor->start();
 		
 		// success!
